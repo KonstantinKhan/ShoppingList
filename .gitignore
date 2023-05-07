@@ -1,0 +1,26 @@
+# Project exclude paths
+/.gradle/
+/ktglib-transport-models/build/
+/ktglib-transport-models/build/classes/kotlin/main/
+/ktglib-transport-models/build/classes/kotlin/test/
+/shopping_list-be-common/build/
+/shopping_list-be-common/build/classes/kotlin/main/
+/shopping_list-be-lib-telegram-api/build/
+/shopping_list-be-lib-telegram-core/build/
+/shopping_list-be-lib-telegram-core/build/classes/kotlin/main/
+/shopping_list-be-mapping/build/
+/shopping_list-be-mapping/build/classes/kotlin/main/
+/shopping_list-be-mapping/build/classes/kotlin/test/
+/shopping_list-be-repo-test/build/
+/shopping_list-be-repo-test/build/classes/kotlin/main/
+/shopping_list-be-repo_in_memory/build/
+/shopping_list-be-shopping_list-logic/build/
+/shopping_list-be-shopping_list-logic/build/classes/kotlin/main/
+/shopping_list-be-shopping_list-service/build/
+/shopping_list-be-shopping_list-service/build/classes/kotlin/main/
+/shopping_list-be-sql/build/
+/shopping_list-be-sql/build/classes/kotlin/main/
+/shopping_list-be-sql/build/classes/kotlin/test/
+/shopping_list-cor/build/
+/shopping_list_bot-be-ktor-app/build/
+/shopping_list_bot-be-ktor-app/build/classes/kotlin/main/
