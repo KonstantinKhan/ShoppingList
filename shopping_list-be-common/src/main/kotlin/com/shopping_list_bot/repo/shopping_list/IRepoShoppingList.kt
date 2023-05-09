@@ -7,7 +7,7 @@ interface IRepoShoppingList {
     suspend fun togglePurchase(request: DbPurchaseRequest): DbShoppingListResponse
     suspend fun deleteCheckedPurchases(request: DbStateContextRequest): DbShoppingListResponse
     suspend fun delete(request: DbUserIdRequest): DbShoppingListResponse
-    suspend fun deletePurchase(request: DbPurchaseModelRequest): DbShoppingListResponse
+    suspend fun deletePurchase(request: DbPurchaseRequest): DbShoppingListResponse
     suspend fun updateShoppingList(request: DbShoppingListRequest): DbShoppingListResponse
     suspend fun readMessageId(request: DBMessageIdRequest): DbMessageIdResponse
     suspend fun createMessageId(request: DBMessageIdRequest): DbMessageIdResponse
@@ -40,7 +40,7 @@ interface IRepoShoppingList {
             TODO("Not yet implemented")
         }
 
-        override suspend fun deletePurchase(request: DbPurchaseModelRequest): DbShoppingListResponse {
+        override suspend fun deletePurchase(request: DbPurchaseRequest): DbShoppingListResponse {
             TODO("Not yet implemented")
         }
 
