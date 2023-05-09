@@ -17,8 +17,7 @@ data class BeContextShoppingList(
     var purchase: String = "",
     var shoppingList: ShoppingListModel = ShoppingListModel(
         user = TgUser.NONE,
-        purchaseList = ArrayList(),
-        date = Instant.now()
+        purchaseList = ArrayList()
     )
 )
 
