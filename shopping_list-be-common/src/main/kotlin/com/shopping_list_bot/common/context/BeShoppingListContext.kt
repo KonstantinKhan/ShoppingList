@@ -12,7 +12,6 @@ data class BeContextShoppingList(
     var shoppingListRepo: IRepoShoppingList = IRepoShoppingList.NONE,
     var httpClient: IHttpClient = IHttpClient.NONE,
     var dbShoppingList: ShoppingListModel = ShoppingListModel(),
-    var tgUser: TgUser = TgUser.NONE,
     var messageId: MessageId = MessageId.NONE,
     var purchase: String = "",
     var shoppingList: ShoppingListModel = ShoppingListModel(
