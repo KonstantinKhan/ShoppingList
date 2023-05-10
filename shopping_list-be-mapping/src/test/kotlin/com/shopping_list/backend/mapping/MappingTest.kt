@@ -12,8 +12,8 @@ class MappingTest : ShouldSpec({
 
     should("successfully receive an update with the message") {
         val actual = context.setQuery(UPDATE_WITH_MESSAGE)
-        with(actual.tgUser) {
-            userId shouldBe  UserId(123456)
+        with(actual.shoppingList.user) {
+            userId shouldBe UserId(123456)
             firstName shouldBe "first"
             lastName shouldBe "last"
             userName shouldBe "name"
@@ -23,8 +23,8 @@ class MappingTest : ShouldSpec({
 
     should("successfully receive an update with the callback query") {
         val actual = context.setQuery(UPDATE_WITH_CALLBACK_QUERY)
-        with(actual.tgUser) {
-            userId shouldBe  UserId(123456)
+        with(actual.shoppingList.user) {
+            userId shouldBe UserId(123456)
             firstName shouldBe "first"
             lastName shouldBe "last"
             userName shouldBe "name"
