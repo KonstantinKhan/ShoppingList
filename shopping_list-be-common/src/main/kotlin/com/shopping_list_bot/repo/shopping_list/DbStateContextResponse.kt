@@ -7,5 +7,5 @@ import com.shopping_list_bot.common.models.UserId
 class DbStateContextResponse(
     val userId: UserId,
     val shoppingListId: ShoppingListId,
-    val messageId: MessageId
+    val messageId: MessageId = MessageId.NONE
 )
