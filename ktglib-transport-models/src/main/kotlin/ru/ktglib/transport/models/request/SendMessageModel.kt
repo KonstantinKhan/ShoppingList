@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import ru.ktglib.transport.models.ReplyMarkup
 
 @Serializable
-data class MessageRequest(
+data class SendMessageModel(
     @SerialName("chat_id")
     val chatId: Int,
     val text: String,
