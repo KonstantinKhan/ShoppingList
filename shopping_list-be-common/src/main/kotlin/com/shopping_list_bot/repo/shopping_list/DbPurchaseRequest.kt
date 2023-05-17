@@ -4,7 +4,7 @@ import com.shopping_list_bot.common.models.ShoppingListId
 import com.shopping_list_bot.common.models.UserId
 
 class DbPurchaseRequest(
-    val purchase: String,
+    val purchase: Collection<String>,
     val shoppingListId: ShoppingListId,
     val userId: UserId
 )

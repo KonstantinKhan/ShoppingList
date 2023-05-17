@@ -14,6 +14,7 @@ interface IRepoShoppingList {
     suspend fun createStateContext(request: DbStateContextRequest): DbStateContextResponse
     suspend fun readStateContext(request: DbUserIdRequest): DbStateContextResponse
     suspend fun updateStateContext(request: DbStateContextRequest): DbStateContextResponse
+    suspend fun clearShoppingList(request: DbStateContextRequest): DbShoppingListResponse
 
     companion object NONE : IRepoShoppingList {
 
@@ -67,6 +68,10 @@ interface IRepoShoppingList {
         }
 
         override suspend fun updateStateContext(request: DbStateContextRequest): DbStateContextResponse {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun clearShoppingList(request: DbStateContextRequest): DbShoppingListResponse {
             TODO("Not yet implemented")
         }
     }

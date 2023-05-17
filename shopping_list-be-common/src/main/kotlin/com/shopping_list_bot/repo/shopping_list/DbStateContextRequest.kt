@@ -6,7 +6,7 @@ import com.shopping_list_bot.common.models.UserId
 import com.shopping_list_bot.repo.IDbRequest
 
 class DbStateContextRequest(
-    val userId: UserId,
+    val userId: UserId = UserId.NONE,
     val shoppingListId: ShoppingListId,
     val messageId: MessageId = MessageId(-1)
 ) : IDbRequest

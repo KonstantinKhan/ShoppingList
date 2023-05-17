@@ -8,7 +8,7 @@ interface IHttpClient {
     suspend fun sendWelcomeMessage(context: BeContextShoppingList): Response
     suspend fun sendCurrentShoppingList(context: BeContextShoppingList): Response
     suspend fun deleteMessage(context: BeContextShoppingList)
-    suspend fun editMessage(context: BeContextShoppingList)
+    suspend fun editMessage(context: BeContextShoppingList): Response
 
     companion object NONE : IHttpClient {
 
@@ -24,7 +24,7 @@ interface IHttpClient {
             TODO("Not yet implemented")
         }
 
-        override suspend fun editMessage(context: BeContextShoppingList) {
+        override suspend fun editMessage(context: BeContextShoppingList): Response {
             TODO("Not yet implemented")
         }
     }

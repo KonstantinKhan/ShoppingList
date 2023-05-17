@@ -6,14 +6,12 @@ data class ShoppingListModel(
     val user: TgUser = TgUser.NONE,
     val purchaseList: Collection<PurchaseModel> = emptyList(),
 ) {
-    fun isContainsUncheckedPurchase(purchase: String) = purchaseList
-        .filter { !it.checked }
-        .map { it.name }
-        .contains(purchase)
+    fun isContainsUncheckedPurchase(purchaseList: Collection<String>) =
+        this.purchaseList.filter { !it.checked }.map { it.name }
+            .intersect(purchaseList.toSet()).isNotEmpty()
 
-    fun isContainsCheckedPurchase(purchase: String) = purchaseList
-        .filter { it.checked }
-        .map { it.name }
-        .contains(purchase)
+    fun isContainsCheckedPurchase(purchaseList: Collection<String>) =
+        this.purchaseList.filter { it.checked }.map { it.name }
+            .intersect(purchaseList.toSet()).isNotEmpty()
 }
 
