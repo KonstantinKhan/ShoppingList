@@ -16,6 +16,7 @@ data class BeContextShoppingList(
     var shoppingList: ShoppingListModel = ShoppingListModel(
         user = TgUser.NONE,
         purchaseList = ArrayList()
-    )
+    ),
+    var consumer: TgUser = TgUser.NONE
 )
 
