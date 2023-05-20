@@ -17,6 +17,7 @@ import ru.ktglib.transport.models.Convertible
 import ru.ktglib.transport.models.Json.json
 import ru.ktglib.transport.models.TgUser.Companion.FULL_USER
 import ru.ktglib.transport.models.TgUser.Companion.USER_FULL_JSON
+import ru.ktglib.transport.models.UserShared
 
 @Serializable
 data class Message(
@@ -24,8 +25,11 @@ data class Message(
     val messageId: Int,
     @SerialName("from")
     val user: TgUser? = null,
+    val date: Int = 0,
     val chat: Chat,
-    val text: String? = null
+    val text: String? = null,
+    @SerialName("user_shared")
+    val userShared: UserShared? = null
 ) : Convertible {
     override fun toJson() = json.encodeToJsonElement(this)
 
@@ -34,11 +38,13 @@ data class Message(
             messageId = 123456,
             user = FULL_USER,
             chat = FULL_CHAT,
-            text = "some text"
+            text = "some text",
+            userShared = UserShared.NONE
         )
         val PART_MESSAGE = Message(
             messageId = 123456,
-            chat = PART_CHAT
+            chat = PART_CHAT,
+            userShared = UserShared.NONE
         )
         val MESSAGE_FULL_JSON = JsonObject(
             mapOf(
@@ -63,6 +69,7 @@ data class Message(
         )
         val MESSAGE_FROM_FULL_JSON = json.decodeFromJsonElement<Message>(MESSAGE_FULL_JSON)
         val MESSAGE_FROM_PART_JSON = json.decodeFromJsonElement<Message>(MESSAGE_PART_JSON)
-        val MESSAGE_FROM_REDUNDANT_PROPERTIES_JSON = json.decodeFromJsonElement<Message>(MESSAGE_REDUNDANT_PROPERTIES_JSON)
+        val MESSAGE_FROM_REDUNDANT_PROPERTIES_JSON =
+            json.decodeFromJsonElement<Message>(MESSAGE_REDUNDANT_PROPERTIES_JSON)
     }
 }

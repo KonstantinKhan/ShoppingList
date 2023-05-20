@@ -21,8 +21,10 @@ data class InlineKeyboardButton(
 
 @Serializable
 data class ReplyKeyboardMarkup(
-    val keyboard: Array<Array<KeyboardButton>>,
-)
+    val keyboard: List<List<KeyboardButton>>,
+    @SerialName("one_time_keyboard")
+    val oneTimeKeyboard: Boolean? = null
+): ReplyMarkup
 
 @Serializable
 data class KeyboardButton(
@@ -41,7 +43,7 @@ data class KeyboardButton(
 data class KeyboardButtonRequestUser(
     @SerialName("request_id")
     val requestId: Int,
-    @SerialName("request_is_bot")
+    @SerialName("user_is_bot")
     val userIsBot: Boolean? = null,
     @SerialName("user_is_premium")
     val userIsPremium: Boolean? = null
