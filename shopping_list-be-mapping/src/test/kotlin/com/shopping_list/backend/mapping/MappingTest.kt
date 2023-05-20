@@ -18,7 +18,7 @@ class MappingTest : ShouldSpec({
             lastName shouldBe "last"
             userName shouldBe "name"
         }
-        actual.purchase shouldBe "some text"
+        actual.purchaseList shouldBe "some text"
     }
 
     should("successfully receive an update with the callback query") {
@@ -29,6 +29,6 @@ class MappingTest : ShouldSpec({
             lastName shouldBe "last"
             userName shouldBe "name"
         }
-        actual.purchase shouldBe "some data"
+        actual.purchaseList shouldBe "some data"
     }
 })

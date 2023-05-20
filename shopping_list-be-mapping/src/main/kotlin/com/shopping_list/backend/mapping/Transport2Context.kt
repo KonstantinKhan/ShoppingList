@@ -9,12 +9,13 @@ import ru.ktglib.transport.models.update.UpdateWithMessage
 
 fun BeContextShoppingList.setQuery(update: UpdateWithMessage) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
-    purchase = update.message.text ?: ""
+    purchaseList = update.message.text?.lines() ?: emptyList()
+    consumer = update.message.userShared?.let { TgUser(UserId(it.userId), "") } ?: TgUser.NONE
 }
 
 fun BeContextShoppingList.setQuery(update: UpdateWithCallbackQuery) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
-    purchase = update.callbackQuery.data ?: ""
+    purchaseList = update.callbackQuery.data?.lines() ?: emptyList()
 }
 
 fun BeContextShoppingList.setMessageId(id: MessageId) = apply {
