@@ -3,6 +3,7 @@ package com.shopping_list_bot.repo.shopping_list
 interface IRepoShoppingList {
     suspend fun createShoppingList(request: DbShoppingListRequest): DbShoppingListResponse
     suspend fun readShoppingList(request: DbUserIdRequest): DbShoppingListResponse
+    suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse
     suspend fun addPurchase(request: DbPurchaseModelRequest): DbShoppingListResponse
     suspend fun togglePurchase(request: DbPurchaseRequest): DbShoppingListResponse
     suspend fun deleteCheckedPurchases(request: DbStateContextRequest): DbShoppingListResponse
@@ -15,7 +16,8 @@ interface IRepoShoppingList {
     suspend fun readStateContext(request: DbUserIdRequest): DbStateContextResponse
     suspend fun updateStateContext(request: DbStateContextRequest): DbStateContextResponse
     suspend fun clearShoppingList(request: DbStateContextRequest): DbShoppingListResponse
-    suspend fun provideShoppingList(request: DbProvideShoppingListRequest): DbShoppingListResponse
+    suspend fun shareShoppingList(request: DbSharedShoppingListRequest): DbShoppingListResponse
+    suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList
 
     companion object NONE : IRepoShoppingList {
 
@@ -24,6 +26,10 @@ interface IRepoShoppingList {
         }
 
         override suspend fun readShoppingList(request: DbUserIdRequest): DbShoppingListResponse {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse {
             TODO("Not yet implemented")
         }
 
@@ -63,7 +69,6 @@ interface IRepoShoppingList {
             TODO("Not yet implemented")
         }
 
-
         override suspend fun readStateContext(request: DbUserIdRequest): DbStateContextResponse {
             TODO("Not yet implemented")
         }
@@ -76,7 +81,11 @@ interface IRepoShoppingList {
             TODO("Not yet implemented")
         }
 
-        override suspend fun provideShoppingList(request: DbProvideShoppingListRequest): DbShoppingListResponse {
+        override suspend fun shareShoppingList(request: DbSharedShoppingListRequest): DbShoppingListResponse {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList {
             TODO("Not yet implemented")
         }
     }

@@ -1,6 +1,7 @@
 package com.shopping_list_bot.common.context
 
 import com.shopping_list_bot.common.models.MessageId
+import com.shopping_list_bot.common.models.ShoppingListId
 import com.shopping_list_bot.common.models.ShoppingListModel
 import com.shopping_list_bot.common.models.TgUser
 import com.shopping_list_bot.http.IHttpClient
@@ -17,6 +18,8 @@ data class BeContextShoppingList(
         user = TgUser.NONE,
         purchaseList = ArrayList()
     ),
-    var consumer: TgUser = TgUser.NONE
+    var dependentShoppingLists: Collection<ShoppingListId> = emptyList(),
+    var consumer: TgUser = TgUser.NONE,
+    val shoppingListsOfUserConsumer: MutableList<ShoppingListId> = mutableListOf()
 )
 
