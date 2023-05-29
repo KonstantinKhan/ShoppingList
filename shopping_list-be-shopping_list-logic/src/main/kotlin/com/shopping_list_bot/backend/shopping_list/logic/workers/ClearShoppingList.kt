@@ -5,15 +5,13 @@ import com.shopping_list_bot.repo.shopping_list.DbStateContextRequest
 import ru.fit_changes.cor.CorChainDsl
 import ru.fit_changes.cor.worker
 
-fun CorChainDsl<BeContextShoppingList>.updateStateContext(title: String) = worker {
+fun CorChainDsl<BeContextShoppingList>.clearShoppingList(title: String) = worker {
     this.title = title
     handle {
-        val result = shoppingListRepo.updateStateContext(
+        shoppingListRepo.clearShoppingList(
             DbStateContextRequest(
-                userId = shoppingList.user.userId,
-                messageId = messageId,
                 shoppingListId = shoppingList.id
             )
-        )
+        ).result.let { shoppingList = shoppingList.copy(purchaseList = it.purchaseList) }
     }
 }
