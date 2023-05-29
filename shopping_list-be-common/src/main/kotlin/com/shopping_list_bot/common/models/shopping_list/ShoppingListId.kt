@@ -1,4 +1,4 @@
-package com.shopping_list_bot.common.models
+package com.shopping_list_bot.common.models.shopping_list
 
 import java.util.UUID
 
