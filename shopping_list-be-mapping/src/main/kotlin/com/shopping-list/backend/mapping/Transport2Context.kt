@@ -1,4 +1,4 @@
-package com.shopping_list.backend.mapping
+package com.`shopping-list`.backend.mapping
 
 import com.shopping_list_bot.common.context.BeContextShoppingList
 import com.shopping_list_bot.common.models.MessageId
