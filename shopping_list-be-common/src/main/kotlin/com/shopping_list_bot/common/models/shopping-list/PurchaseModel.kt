@@ -1,4 +1,4 @@
-package com.shopping_list_bot.common.models.shopping_list
+package com.shopping_list_bot.common.models.`shopping-list`
 
 data class PurchaseModel(
     val name: String,

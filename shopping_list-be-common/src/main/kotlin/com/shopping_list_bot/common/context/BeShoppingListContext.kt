@@ -1,8 +1,8 @@
 package com.shopping_list_bot.common.context
 
 import com.shopping_list_bot.common.models.MessageId
-import com.shopping_list_bot.common.models.shopping_list.ShoppingListId
-import com.shopping_list_bot.common.models.shopping_list.ShoppingListModel
+import com.shopping_list_bot.common.models.`shopping-list`.ShoppingListId
+import com.shopping_list_bot.common.models.`shopping-list`.ShoppingListModel
 import com.shopping_list_bot.common.models.TgUser
 import com.shopping_list_bot.http.IHttpClient
 import com.shopping_list_bot.repo.shopping_list.IRepoShoppingList
