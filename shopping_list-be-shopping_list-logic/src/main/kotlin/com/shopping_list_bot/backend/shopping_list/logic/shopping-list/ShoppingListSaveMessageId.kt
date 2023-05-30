@@ -1,4 +1,4 @@
-package com.shopping_list_bot.backend.shopping_list.logic.shopping_list
+package com.shopping_list_bot.backend.shopping_list.logic.`shopping-list`
 
 import com.shopping_list_bot.backend.shopping_list.logic.workers.saveMessageId
 import com.shopping_list_bot.common.context.BeContextShoppingList

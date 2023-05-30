@@ -1,7 +1,7 @@
 package com.shopping_list_bot.backend.shopping_list.logic.workers
 
 import com.shopping_list_bot.common.context.BeContextShoppingList
-import com.shopping_list_bot.common.models.shopping_list.ShoppingListModel
+import com.shopping_list_bot.common.models.`shopping-list`.ShoppingListModel
 import ru.fit_changes.cor.CorChainDsl
 import ru.fit_changes.cor.worker
 
