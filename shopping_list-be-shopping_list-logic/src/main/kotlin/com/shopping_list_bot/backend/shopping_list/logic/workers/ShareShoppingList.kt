@@ -11,7 +11,7 @@ fun CorChainDsl<BeContextShoppingList>.shareShoppingList(title: String) = worker
         shoppingListRepo.shareShoppingList(
             DbSharedShoppingListRequest(
                 shoppingList.id,
-                consumer,
+                recipient,
                 shoppingListsOfUserConsumer
             )
         ).result.let { shoppingList = shoppingList.copy(purchaseList = it.purchaseList) }

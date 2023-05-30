@@ -1,4 +1,4 @@
-package com.shopping_list_bot.backend.shopping_list.logic.`shopping-list`
+package com.shopping_list_bot.backend.shopping_list.logic.shopping_list
 
 import com.shopping_list_bot.backend.shopping_list.logic.workers.chooseDb
 import com.shopping_list_bot.backend.shopping_list.logic.workers.readStateContext

@@ -9,10 +9,6 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContextShoppingList>.repoRead(title: String) = worker {
     this.title = title
     handle {
-        shoppingListRepo.readShoppingList(
-            DbUserIdRequest(
-                shoppingList.user.userId
-            )
-        ).result.let { dbShoppingList = it }
+        shoppingListRepo.readShoppingList(DbUserIdRequest(shoppingList.user.userId)).result.let { dbShoppingList = it }
     }
 }
