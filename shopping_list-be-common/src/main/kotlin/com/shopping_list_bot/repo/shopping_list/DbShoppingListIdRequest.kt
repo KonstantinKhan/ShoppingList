@@ -1,9 +1,7 @@
 package com.shopping_list_bot.repo.shopping_list
 
-import com.shopping_list_bot.common.models.`shopping-list`.ShoppingListId
-import com.shopping_list_bot.common.models.TgUser
+import com.shopping_list_bot.common.models.shopping_list.ShoppingListId
 
 class DbShoppingListIdRequest(
     val shoppingListId: ShoppingListId,
-    val user: TgUser
 )

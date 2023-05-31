@@ -1,4 +1,4 @@
-package com.shopping_list_bot.common.models.`shopping-list`
+package com.shopping_list_bot.common.models.shopping_list
 
 import com.shopping_list_bot.common.models.TgUser
 
@@ -7,8 +7,8 @@ data class ShoppingListModel(
     val title: ShoppingListTitle = ShoppingListTitle.NONE,
     val user: TgUser = TgUser.NONE,
     val purchaseList: Collection<PurchaseModel> = emptyList(),
-    val prototypeShoppingLists: Collection<ShoppingListModel> = emptyList(),
-    val derivativeShoppingList: Collection<ShoppingListModel> = emptyList()
+    val prototypeShoppingLists: Collection<ShoppingListId> = emptyList(),
+    val derivativeShoppingList: Collection<ShoppingListId> = emptyList()
 ) {
     fun isContainsUncheckedPurchase(purchaseList: Collection<String>) =
         this.purchaseList.filter { !it.checked }.map { it.name }

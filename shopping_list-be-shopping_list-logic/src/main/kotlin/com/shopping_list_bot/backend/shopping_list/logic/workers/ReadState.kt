@@ -5,10 +5,10 @@ import com.shopping_list_bot.repo.shopping_list.DbUserIdRequest
 import ru.fit_changes.cor.CorChainDsl
 import ru.fit_changes.cor.worker
 
-fun CorChainDsl<BeContextShoppingList>.readStateContext(title: String) = worker {
+fun CorChainDsl<BeContextShoppingList>.repoReadState(title: String) = worker {
     this.title = title
     handle {
-        shoppingListRepo.readStateContext(DbUserIdRequest(shoppingList.user.userId)).let {
+        shoppingListRepo.readState(DbUserIdRequest(shoppingList.user.userId)).let {
             messageId = it.messageId
             shoppingList = shoppingList.copy(it.shoppingListId)
         }

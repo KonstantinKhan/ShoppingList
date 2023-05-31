@@ -2,7 +2,7 @@ package com.shopping_list_bot.repo.shopping_list
 
 interface IRepoShoppingList {
     suspend fun createShoppingList(request: DbShoppingListRequest): DbShoppingListResponse
-    suspend fun readShoppingList(request: DbUserIdRequest): DbShoppingListResponse
+    suspend fun readShoppingList(request: DbShoppingListIdRequest): DbShoppingListResponse
     suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse
     suspend fun createPurchase(request: DbPurchaseModelRequest): DbShoppingListResponse
     suspend fun togglePurchase(request: DbPurchaseRequest): DbShoppingListResponse
@@ -12,9 +12,9 @@ interface IRepoShoppingList {
     suspend fun updateShoppingList(request: DbShoppingListRequest): DbShoppingListResponse
     suspend fun readMessageId(request: DBMessageIdRequest): DbMessageIdResponse
     suspend fun createMessageId(request: DBMessageIdRequest): DbMessageIdResponse
-    suspend fun createStateContext(request: DbStateContextRequest): DbStateContextResponse
-    suspend fun readStateContext(request: DbUserIdRequest): DbStateContextResponse
-    suspend fun updateStateContext(request: DbStateContextRequest): DbStateContextResponse
+    suspend fun createStateContext(request: DbStateContextRequest): DbStateResponse
+    suspend fun readState(request: DbUserIdRequest): DbStateResponse
+    suspend fun updateStateContext(request: DbStateContextRequest): DbStateResponse
     suspend fun clearShoppingList(request: DbStateContextRequest): DbShoppingListResponse
     suspend fun shareShoppingList(request: DbSharedShoppingListRequest): DbShoppingListResponse
     suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList
@@ -25,7 +25,7 @@ interface IRepoShoppingList {
             TODO("Not yet implemented")
         }
 
-        override suspend fun readShoppingList(request: DbUserIdRequest): DbShoppingListResponse {
+        override suspend fun readShoppingList(request: DbShoppingListIdRequest): DbShoppingListResponse {
             TODO("Not yet implemented")
         }
 
@@ -65,15 +65,15 @@ interface IRepoShoppingList {
             TODO("Not yet implemented")
         }
 
-        override suspend fun createStateContext(request: DbStateContextRequest): DbStateContextResponse {
+        override suspend fun createStateContext(request: DbStateContextRequest): DbStateResponse {
             TODO("Not yet implemented")
         }
 
-        override suspend fun readStateContext(request: DbUserIdRequest): DbStateContextResponse {
+        override suspend fun readState(request: DbUserIdRequest): DbStateResponse {
             TODO("Not yet implemented")
         }
 
-        override suspend fun updateStateContext(request: DbStateContextRequest): DbStateContextResponse {
+        override suspend fun updateStateContext(request: DbStateContextRequest): DbStateResponse {
             TODO("Not yet implemented")
         }
 
