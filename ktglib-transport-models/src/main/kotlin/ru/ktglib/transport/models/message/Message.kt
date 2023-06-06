@@ -6,30 +6,29 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
-import ru.ktglib.transport.models.TgUser
-import ru.ktglib.transport.models.Chat
+import ru.ktglib.transport.models.*
 import ru.ktglib.transport.models.Chat.Companion.CHAT_FULL_JSON
 import ru.ktglib.transport.models.Chat.Companion.CHAT_PART_JSON
 import ru.ktglib.transport.models.Chat.Companion.CHAT_REDUNDANT_PROPERTIES_JSON
 import ru.ktglib.transport.models.Chat.Companion.FULL_CHAT
 import ru.ktglib.transport.models.Chat.Companion.PART_CHAT
-import ru.ktglib.transport.models.Convertible
 import ru.ktglib.transport.models.Json.json
-import ru.ktglib.transport.models.TgUser.Companion.FULL_USER
-import ru.ktglib.transport.models.TgUser.Companion.USER_FULL_JSON
-import ru.ktglib.transport.models.UserShared
+import ru.ktglib.transport.models.User.Companion.FULL_USER
+import ru.ktglib.transport.models.User.Companion.USER_FULL_JSON
 
 @Serializable
 data class Message(
     @SerialName("message_id")
     val messageId: Int,
     @SerialName("from")
-    val user: TgUser? = null,
+    val user: User? = null,
     val date: Int = 0,
     val chat: Chat,
     val text: String? = null,
     @SerialName("user_shared")
-    val userShared: UserShared? = null
+    val userShared: UserShared? = null,
+    @SerialName("chat_shared")
+    val chatShared: ChatShared? = null
 ) : Convertible {
     override fun toJson() = json.encodeToJsonElement(this)
 

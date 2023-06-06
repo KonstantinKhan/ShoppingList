@@ -22,9 +22,13 @@ data class InlineKeyboardButton(
 @Serializable
 data class ReplyKeyboardMarkup(
     val keyboard: List<List<KeyboardButton>>,
+    @SerialName("is_persistent")
+    val isPersistent: Boolean? = null,
+    @SerialName("resize_keyboard")
+    val resizeKeyboard: Boolean? = null,
     @SerialName("one_time_keyboard")
     val oneTimeKeyboard: Boolean? = null
-): ReplyMarkup
+) : ReplyMarkup
 
 @Serializable
 data class KeyboardButton(

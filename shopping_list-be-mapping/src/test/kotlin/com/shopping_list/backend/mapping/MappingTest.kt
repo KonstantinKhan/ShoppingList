@@ -1,14 +1,14 @@
-package com.`shopping-list`.backend.mapping
+package com.shopping_list.backend.mapping
 
-import com.shopping_list_bot.common.context.BeContextShoppingList
-import com.shopping_list_bot.common.models.UserId
+import com.shopping_list.common.context.BeContext
+import com.shopping_list.common.models.UserId
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import ru.ktglib.transport.models.update.UpdateWithCallbackQuery.Companion.UPDATE_WITH_CALLBACK_QUERY
 import ru.ktglib.transport.models.update.UpdateWithMessage.Companion.UPDATE_WITH_MESSAGE
 
 class MappingTest : ShouldSpec({
-    val context = BeContextShoppingList()
+    val context = BeContext()
 
     should("successfully receive an update with the message") {
         val actual = context.setQuery(UPDATE_WITH_MESSAGE)

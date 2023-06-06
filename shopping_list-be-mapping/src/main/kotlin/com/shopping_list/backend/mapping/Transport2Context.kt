@@ -1,24 +1,24 @@
-package com.`shopping-list`.backend.mapping
+package com.shopping_list.backend.mapping
 
-import com.shopping_list_bot.common.context.BeContextShoppingList
-import com.shopping_list_bot.common.models.MessageId
-import com.shopping_list_bot.common.models.TgUser
-import com.shopping_list_bot.common.models.UserId
+import com.shopping_list.common.context.BeContext
+import com.shopping_list.common.models.MessageId
+import com.shopping_list.common.models.TgUser
+import com.shopping_list.common.models.UserId
 import ru.ktglib.transport.models.update.UpdateWithCallbackQuery
 import ru.ktglib.transport.models.update.UpdateWithMessage
 
-fun BeContextShoppingList.setQuery(update: UpdateWithMessage) = apply {
+fun BeContext.setQuery(update: UpdateWithMessage) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
     purchaseList = update.message.text?.lines() ?: emptyList()
-    consumer = update.message.userShared?.let { TgUser(UserId(it.userId), "") } ?: TgUser.NONE
+    recipient = update.message.userShared?.let { TgUser(UserId(it.userId), "") } ?: TgUser.NONE
 }
 
-fun BeContextShoppingList.setQuery(update: UpdateWithCallbackQuery) = apply {
+fun BeContext.setQuery(update: UpdateWithCallbackQuery) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
     purchaseList = update.callbackQuery.data?.lines() ?: emptyList()
 }
 
-fun BeContextShoppingList.setMessageId(id: MessageId) = apply {
+fun BeContext.setMessageId(id: MessageId) = apply {
     messageId = id
 }
 

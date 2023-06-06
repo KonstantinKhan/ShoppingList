@@ -9,8 +9,10 @@ import ru.ktglib.transport.models.Json.json
 data class Chat(
     @SerialName("id")
     val chatId: Int,
+//    @SerialName("is_bot")
+//    val isBot: Boolean,
     @SerialName("first_name")
-    val firstName: String? = null,
+    val firstName: String,
     @SerialName("last_name")
     val lastName: String? = null,
     @SerialName("username")

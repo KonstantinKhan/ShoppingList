@@ -7,18 +7,18 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import ru.ktglib.transport.models.Json.json
-import ru.ktglib.transport.models.TgUser.Companion.FULL_USER
-import ru.ktglib.transport.models.TgUser.Companion.PART_USER
-import ru.ktglib.transport.models.TgUser.Companion.USER_FULL_JSON
-import ru.ktglib.transport.models.TgUser.Companion.USER_PART_JSON
-import ru.ktglib.transport.models.TgUser.Companion.USER_REDUNDANT_PROPERTIES_JSON
+import ru.ktglib.transport.models.User.Companion.FULL_USER
+import ru.ktglib.transport.models.User.Companion.PART_USER
+import ru.ktglib.transport.models.User.Companion.USER_FULL_JSON
+import ru.ktglib.transport.models.User.Companion.USER_PART_JSON
+import ru.ktglib.transport.models.User.Companion.USER_REDUNDANT_PROPERTIES_JSON
 
 @Serializable
 data class CallbackQuery(
     @SerialName("id")
     val queryId: String,
     @SerialName("from")
-    val user: TgUser,
+    val user: User,
     val data: String? = null
 ) : Convertible {
     override fun toJson() = Json.json.encodeToJsonElement(this)

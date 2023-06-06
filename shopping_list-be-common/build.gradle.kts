@@ -8,7 +8,8 @@ repositories {
 }
 
 val ktorVersion: String by project
+val kotlinSerializationVersion: String by project
 
 dependencies {
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
 }
