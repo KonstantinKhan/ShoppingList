@@ -3,12 +3,12 @@ package ru.ktglib.transport.models
 import io.kotest.assertions.json.*
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
-import ru.ktglib.transport.models.User.Companion.FULL_USER
-import ru.ktglib.transport.models.User.Companion.PART_USER
-import ru.ktglib.transport.models.User.Companion.USER_FROM_FULL_JSON
-import ru.ktglib.transport.models.User.Companion.USER_FROM_PART_JSON
-import ru.ktglib.transport.models.User.Companion.USER_FROM_REDUNDANT_PROPERTIES_JSON
-import ru.ktglib.transport.models.User.Companion.USER_FULL_JSON
+import ru.ktglib.types.User.Companion.FULL_USER
+import ru.ktglib.types.User.Companion.PART_USER
+import ru.ktglib.types.User.Companion.USER_FROM_FULL_JSON
+import ru.ktglib.types.User.Companion.USER_FROM_PART_JSON
+import ru.ktglib.types.User.Companion.USER_FROM_REDUNDANT_PROPERTIES_JSON
+import ru.ktglib.types.User.Companion.USER_FULL_JSON
 
 class UserSerializationTest : ShouldSpec({
     should("serialize the user model") {

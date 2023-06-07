@@ -15,8 +15,8 @@ suspend fun HttpClient.forwardMessage(context: BeContext): Response {
         contentType(ContentType.Application.Json)
         setBody(
             ForwardMessageModel(
-                chatId = context.recipient.userId.toInt(),
-                fromChatId = context.shoppingList.user.userId.toInt(),
+                chatId = context.recipient.userId.toLong(),
+                fromChatId = context.shoppingList.user.userId.toLong(),
                 messageId = context.messageId.toInt()
             )
         )

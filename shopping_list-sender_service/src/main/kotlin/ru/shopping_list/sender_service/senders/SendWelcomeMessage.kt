@@ -18,7 +18,7 @@ suspend fun HttpClient.sendWelcomeMessage(chatId: UserId): Response {
     val response = this.post("sendMessage") {
         contentType(ContentType.Application.Json)
         setBody(message {
-            this.chatId = chatId.toInt()
+            this.chatId = chatId.toLong()
             text = "Этот бот помогает создавать список покупок и управлять им.\n" +
                     "Отправь сообщение, чтобы добавить запись в список.\n"
             replyMarkup = replyKeyboardMarkup {

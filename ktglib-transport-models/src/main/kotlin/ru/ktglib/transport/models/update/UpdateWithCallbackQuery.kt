@@ -7,10 +7,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import ru.ktglib.transport.models.CallbackQuery
-import ru.ktglib.transport.models.CallbackQuery.Companion.CALLBACK_QUERY_FULL_JSON
-import ru.ktglib.transport.models.CallbackQuery.Companion.CALLBACK_QUERY_REDUNDANT_PROPERTIES_JSON
-import ru.ktglib.transport.models.CallbackQuery.Companion.FULL_CALLBACK_QUERY
-import ru.ktglib.transport.models.Json.json
+
+import ru.ktglib.types.Json.json
 
 @Serializable
 data class UpdateWithCallbackQuery(
@@ -21,30 +19,30 @@ data class UpdateWithCallbackQuery(
 ) : Update() {
     override fun toJson() = json.encodeToJsonElement(this)
 
-    companion object {
-        val UPDATE_WITH_CALLBACK_QUERY = UpdateWithCallbackQuery(
-            updateId = 123456,
-            callbackQuery = FULL_CALLBACK_QUERY
-        )
-        val UPDATE_WITH_CALLBACK_QUERY_JSON = JsonObject(
-            mapOf(
-                "update_id" to JsonPrimitive(123456),
-                "callback_query" to CALLBACK_QUERY_FULL_JSON
-            )
-        )
-        val UPDATE_WITH_CALLBACK_QUERY_REDUNDANT_PROPERTIES_JSON = JsonObject(
-            mapOf(
-                "update_id" to JsonPrimitive(123456),
-                "callback_query" to CALLBACK_QUERY_FULL_JSON,
-                "redundant" to JsonPrimitive("redundant")
-            )
-        )
-        val UPDATE_WITH_CALLBACK_QUERY_FROM_JSON = json.decodeFromJsonElement<UpdateWithCallbackQuery>(
-            UPDATE_WITH_CALLBACK_QUERY_JSON
-        )
-        val UPDATE_WITH_CALLBACK_QUERY_FROM_REDUNDANT_PROPERTIES_JSON =
-            json.decodeFromJsonElement<UpdateWithCallbackQuery>(
-                UPDATE_WITH_CALLBACK_QUERY_REDUNDANT_PROPERTIES_JSON
-            )
-    }
+//    companion object {
+//        val UPDATE_WITH_CALLBACK_QUERY = UpdateWithCallbackQuery(
+//            updateId = 123456,
+//            callbackQuery = FULL_CALLBACK_QUERY
+//        )
+//        val UPDATE_WITH_CALLBACK_QUERY_JSON = JsonObject(
+//            mapOf(
+//                "update_id" to JsonPrimitive(123456),
+//                "callback_query" to CALLBACK_QUERY_FULL_JSON
+//            )
+//        )
+//        val UPDATE_WITH_CALLBACK_QUERY_REDUNDANT_PROPERTIES_JSON = JsonObject(
+//            mapOf(
+//                "update_id" to JsonPrimitive(123456),
+//                "callback_query" to CALLBACK_QUERY_FULL_JSON,
+//                "redundant" to JsonPrimitive("redundant")
+//            )
+//        )
+//        val UPDATE_WITH_CALLBACK_QUERY_FROM_JSON = json.decodeFromJsonElement<UpdateWithCallbackQuery>(
+//            UPDATE_WITH_CALLBACK_QUERY_JSON
+//        )
+//        val UPDATE_WITH_CALLBACK_QUERY_FROM_REDUNDANT_PROPERTIES_JSON =
+//            json.decodeFromJsonElement<UpdateWithCallbackQuery>(
+//                UPDATE_WITH_CALLBACK_QUERY_REDUNDANT_PROPERTIES_JSON
+//            )
+//    }
 }

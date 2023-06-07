@@ -1,9 +1,9 @@
-package ru.ktglib.transport.models
+package ru.ktglib.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
-import ru.ktglib.transport.models.Json.json
+import ru.ktglib.types.Json.json
 
 @Serializable
 data class Chat(

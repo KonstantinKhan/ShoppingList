@@ -3,12 +3,12 @@ package ru.ktglib.transport.models
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
-import ru.ktglib.transport.models.Chat.Companion.CHAT_FROM_FULL_JSON
-import ru.ktglib.transport.models.Chat.Companion.CHAT_FROM_PART_JSON
-import ru.ktglib.transport.models.Chat.Companion.CHAT_FROM_REDUNDANT_PROPERTIES_JSON
-import ru.ktglib.transport.models.Chat.Companion.CHAT_FULL_JSON
-import ru.ktglib.transport.models.Chat.Companion.FULL_CHAT
-import ru.ktglib.transport.models.Chat.Companion.PART_CHAT
+import ru.ktglib.types.Chat.Companion.CHAT_FROM_FULL_JSON
+import ru.ktglib.types.Chat.Companion.CHAT_FROM_PART_JSON
+import ru.ktglib.types.Chat.Companion.CHAT_FROM_REDUNDANT_PROPERTIES_JSON
+import ru.ktglib.types.Chat.Companion.CHAT_FULL_JSON
+import ru.ktglib.types.Chat.Companion.FULL_CHAT
+import ru.ktglib.types.Chat.Companion.PART_CHAT
 
 class ChatSerializationTest : ShouldSpec({
     should("serialize the chat model") {

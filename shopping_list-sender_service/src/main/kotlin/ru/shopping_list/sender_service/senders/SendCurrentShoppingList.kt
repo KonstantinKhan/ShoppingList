@@ -17,7 +17,7 @@ suspend fun HttpClient.sendCurrentShoppingList(context: BeContext): Response {
     val response = this.post("sendMessage") {
         contentType(ContentType.Application.Json)
         setBody(message {
-            chatId = context.shoppingList.user.userId.toInt()
+            chatId = context.shoppingList.user.userId.toLong()
             text = "Список покупок: \\\n" +
                     context.shoppingList.purchaseList.joinToString("\n") {
                         if (it.checked) "~${it.name}~"

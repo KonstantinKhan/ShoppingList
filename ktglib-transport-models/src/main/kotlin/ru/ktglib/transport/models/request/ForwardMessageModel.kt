@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ForwardMessageModel(
     @SerialName("chat_id")
-    val chatId: Int,
+    val chatId: Long,
     @SerialName("from_chat_id")
-    val fromChatId: Int,
+    val fromChatId: Long,
     @SerialName("message_id")
     val messageId: Int
 )

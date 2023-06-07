@@ -14,7 +14,7 @@ suspend fun HttpClient.sendInviteMessage(userId: UserId): Response {
     val response = this.post("sendMessage") {
         contentType(ContentType.Application.Json)
         setBody(message {
-            chatId = userId.toInt()
+            chatId = userId.toLong()
             text = "Пригласительное сообщение. \n" +
                     "Подключай бота @KhanDevTestBot для управления списком покупок!"
         })

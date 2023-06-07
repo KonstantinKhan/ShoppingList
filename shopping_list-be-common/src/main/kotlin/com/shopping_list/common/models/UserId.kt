@@ -10,9 +10,9 @@ value class UserId(
     private val id: String
 ) {
 
-    fun toInt() = id.toInt()
+    fun toLong() = id.toLong()
 
-    constructor(id: Int) : this(id.toString())
+    constructor(id: Long) : this(id.toString())
 
     companion object {
         val NONE = UserId("")

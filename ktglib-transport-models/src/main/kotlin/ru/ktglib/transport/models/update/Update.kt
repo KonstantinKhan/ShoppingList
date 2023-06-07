@@ -2,7 +2,7 @@ package ru.ktglib.transport.models.update
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ktglib.transport.models.Convertible
+import ru.ktglib.types.Convertible
 
 @Serializable(with = UpdateSerializer::class)
 abstract class Update : Convertible {

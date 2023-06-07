@@ -7,7 +7,7 @@ import ru.ktglib.transport.models.ReplyMarkup
 @Serializable
 data class SendMessageModel(
     @SerialName("chat_id")
-    val chatId: Int,
+    val chatId: Long,
     val text: String,
     @SerialName("reply_markup")
     val replyMarkup: ReplyMarkup? = null,

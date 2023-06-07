@@ -12,7 +12,7 @@ object ShoppingListTable : Table("shopping_list") {
 }
 
 object TgUsersTable : Table("tg_users") {
-    val id = integer("id")
+    val id = long("id")
     val firstName = varchar("first_name", 128)
     val lastName = varchar("last_name", 128)
     val userName = varchar("user_name", 128)

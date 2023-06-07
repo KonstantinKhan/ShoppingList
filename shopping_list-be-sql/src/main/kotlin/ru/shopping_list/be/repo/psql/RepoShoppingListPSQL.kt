@@ -28,14 +28,14 @@ class RepoShoppingListPSQL(
             initObjects.forEach { shoppingList ->
                 transaction(db) {
                     TgUsersTable.insert {
-                        it[id] = shoppingList.user.userId.toInt()
+                        it[id] = shoppingList.user.userId.toLong()
                         it[firstName] = shoppingList.user.firstName
                         it[lastName] = shoppingList.user.lastName
                         it[userName] = shoppingList.user.userName
                     }
                     ShoppingListTable.insert {
                         it[id] = shoppingList.id.asUUID()
-                        it[userId] = shoppingList.user.userId.toInt()
+                        it[userId] = shoppingList.user.userId.toLong()
                         it[title] = shoppingList.title.toString()
                     }
                     shoppingList.purchaseList.forEach { purchase ->
@@ -46,7 +46,7 @@ class RepoShoppingListPSQL(
                         }
                     }
                     StateTable.insert {
-                        it[userId] = shoppingList.user.userId.toInt()
+                        it[userId] = shoppingList.user.userId.toLong()
                         it[shoppingListId] = shoppingList.id.asUUID()
                         it[lastMessageId] = -1
                     }
@@ -62,7 +62,7 @@ class RepoShoppingListPSQL(
         return transaction(db) {
             with(request.shoppingList) {
                 TgUsersTable.insertIgnore {
-                    it[id] = user.userId.toInt()
+                    it[id] = user.userId.toLong()
                     it[firstName] = user.firstName
                     it[lastName] = user.lastName
                     it[userName] = user.userName
@@ -71,7 +71,7 @@ class RepoShoppingListPSQL(
                     if (this@with.id != ShoppingListId.NONE)
                         it[id] = this@with.id.asUUID()
                     it[title] = this@with.title.toString()
-                    it[userId] = user.userId.toInt()
+                    it[userId] = user.userId.toLong()
 
                 } get ShoppingListTable.id
 
@@ -164,7 +164,7 @@ class RepoShoppingListPSQL(
 
     override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse {
         return transaction(db) {
-            ShoppingListTable.select { ShoppingListTable.userId eq request.userId.toInt() }.takeIf { !it.empty() }
+            ShoppingListTable.select { ShoppingListTable.userId eq request.userId.toLong() }.takeIf { !it.empty() }
                 ?.let { query ->
                     DbShoppingListsResponse(query.map { ShoppingListId(it[ShoppingListTable.id]) })
                 } ?: DbShoppingListsResponse(emptyList())
@@ -267,7 +267,7 @@ class RepoShoppingListPSQL(
                 }
             }
             val user = TgUsersTable.select {
-                TgUsersTable.id eq request.userId.toInt()
+                TgUsersTable.id eq request.userId.toLong()
             }.first().let {
                 TgUser(
                     UserId(it[TgUsersTable.id]),
@@ -317,7 +317,7 @@ class RepoShoppingListPSQL(
         return transaction(db) {
             try {
                 StateTable.insert {
-                    it[userId] = request.userId.toInt()
+                    it[userId] = request.userId.toLong()
                     it[shoppingListId] = request.shoppingListId.asUUID()
                     it[lastMessageId] = request.messageId.toInt()
                 }
@@ -346,13 +346,13 @@ class RepoShoppingListPSQL(
                     JoinType.INNER,
                     additionalConstraint = { ShoppingListTable.userId eq TgUsersTable.id })
                 .slice(TgUsersTable.userName)
-                .select { StateTable.userId eq request.userId.toInt() }
+                .select { StateTable.userId eq request.userId.toLong() }
             result.forEach {
                 println("row result: ${it[TgUsersTable.userName]}")
             }
 
             with(StateTable.select {
-                StateTable.userId eq request.userId.toInt()
+                StateTable.userId eq request.userId.toLong()
             }.takeIf { !it.empty() }?.let { query ->
                 query.first().let { row ->
                     StateContext(
@@ -373,7 +373,7 @@ class RepoShoppingListPSQL(
 
     override suspend fun updateStateContext(request: DbStateRequest): DbStateResponse {
         return transaction(db) {
-            StateTable.update({ StateTable.userId eq request.userId.toInt() }) {
+            StateTable.update({ StateTable.userId eq request.userId.toLong() }) {
                 it[lastMessageId] = request.messageId.toInt()
             }
             DbStateResponse(request.userId, request.shoppingListId, request.messageId)
@@ -402,7 +402,7 @@ class RepoShoppingListPSQL(
             }.takeIf { it.empty() }?.let {
                 val computedShoppingList = ShoppingListTable.insert {
                     it[title] = "Связанный список"
-                    it[userId] = request.userConsumer.userId.toInt()
+                    it[userId] = request.userConsumer.userId.toLong()
                 } get ShoppingListTable.id
 
                 SharedShoppingListTable.insert {

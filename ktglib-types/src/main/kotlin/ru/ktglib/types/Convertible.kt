@@ -1,4 +1,4 @@
-package ru.ktglib.transport.models
+package ru.ktglib.types
 
 import kotlinx.serialization.json.JsonElement
 

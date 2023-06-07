@@ -7,7 +7,7 @@ import ru.ktglib.transport.models.request.SendMessageModel
 fun message(block: SendMessageBuilder.() -> Unit) = SendMessageBuilder().apply(block).build()
 
 class SendMessageBuilder(
-    var chatId: Int = 0,
+    var chatId: Long = 0,
     var text: String = "",
     var replyMarkup: ReplyMarkup? = null,
     var parseMode: String? = null

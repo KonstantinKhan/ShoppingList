@@ -8,7 +8,7 @@ import ru.ktglib.transport.models.message.MessageEntity
 @Serializable
 data class EditMessageTextModel(
     @SerialName("chat_id")
-    val chatId: Int? = null,
+    val chatId: Long? = null,
     @SerialName("message_id")
     val messageId: Int? = null,
     @SerialName("inline_message_id")

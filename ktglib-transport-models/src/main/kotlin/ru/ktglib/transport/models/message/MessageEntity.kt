@@ -2,7 +2,7 @@ package ru.ktglib.transport.models.message
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ktglib.transport.models.User
+import ru.ktglib.types.User
 
 @Serializable
 data class MessageEntity(

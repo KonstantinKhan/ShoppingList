@@ -23,6 +23,7 @@ dependencies {
 
     implementation(project(":shopping_list-be-common"))
     implementation(project(":ktglib-transport-models"))
+    implementation(project(":ktglib-types"))
     implementation(project(":shopping_list-be-lib-telegram-api"))
     implementation(project(":shopping_list-be-repo_in_memory"))
     implementation(project(":shopping_list-be-shopping_list-service"))

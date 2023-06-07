@@ -14,7 +14,7 @@ suspend fun HttpClient.editMessage(context: BeContext): Response {
     val response = this.post("editMessageText") {
         contentType(ContentType.Application.Json)
         setBody(editMessageText {
-            chatId = context.shoppingList.user.userId.toInt()
+            chatId = context.shoppingList.user.userId.toLong()
             messageId = context.messageId.toInt()
             text = "Список покупок: \\\n" +
                     context.shoppingList.purchaseList.joinToString("\n") {

@@ -14,7 +14,7 @@ suspend fun HttpClient.sendPreInviteMessage(chatId: UserId): Response {
     val response = this.post("sendMessage") {
         contentType(ContentType.Application.Json)
         setBody(message {
-            this.chatId = chatId.toInt()
+            this.chatId = chatId.toLong()
             text = "Выбранный пользователь ещё не пользуется ботом. \n" +
                     "Перешлите ему пригласительное сообщение"
         })

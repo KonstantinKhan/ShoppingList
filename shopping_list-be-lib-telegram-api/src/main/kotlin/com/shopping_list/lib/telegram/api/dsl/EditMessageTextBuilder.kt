@@ -5,7 +5,7 @@ import ru.ktglib.transport.models.InlineKeyboardMarkup
 import ru.ktglib.transport.models.request.EditMessageTextModel
 fun editMessageText(block: EditMessageTextBuilder.() -> Unit) = EditMessageTextBuilder().apply(block).build()
 data class EditMessageTextBuilder(
-    var chatId: Int? = null,
+    var chatId: Long? = null,
     var messageId: Int? = null,
     var text: String = "",
     var parseMode: String? = null,

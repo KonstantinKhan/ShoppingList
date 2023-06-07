@@ -1,4 +1,4 @@
-package ru.ktglib.transport.models.message
+package ru.ktglib.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -6,15 +6,15 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
-import ru.ktglib.transport.models.*
-import ru.ktglib.transport.models.Chat.Companion.CHAT_FULL_JSON
-import ru.ktglib.transport.models.Chat.Companion.CHAT_PART_JSON
-import ru.ktglib.transport.models.Chat.Companion.CHAT_REDUNDANT_PROPERTIES_JSON
-import ru.ktglib.transport.models.Chat.Companion.FULL_CHAT
-import ru.ktglib.transport.models.Chat.Companion.PART_CHAT
-import ru.ktglib.transport.models.Json.json
-import ru.ktglib.transport.models.User.Companion.FULL_USER
-import ru.ktglib.transport.models.User.Companion.USER_FULL_JSON
+import ru.ktglib.types.Chat.Companion.CHAT_FULL_JSON
+import ru.ktglib.types.Chat.Companion.CHAT_PART_JSON
+import ru.ktglib.types.Chat.Companion.CHAT_REDUNDANT_PROPERTIES_JSON
+import ru.ktglib.types.Chat.Companion.FULL_CHAT
+import ru.ktglib.types.Chat.Companion.PART_CHAT
+import ru.ktglib.types.Json.json
+import ru.ktglib.types.User.Companion.FULL_USER
+import ru.ktglib.types.User.Companion.USER_FULL_JSON
+
 
 @Serializable
 data class Message(
@@ -29,7 +29,7 @@ data class Message(
     val userShared: UserShared? = null,
     @SerialName("chat_shared")
     val chatShared: ChatShared? = null
-) : Convertible {
+) : Convertible, Result {
     override fun toJson() = json.encodeToJsonElement(this)
 
     companion object {

@@ -5,11 +5,11 @@ import com.shopping_list.common.models.UserId
 import java.io.Serializable
 
 data class ShoppingListRow(
-    val userId: Int,
+    val userId: Long,
     val shoppingList: ArrayList<PurchaseModel>,
 ) : Serializable {
     constructor(internal: ShoppingListModel) : this(
-        userId = internal.user.userId.toInt(),
+        userId = internal.user.userId.toLong(),
         shoppingList = ArrayList(internal.purchaseList),
     )
 

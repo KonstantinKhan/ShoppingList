@@ -1,14 +1,14 @@
-package ru.ktglib.transport.models
+package ru.ktglib.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
-import ru.ktglib.transport.models.Json.json
+import ru.ktglib.types.Json.json
 
 @Serializable
 data class User(
     @SerialName("id")
-    val userId: Int,
+    val userId: Long,
     @SerialName("is_bot")
     val isBot: Boolean,
     @SerialName("first_name")
