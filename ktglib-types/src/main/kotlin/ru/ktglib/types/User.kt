@@ -16,12 +16,21 @@ data class User(
     @SerialName("last_name")
     val lastName: String? = null,
     @SerialName("username")
-    val userName: String? = null
-) : Convertible {
+    val userName: String? = null,
+    @SerialName("can_join_groups")
+    val canJoinGroups: Boolean? = null,
+    @SerialName("can_read_all_group_messages")
+    val canReadAllGroupMessages: Boolean? = null,
+    @SerialName("supports_inline_queries")
+    val supportsInlineQueries: Boolean? = null
+) : Convertible, Result {
 
     override fun toJson() = json.encodeToJsonElement(this)
 
     companion object {
+        val NONE = User(
+            userId = 0, isBot = false, firstName = "", lastName = null, userName = null
+        )
         val FULL_USER =
             User(userId = 123456, isBot = false, firstName = "first", lastName = "last", userName = "name")
         val PART_USER = User(userId = 123456, isBot = false, firstName = "first")

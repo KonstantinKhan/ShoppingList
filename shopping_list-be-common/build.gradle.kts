@@ -12,5 +12,5 @@ val kotlinSerializationVersion: String by project
 dependencies {
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
 
-    implementation(project(":ktglib-types"))
+    api(project(":ktglib-types"))
 }

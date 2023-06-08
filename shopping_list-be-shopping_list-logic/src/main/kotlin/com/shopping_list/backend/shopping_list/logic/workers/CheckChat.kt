@@ -12,6 +12,6 @@ fun CorChainDsl<BeContext>.checkChat(title: String) = worker {
         val result = httpClient.getChat(this)
         if (result is ResponseWithError)
             this.errors.add(CommonErrorModel(result.description))
-        println("result: $result")
+        println("result in check chat: $result")
     }
 }

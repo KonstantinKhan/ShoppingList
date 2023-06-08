@@ -46,5 +46,7 @@ class SenderService(
         client.sendInviteMessage(context.shoppingList.user.userId)
 
     override suspend fun forwardMessage(context: BeContext): Response = client.forwardMessage(context)
+    override suspend fun getMe(): Response = client.getMe()
+
     override suspend fun getChat(context: BeContext): Response = client.getChat(context)
 }

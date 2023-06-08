@@ -7,6 +7,7 @@ import com.shopping_list.common.models.shopping_list.ShoppingListId
 import com.shopping_list.common.models.shopping_list.ShoppingListModel
 import com.shopping_list.common.models.TgUser
 import com.shopping_list.repo.shopping_list.IRepoShoppingList
+import ru.ktglib.types.User
 
 data class BeContext(
     var config: ShoppingListContextConfig = ShoppingListContextConfig(),
@@ -19,6 +20,7 @@ data class BeContext(
     var dependentShoppingLists: Collection<ShoppingListId> = emptyList(),
     var recipient: TgUser = TgUser.NONE,
     val shoppingListsOfUserConsumer: MutableList<ShoppingListId> = mutableListOf(),
-    val errors: MutableList<IError> = mutableListOf()
+    val errors: MutableList<IError> = mutableListOf(),
+    var bot: User = User.NONE
 )
 

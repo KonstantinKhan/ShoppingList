@@ -9,6 +9,7 @@ import kotlinx.serialization.modules.plus
 import kotlinx.serialization.modules.subclass
 import ru.ktglib.types.Message
 import ru.ktglib.types.Result
+import ru.ktglib.types.User
 
 fun jsonHelper() = Json {
     serializersModule = responseModule + resultModule
@@ -24,5 +25,6 @@ val responseModule = SerializersModule {
 val resultModule = SerializersModule {
     polymorphic(Result::class) {
         subclass(Message::class)
+        subclass(User::class)
     }
 }
