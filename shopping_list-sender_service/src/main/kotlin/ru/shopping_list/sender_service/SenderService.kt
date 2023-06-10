@@ -43,7 +43,7 @@ class SenderService(
         client.sendPreInviteMessage(context.shoppingList.user.userId)
 
     override suspend fun sendInviteMessage(context: BeContext): Response =
-        client.sendInviteMessage(context.shoppingList.user.userId)
+        client.sendInviteMessage(context.shoppingList.user.userId, context.bot.userName ?: "")
 
     override suspend fun forwardMessage(context: BeContext): Response = client.forwardMessage(context)
     override suspend fun getMe(): Response = client.getMe()
