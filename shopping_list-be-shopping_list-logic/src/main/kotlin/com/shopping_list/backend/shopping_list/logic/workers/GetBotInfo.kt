@@ -6,9 +6,7 @@ import ru.fit_changes.cor.worker
 import ru.ktglib.types.User
 
 fun CorChainDsl<BeContext>.getBotInfo(title: String) = worker {
-    on {
-        println("on: $errors")
-        errors.isNotEmpty() }
+    on { errors.isNotEmpty() }
     handle {
         httpClient.getMe().result?.let {
             bot = it as User
