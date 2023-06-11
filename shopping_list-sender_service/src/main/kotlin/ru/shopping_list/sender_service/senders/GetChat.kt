@@ -1,5 +1,6 @@
 package ru.shopping_list.sender_service.senders
 
+import com.shopping_list.backend.mapping.toChatId
 import com.shopping_list.common.context.BeContext
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -13,7 +14,7 @@ suspend fun HttpClient.getChat(context: BeContext): Response {
     val response = this.post("getChat") {
         contentType(ContentType.Application.Json)
         setBody(
-            context.recipient.userId
+            context.toChatId()
         )
     }
     println("response: ${response.bodyAsText()}")

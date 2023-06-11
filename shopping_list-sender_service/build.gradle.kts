@@ -16,4 +16,5 @@ dependencies {
     implementation(project(":shopping_list-be-lib-telegram-api"))
     implementation(project(":ktglib-transport-models"))
     implementation(project(":ktglib-types"))
+    implementation(project(":shopping_list-be-mapping"))
 }
