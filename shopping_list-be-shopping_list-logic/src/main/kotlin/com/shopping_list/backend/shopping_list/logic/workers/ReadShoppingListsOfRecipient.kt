@@ -7,9 +7,11 @@ import ru.fit_changes.cor.worker
 
 fun CorChainDsl<BeContext>.readShoppingListsOfRecipient(title: String) = worker {
     this.title = title
+    on { errors.isEmpty() }
     handle {
         shoppingListRepo.readShoppingLists(DbUserIdRequest(recipient.userId)).shoppingLists.let {
-            shoppingListsOfUserConsumer.addAll(it)
+            shoppingListsOfRecipient.addAll(it)
         }
+        println("lists: $shoppingListsOfRecipient")
     }
 }

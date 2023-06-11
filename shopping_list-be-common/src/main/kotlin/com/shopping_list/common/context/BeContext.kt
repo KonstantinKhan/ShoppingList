@@ -19,7 +19,7 @@ data class BeContext(
     var shoppingList: ShoppingListModel = ShoppingListModel(),
     var dependentShoppingLists: Collection<ShoppingListId> = emptyList(),
     var recipient: TgUser = TgUser.NONE,
-    val shoppingListsOfUserConsumer: MutableList<ShoppingListId> = mutableListOf(),
+    val shoppingListsOfRecipient: MutableList<ShoppingListId> = mutableListOf(),
     val errors: MutableList<IError> = mutableListOf(),
     var bot: User = User.NONE
 )
