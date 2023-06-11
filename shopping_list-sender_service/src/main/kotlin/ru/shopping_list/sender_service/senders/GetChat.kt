@@ -17,7 +17,7 @@ suspend fun HttpClient.getChat(context: BeContext): Response {
             context.toChatId()
         )
     }
-    println("response: ${response.bodyAsText()}")
+    println("response in getChat: ${response.bodyAsText()}")
 
     return jsonHelper().decodeFromString(response.bodyAsText())
 }
