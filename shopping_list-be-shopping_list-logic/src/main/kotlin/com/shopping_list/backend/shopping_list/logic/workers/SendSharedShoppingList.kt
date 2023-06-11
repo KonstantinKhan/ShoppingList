@@ -8,7 +8,9 @@ fun CorChainDsl<BeContext>.sendSharedShoppingList(title: String) = worker {
     this.title = title
     on { errors.isEmpty() }
     handle {
-        val result = httpClient.forwardMessage(this)
-        println("result: $result")
+        httpClient.sendRecipientNotification(this)
+//        val result = httpClient.forwardMessage(this)
+//        println("result: $result")
+        println("handle")
     }
 }
