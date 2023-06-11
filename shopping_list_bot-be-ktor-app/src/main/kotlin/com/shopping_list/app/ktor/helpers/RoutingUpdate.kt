@@ -22,17 +22,17 @@ suspend inline fun routingUpdate(
                         }
                     }
 
-//                    Commands.CLEAR.value -> {
-//                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
-//                            shoppingListService.clear(this, it)
-//                        }
-//                    }
-//
-//                    Commands.TIDY.value -> {
-//                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
-//                            shoppingListService.tidy(this, it)
-//                        }
-//                    }
+                    Commands.CLEAR.value -> {
+                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
+                            shoppingListService.clear(this, it)
+                        }
+                    }
+
+                    Commands.TIDY.value -> {
+                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
+                            shoppingListService.tidy(this, it)
+                        }
+                    }
 //
 //                    Commands.HELP.value -> {
 //                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
@@ -50,11 +50,10 @@ suspend inline fun routingUpdate(
                             handleUpdate<UpdateWithMessage>(config, updateRequest) {
                                 shoppingListService.shareShoppingList(this, it)
                             }
-                        }
-//                        else
-//                            handleUpdate<UpdateWithMessage>(config, updateRequest) {
-//                                shoppingListService.addPurchase(this, it)
-//                            }
+                        } else
+                            handleUpdate<UpdateWithMessage>(config, updateRequest) {
+                                shoppingListService.addPurchase(this, it)
+                            }
 //                        handleUpdate<UpdateWithMessage>(updateRequest) { update ->
 //                            shoppingListService.addPurchase(this, update)
 //                            if (messageId != MessageId.NONE) {
