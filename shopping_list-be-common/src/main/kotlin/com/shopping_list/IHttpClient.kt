@@ -12,6 +12,8 @@ interface IHttpClient {
     suspend fun sendPreInviteMessage(context: BeContext): Response
     suspend fun forwardMessage(context: BeContext): Response
     suspend fun getMe(): Response
+    suspend fun sendCurrentShoppingList(context: BeContext): Response
+    suspend fun sendError(context: BeContext): Response
 
     companion object NONE : IHttpClient {
         override suspend fun sendWelcomeMessage(context: BeContext): Response {
@@ -43,6 +45,14 @@ interface IHttpClient {
         }
 
         override suspend fun getMe(): Response {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun sendCurrentShoppingList(context: BeContext): Response {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun sendError(context: BeContext): Response {
             TODO("Not yet implemented")
         }
     }

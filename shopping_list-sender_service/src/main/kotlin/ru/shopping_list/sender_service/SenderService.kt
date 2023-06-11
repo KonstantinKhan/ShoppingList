@@ -30,8 +30,10 @@ class SenderService(
     override suspend fun sendWelcomeMessage(context: BeContext): Response =
         client.sendWelcomeMessage(context.shoppingList.user.userId)
 
-    suspend fun sendCurrentShoppingList(context: BeContext) =
+    override suspend fun sendCurrentShoppingList(context: BeContext): Response =
         client.sendCurrentShoppingList(context)
+
+    override suspend fun sendError(context: BeContext): Response  = client.sendError(context)
 
     override suspend fun deleteMessage(context: BeContext) =
         client.deleteMessage(context.shoppingList.user.userId, context.messageId)

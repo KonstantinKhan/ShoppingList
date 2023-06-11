@@ -12,9 +12,9 @@ object ShareShoppingList : ICorExecutor<BeContext> by chain({
     getBotInfo("Get bot info")
     sendPreInviteMessage("Send the pre invite message")
     sendInviteMessage("Send the invite message")
-
-//    readShoppingListsOfUserConsumer("Read shopping lists of the user consumer")
-//    shareShoppingList("Shared the shopping list")
-//    sendCurrentShoppingList("Send current shopping list")
+    readShoppingListsOfRecipient("Read shopping lists of the user consumer")
+    shareShoppingList("Shared the shopping list")
+    sendCurrentShoppingList("Send current shopping list")
     sendSharedShoppingList("Send shared shopping list")
+    sendError()
 }).build()
