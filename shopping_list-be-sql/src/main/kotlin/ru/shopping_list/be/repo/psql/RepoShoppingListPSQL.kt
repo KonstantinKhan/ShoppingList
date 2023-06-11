@@ -427,9 +427,7 @@ class RepoShoppingListPSQL(
                     )
                 )
             } ?: DbShoppingListResponse(
-                ShoppingListModel(
-                    purchaseList = listOf(PurchaseModel(name = "There was null"))
-                )
+                error = CommonErrorModel("Вы уже поделились списком с этим пользователем")
             )
         }
     }

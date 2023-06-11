@@ -7,13 +7,19 @@ import ru.fit_changes.cor.worker
 
 fun CorChainDsl<BeContext>.shareShoppingList(title: String) = worker {
     this.title = title
+    on { errors.isEmpty() }
     handle {
-        shoppingListRepo.shareShoppingList(
-            DbSharedShoppingListRequest(
-                shoppingList.id,
-                recipient,
-                shoppingListsOfUserConsumer
+        with(
+            shoppingListRepo.shareShoppingList(
+                DbSharedShoppingListRequest(
+                    shoppingList.id,
+                    recipient,
+                    shoppingListsOfRecipient
+                )
             )
-        ).result.let { shoppingList = shoppingList.copy(purchaseList = it.purchaseList) }
+        ) {
+            error?.let { errors.add(it) }
+                ?: result.let { shoppingList = shoppingList.copy(purchaseList = it.purchaseList) }
+        }
     }
 }
