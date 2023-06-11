@@ -10,11 +10,9 @@ fun CorChainDsl<BeContext>.getBotInfo(title: String) = worker {
         println("on: $errors")
         errors.isNotEmpty() }
     handle {
-        println("handle")
         httpClient.getMe().result?.let {
             bot = it as User
         }
-        println("context: ${this.bot}")
     }
     except {
         println("Error: ${it.message}")

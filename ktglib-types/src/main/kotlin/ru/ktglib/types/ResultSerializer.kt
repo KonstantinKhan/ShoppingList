@@ -15,17 +15,11 @@ object ResultSerializer : JsonContentPolymorphicSerializer<Result>(Result::class
 
         element.jsonObject.let { result ->
             "message_id" in result
-        } -> {
-            println("message...")
-            Message.serializer()
-        }
+        } -> Message.serializer()
 
         element.jsonObject.let { result ->
             "id" in result && "is_bot" in result && "first_name" in result
-        } -> {
-            println("user...")
-            User.serializer()
-        }
+        } -> User.serializer()
 
         else -> throw Error("Unknown type")
     }
