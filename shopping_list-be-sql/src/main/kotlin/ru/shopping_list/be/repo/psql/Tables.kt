@@ -34,12 +34,24 @@ object TgUsersTable : Table("tg_users") {
     val userName = varchar("user_name", 128)
 
     override val primaryKey = PrimaryKey(id)
+
+    fun from(res: ResultRow) = TgUser(
+        userId = UserId(res[id]),
+        firstName = res[firstName],
+        lastName = res[lastName],
+        userName = res[userName]
+    )
 }
 
 object PurchaseTable : Table("purchase") {
     val shoppingListId = reference("shopping_list_id", ShoppingListTable.id, onDelete = ReferenceOption.CASCADE)
     val name = varchar("name", 128)
     val checked = bool("checked")
+
+    fun from(res: ResultRow) = PurchaseModel(
+        name = res[name],
+        checked = res[checked]
+    )
 }
 
 object StateTable : Table("state") {
