@@ -19,7 +19,10 @@ fun CorChainDsl<BeContext>.shareShoppingList(title: String) = worker {
             )
         ) {
             error?.let { errors.add(it) }
-                ?: result.let { shoppingList = shoppingList.copy(purchaseList = it.purchaseList) }
+                ?: result.let {
+                    duplicateShoppingList = duplicateShoppingList.copy(it.id, purchaseList = it.purchaseList)
+                    shoppingList = shoppingList.copy(purchaseList = it.purchaseList)
+                }
         }
     }
 }

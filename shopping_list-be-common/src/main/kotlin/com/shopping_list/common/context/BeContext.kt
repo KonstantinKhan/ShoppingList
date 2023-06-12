@@ -21,6 +21,7 @@ data class BeContext(
     var recipient: TgUser = TgUser.NONE,
     val shoppingListsOfRecipient: MutableList<ShoppingListId> = mutableListOf(),
     val errors: MutableList<IError> = mutableListOf(),
-    var bot: User = User.NONE
+    var bot: User = User.NONE,
+    var duplicateShoppingList: ShoppingListModel = ShoppingListModel()
 )
 

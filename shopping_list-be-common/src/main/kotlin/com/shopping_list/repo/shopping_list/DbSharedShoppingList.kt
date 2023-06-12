@@ -1,7 +1,9 @@
 package com.shopping_list.repo.shopping_list
 
-import com.shopping_list.common.models.shopping_list.ShoppingListId
+import com.shopping_list.common.models.MessageId
+import com.shopping_list.common.models.UserId
+import com.shopping_list.common.models.shopping_list.ShoppingListModel
 
 class DbSharedShoppingList(
-    val sharedShoppingLists: Collection<ShoppingListId>
+    val sharedShoppingLists: Collection<ShoppingListModel>
 )

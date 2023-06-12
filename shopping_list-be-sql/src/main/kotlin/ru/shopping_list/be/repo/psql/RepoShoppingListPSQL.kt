@@ -405,10 +405,10 @@ class RepoShoppingListPSQL(
                     it[userId] = request.userConsumer.userId.toLong()
                 } get ShoppingListTable.id
 
-                SharedShoppingListTable.insert {
+                val duplicateId = SharedShoppingListTable.insert {
                     it[sourceShoppingList] = request.sourceShoppingList.asUUID()
                     it[duplicateShoppingList] = computedShoppingList
-                }
+                } get SharedShoppingListTable.duplicateShoppingList
                 val purchaseList =
                     PurchaseTable.select { PurchaseTable.shoppingListId eq request.sourceShoppingList.asUUID() }
                         .takeIf { !it.empty() }?.let { query ->
@@ -423,6 +423,7 @@ class RepoShoppingListPSQL(
                         } ?: emptyList()
                 DbShoppingListResponse(
                     ShoppingListModel(
+                        id = ShoppingListId(duplicateId),
                         purchaseList = purchaseList
                     )
                 )
@@ -434,14 +435,88 @@ class RepoShoppingListPSQL(
 
     override suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList {
         return transaction(db) {
-            val shoppingLists =
-                SharedShoppingListTable.select { SharedShoppingListTable.sourceShoppingList eq request.shoppingListId.asUUID() }
-                    .takeIf { !it.empty() }?.let { row ->
-                        row.map {
-                            ShoppingListId(it[SharedShoppingListTable.duplicateShoppingList])
-                        }
-                    } ?: emptyList()
-            DbSharedShoppingList(shoppingLists)
+
+            SharedShoppingListTable.select {
+                SharedShoppingListTable.sourceShoppingList eq request.shoppingListId.asUUID()
+            }.let { query ->
+                if (!query.empty()) {
+                    println("if===")
+                    ShoppingListTable
+                        .join(
+                            SharedShoppingListTable,
+                            JoinType.INNER,
+                            additionalConstraint = {
+                                SharedShoppingListTable.duplicateShoppingList eq ShoppingListTable.id
+                            }
+                        )
+                        .selectAll()
+                        .map { result ->
+                            ShoppingListModel(
+                                id = ShoppingListId(result[ShoppingListTable.id]),
+                                user = TgUser(UserId(result[ShoppingListTable.userId]), "")
+                            )
+                        }.let { DbSharedShoppingList(it) }
+                } else {
+                    println("else===")
+                    ShoppingListTable
+                        .join(
+                            SharedShoppingListTable,
+                            JoinType.INNER,
+                            additionalConstraint = { SharedShoppingListTable.sourceShoppingList eq ShoppingListTable.id }
+                        )
+                        .selectAll()
+                        .map { result ->
+                            ShoppingListModel(
+                                id = ShoppingListId(result[ShoppingListTable.id]),
+                                user = TgUser(UserId(result[ShoppingListTable.userId]), ""),
+                            )
+                        }.let { DbSharedShoppingList(it) }
+                }
+
+            }
         }
     }
+
+    override suspend fun readSharedState(request: DbShoppingListIdRequest): DbSharedStateResponse =
+        transaction(db) {
+            SharedShoppingListTable.select {
+                SharedShoppingListTable.sourceShoppingList eq request.shoppingListId.asUUID()
+            }.let { query ->
+                if (!query.empty()) {
+                    ShoppingListTable
+                        .join(
+                            SharedShoppingListTable,
+                            JoinType.INNER,
+                            additionalConstraint = {
+                                SharedShoppingListTable.duplicateShoppingList eq ShoppingListTable.id
+                            }
+                        )
+                        .join(
+                            StateTable,
+                            JoinType.INNER,
+                            additionalConstraint = { StateTable.userId eq ShoppingListTable.userId }
+                        )
+                        .selectAll()
+                        .map { result ->
+                            State(UserId(result[ShoppingListTable.userId]), MessageId(result[StateTable.lastMessageId]))
+                        }.let { DbSharedStateResponse(it) }
+                } else {
+                    ShoppingListTable
+                        .join(
+                            SharedShoppingListTable,
+                            JoinType.INNER,
+                            additionalConstraint = { SharedShoppingListTable.sourceShoppingList eq ShoppingListTable.id }
+                        )
+                        .join(
+                            StateTable,
+                            JoinType.INNER,
+                            additionalConstraint = { StateTable.userId eq ShoppingListTable.userId }
+                        )
+                        .selectAll()
+                        .map { result ->
+                            State(UserId(result[ShoppingListTable.userId]), MessageId(result[StateTable.lastMessageId]))
+                        }.let { DbSharedStateResponse(it) }
+                }
+            }
+        }
 }

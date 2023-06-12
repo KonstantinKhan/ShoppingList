@@ -4,6 +4,7 @@ import com.shopping_list.app.ktor.AppKtorConfig
 import com.shopping_list.backend.shopping_list.service.ShoppingListService
 import ru.ktglib.transport.models.commands.Commands
 import ru.ktglib.transport.models.update.Update
+import ru.ktglib.transport.models.update.UpdateWithCallbackQuery
 import ru.ktglib.transport.models.update.UpdateWithMessage
 
 suspend inline fun routingUpdate(
@@ -72,10 +73,10 @@ suspend inline fun routingUpdate(
                 }
             }
 //
-//            is UpdateWithCallbackQuery -> {
-//                handleUpdate<UpdateWithCallbackQuery>(config, updateRequest) {
-//                    shoppingListService.checkPurchase(this, it)
-//                }
+            is UpdateWithCallbackQuery -> {
+                handleUpdate<UpdateWithCallbackQuery>(config, updateRequest) {
+                    shoppingListService.checkPurchase(this, it)
+                }
 
 //                httpClient.answerCallbackQuery(
 //                    AnswerCallbackQueryRequest(
@@ -94,7 +95,7 @@ suspend inline fun routingUpdate(
 //                    val messageId = MessageId(json.decodeFromString<Response>(respondUpdate.bodyAsText()).result.messageId)
 //                    shoppingListService.saveMessageId(this, messageId)
 //                }
-//            }
+            }
         }
     }
 }

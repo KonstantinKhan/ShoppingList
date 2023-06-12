@@ -9,6 +9,7 @@ import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import com.shopping_list.response.Response
+import ru.shopping_list.sender_service.jsonHelper
 
 suspend fun HttpClient.editMessage(context: BeContext): Response {
     val response = this.post("editMessageText") {
@@ -35,8 +36,7 @@ suspend fun HttpClient.editMessage(context: BeContext): Response {
         })
     }
 
-    val json = Json {
-        ignoreUnknownKeys = true
-    }
-    return json.decodeFromString(response.bodyAsText())
+    println("response: ${response.bodyAsText()}")
+
+    return jsonHelper().decodeFromString(response.bodyAsText())
 }
