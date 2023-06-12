@@ -519,4 +519,8 @@ class RepoShoppingListPSQL(
                 }
             }
         }
+
+    override suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse {
+        TODO("Not yet implemented")
+    }
 }
