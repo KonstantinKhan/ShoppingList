@@ -1,6 +1,13 @@
 package ru.shopping_list.be.repo.psql
 
+import com.shopping_list.common.models.TgUser
+import com.shopping_list.common.models.UserId
+import com.shopping_list.common.models.shopping_list.PurchaseModel
+import com.shopping_list.common.models.shopping_list.ShoppingListId
+import com.shopping_list.common.models.shopping_list.ShoppingListModel
+import com.shopping_list.common.models.shopping_list.ShoppingListTitle
 import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table
 
 object ShoppingListTable : Table("shopping_list") {
@@ -9,6 +16,15 @@ object ShoppingListTable : Table("shopping_list") {
     val title = varchar("title", 128)
 
     override val primaryKey = PrimaryKey(id)
+
+    fun from(res: ResultRow) = ShoppingListModel(
+        id = ShoppingListId(res[id]),
+        title = ShoppingListTitle(res[title]),
+        user = TgUser(
+            userId = UserId(res[userId]),
+            firstName = ""
+        )
+    )
 }
 
 object TgUsersTable : Table("tg_users") {
