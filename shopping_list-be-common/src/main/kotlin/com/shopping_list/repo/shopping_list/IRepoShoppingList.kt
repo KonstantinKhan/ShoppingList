@@ -3,7 +3,7 @@ package com.shopping_list.repo.shopping_list
 interface IRepoShoppingList {
     suspend fun createShoppingList(request: DbShoppingListRequest): DbShoppingListResponse
     suspend fun readShoppingList(request: DbShoppingListIdRequest): DbShoppingListResponse
-    suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse
+    suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsIdsResponse
     suspend fun createPurchase(request: DbPurchaseModelRequest): DbShoppingListResponse
     suspend fun togglePurchase(request: DbPurchaseRequest): DbShoppingListResponse
     suspend fun deleteCheckedPurchases(request: DbStateRequest): DbShoppingListResponse
@@ -31,7 +31,7 @@ interface IRepoShoppingList {
             TODO("Not yet implemented")
         }
 
-        override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse {
+        override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsIdsResponse {
             TODO("Not yet implemented")
         }
 

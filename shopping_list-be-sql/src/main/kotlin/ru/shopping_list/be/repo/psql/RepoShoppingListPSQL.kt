@@ -162,12 +162,12 @@ class RepoShoppingListPSQL(
         }
     }
 
-    override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse {
+    override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsIdsResponse {
         return transaction(db) {
             ShoppingListTable.select { ShoppingListTable.userId eq request.userId.toLong() }.takeIf { !it.empty() }
                 ?.let { query ->
-                    DbShoppingListsResponse(query.map { ShoppingListId(it[ShoppingListTable.id]) })
-                } ?: DbShoppingListsResponse(emptyList())
+                    DbShoppingListsIdsResponse(query.map { ShoppingListId(it[ShoppingListTable.id]) })
+                } ?: DbShoppingListsIdsResponse(emptyList())
         }
     }
 
@@ -520,7 +520,8 @@ class RepoShoppingListPSQL(
             }
         }
 
-    override suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse {
-        TODO("Not yet implemented")
-    }
+    override suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse =
+        transaction(db) {
+            DbShoppingListsResponse(listOf(ShoppingListModel()))
+        }
 }
