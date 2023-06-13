@@ -316,14 +316,10 @@ class RepoShoppingListPSQL(
 
     override suspend fun createStateContext(request: DbStateRequest): DbStateResponse {
         return transaction(db) {
-            try {
-                StateTable.insert {
-                    it[userId] = request.userId.toLong()
-                    it[shoppingListId] = request.shoppingListId.asUUID()
-                    it[lastMessageId] = request.messageId.toInt()
-                }
-            } catch (e: Exception) {
-                println("exception: $e")
+            StateTable.insertIgnore {
+                it[userId] = request.userId.toLong()
+                it[shoppingListId] = request.shoppingListId.asUUID()
+                it[lastMessageId] = request.messageId.toInt()
             }
             DbStateResponse(
                 request.userId,
