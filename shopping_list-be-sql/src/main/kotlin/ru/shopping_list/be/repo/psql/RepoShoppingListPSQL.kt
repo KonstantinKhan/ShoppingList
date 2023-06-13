@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.UUID
 import kotlin.collections.ArrayList
 
 class RepoShoppingListPSQL(
@@ -522,6 +523,57 @@ class RepoShoppingListPSQL(
 
     override suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse =
         transaction(db) {
-            DbShoppingListsResponse(listOf(ShoppingListModel()))
+
+//            val purchases = mutableMapOf<UUID, Collection<PurchaseModel>>()
+//
+//            val lists = ShoppingListTable
+//                .join(
+//                    TgUsersTable,
+//                    JoinType.INNER,
+//                    additionalConstraint = { TgUsersTable.id eq ShoppingListTable.userId }
+//                )
+//                .select {
+//                    ShoppingListTable.userId eq request.userId.toLong()
+//                }
+//                .map {
+//                    ShoppingListTable.from(it).copy(
+//                        user = TgUsersTable.from(it),
+//                    )
+//                }
+//
+//            ShoppingListTable
+//                .innerJoin(
+//                    PurchaseTable, { id }, { shoppingListId }
+//                )
+//                .select { ShoppingListTable.userId eq request.userId.toLong() }
+//                .forEach {
+//                    purchases[it[ShoppingListTable.id]] = listOf(
+//                        purchases[it[ShoppingListTable.id]] ?: emptyList(),
+//                        listOf(PurchaseTable.from(it))
+//                    ).flatten()
+//                }
+//
+//            val result = lists.map {
+//                it.copy(
+//                    purchaseList = purchases[it.id.asUUID()] ?: emptyList()
+//                )
+//            }
+
+            ShoppingListTable
+                .innerJoin(TgUsersTable, { userId }, { id })
+                .innerJoin(PurchaseTable, { PurchaseTable.shoppingListId }, { ShoppingListTable.id })
+                .select { ShoppingListTable.userId eq request.userId.toLong() }
+                .takeIf { !it.empty() }?.let { query ->
+                    query.map { resultRow ->
+                        ShoppingListTable.from(resultRow).copy(
+                            user = TgUsersTable.from(resultRow),
+                            purchaseList = listOf(PurchaseTable.from(resultRow))
+                        )
+                    }.groupBy({ it.copy(purchaseList = emptyList()) }, { it.purchaseList.first() }).map {
+                        it.key.copy(purchaseList = it.value)
+                    }
+                }?.let {
+                    DbShoppingListsResponse(it)
+                } ?: DbShoppingListsResponse()
         }
 }
