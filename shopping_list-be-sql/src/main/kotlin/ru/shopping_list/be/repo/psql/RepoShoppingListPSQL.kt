@@ -519,42 +519,6 @@ class RepoShoppingListPSQL(
 
     override suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse =
         transaction(db) {
-
-//            val purchases = mutableMapOf<UUID, Collection<PurchaseModel>>()
-//
-//            val lists = ShoppingListTable
-//                .join(
-//                    TgUsersTable,
-//                    JoinType.INNER,
-//                    additionalConstraint = { TgUsersTable.id eq ShoppingListTable.userId }
-//                )
-//                .select {
-//                    ShoppingListTable.userId eq request.userId.toLong()
-//                }
-//                .map {
-//                    ShoppingListTable.from(it).copy(
-//                        user = TgUsersTable.from(it),
-//                    )
-//                }
-//
-//            ShoppingListTable
-//                .innerJoin(
-//                    PurchaseTable, { id }, { shoppingListId }
-//                )
-//                .select { ShoppingListTable.userId eq request.userId.toLong() }
-//                .forEach {
-//                    purchases[it[ShoppingListTable.id]] = listOf(
-//                        purchases[it[ShoppingListTable.id]] ?: emptyList(),
-//                        listOf(PurchaseTable.from(it))
-//                    ).flatten()
-//                }
-//
-//            val result = lists.map {
-//                it.copy(
-//                    purchaseList = purchases[it.id.asUUID()] ?: emptyList()
-//                )
-//            }
-
             ShoppingListTable
                 .innerJoin(TgUsersTable, { userId }, { id })
                 .innerJoin(PurchaseTable, { PurchaseTable.shoppingListId }, { ShoppingListTable.id })
