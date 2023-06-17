@@ -22,6 +22,13 @@ fun BeContext.setMessageId(id: MessageId) = apply {
     messageId = id
 }
 
+fun BeContext.config(update: UpdateWithMessage) = apply {
+    shoppingList = shoppingList.copy(user = update.toModelUser())
+    messageText = update.message.text ?: ""
+    recipient = update.message.userShared?.let { TgUser(UserId(it.userId), "") } ?: TgUser.NONE
+
+}
+
 private fun UpdateWithMessage.toModelUser() = this.message.user?.let {
     TgUser(
         userId = UserId(it.userId),

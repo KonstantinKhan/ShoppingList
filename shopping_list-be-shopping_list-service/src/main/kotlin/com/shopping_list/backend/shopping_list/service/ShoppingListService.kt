@@ -1,5 +1,6 @@
 package com.shopping_list.backend.shopping_list.service
 
+import com.shopping_list.backend.mapping.config
 import com.shopping_list.backend.mapping.setQuery
 import com.shopping_list.backend.shopping_list.logic.ShoppingListProcessor
 import com.shopping_list.common.context.BeContext
@@ -52,5 +53,10 @@ class ShoppingListService(
     suspend fun showRelatedShoppingLists(context: BeContext, update: UpdateWithMessage) {
         context.setQuery(update)
         processor.showRelatedShoppingLists(context)
+    }
+
+    suspend fun handleMessage(context: BeContext, update: UpdateWithMessage) {
+        context.config(update)
+        processor.handleMessage(context)
     }
 }

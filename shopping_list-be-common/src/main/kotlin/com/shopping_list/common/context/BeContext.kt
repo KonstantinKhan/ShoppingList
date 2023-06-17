@@ -7,6 +7,7 @@ import com.shopping_list.common.models.shopping_list.ShoppingListId
 import com.shopping_list.common.models.shopping_list.ShoppingListModel
 import com.shopping_list.common.models.TgUser
 import com.shopping_list.repo.shopping_list.IRepoShoppingList
+import ru.ktglib.types.Message
 import ru.ktglib.types.User
 
 data class BeContext(
@@ -23,6 +24,7 @@ data class BeContext(
     val shoppingListsOfRecipient: MutableList<ShoppingListId> = mutableListOf(),
     val errors: MutableList<IError> = mutableListOf(),
     var bot: User = User.NONE,
-    var duplicateShoppingList: ShoppingListModel = ShoppingListModel()
+    var duplicateShoppingList: ShoppingListModel = ShoppingListModel(),
+    var messageText: String = ""
 )
 

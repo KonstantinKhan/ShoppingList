@@ -46,6 +46,10 @@ class ShoppingListProcessor(private val config: ShoppingListContextConfig = Shop
         ShowRelatedShoppingLists.exec(context.initSettings())
     }
 
+    suspend fun handleMessage(context: BeContext) {
+        HandleMessage.exec(context.initSettings())
+    }
+
     private fun BeContext.initSettings() = apply {
         config = this@ShoppingListProcessor.config
     }
