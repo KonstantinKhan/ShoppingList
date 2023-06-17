@@ -521,16 +521,28 @@ class RepoShoppingListPSQL(
         transaction(db) {
             ShoppingListTable
                 .innerJoin(TgUsersTable, { userId }, { id })
-                .innerJoin(PurchaseTable, { PurchaseTable.shoppingListId }, { ShoppingListTable.id })
+                .leftJoin(PurchaseTable, { ShoppingListTable.id }, { shoppingListId })
                 .select { ShoppingListTable.userId eq request.userId.toLong() }
                 .takeIf { !it.empty() }?.let { query ->
                     query.map { resultRow ->
-                        ShoppingListTable.from(resultRow).copy(
+                        resultRow[PurchaseTable.shoppingListId].takeIf { it != null }?.let {
+                            ShoppingListTable.from(resultRow).copy(
+                                user = TgUsersTable.from(resultRow),
+                                purchaseList = listOf(PurchaseTable.from(resultRow))
+                            )
+                        } ?: ShoppingListTable.from(resultRow).copy(
                             user = TgUsersTable.from(resultRow),
-                            purchaseList = listOf(PurchaseTable.from(resultRow))
                         )
-                    }.groupBy({ it.copy(purchaseList = emptyList()) }, { it.purchaseList.first() }).map {
-                        it.key.copy(purchaseList = it.value)
+                    }.groupBy({ it.copy(purchaseList = emptyList()) },
+                        {
+                            it.purchaseList.takeIf { purchases -> purchases.isNotEmpty() }?.first()
+                                ?: PurchaseModel.NONE
+                        }).map {
+                        it.key.copy(purchaseList = it.value.takeIf { purchaseList ->
+                            !purchaseList.contains(
+                                PurchaseModel.NONE
+                            )
+                        } ?: emptyList())
                     }
                 }?.let {
                     DbShoppingListsResponse(it)

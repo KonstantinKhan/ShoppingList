@@ -34,6 +34,12 @@ suspend inline fun routingUpdate(
                             shoppingListService.tidy(this, it)
                         }
                     }
+
+                    Commands.SHOW.value -> {
+                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
+                            shoppingListService.show(this, it)
+                        }
+                    }
 //
 //                    Commands.HELP.value -> {
 //                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
