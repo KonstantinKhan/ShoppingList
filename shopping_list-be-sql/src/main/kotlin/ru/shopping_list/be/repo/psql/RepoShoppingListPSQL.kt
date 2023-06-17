@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.UUID
 import kotlin.collections.ArrayList
 
 class RepoShoppingListPSQL(
@@ -162,12 +163,12 @@ class RepoShoppingListPSQL(
         }
     }
 
-    override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse {
+    override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsIdsResponse {
         return transaction(db) {
             ShoppingListTable.select { ShoppingListTable.userId eq request.userId.toLong() }.takeIf { !it.empty() }
                 ?.let { query ->
-                    DbShoppingListsResponse(query.map { ShoppingListId(it[ShoppingListTable.id]) })
-                } ?: DbShoppingListsResponse(emptyList())
+                    DbShoppingListsIdsResponse(query.map { ShoppingListId(it[ShoppingListTable.id]) })
+                } ?: DbShoppingListsIdsResponse(emptyList())
         }
     }
 
@@ -315,14 +316,10 @@ class RepoShoppingListPSQL(
 
     override suspend fun createStateContext(request: DbStateRequest): DbStateResponse {
         return transaction(db) {
-            try {
-                StateTable.insert {
-                    it[userId] = request.userId.toLong()
-                    it[shoppingListId] = request.shoppingListId.asUUID()
-                    it[lastMessageId] = request.messageId.toInt()
-                }
-            } catch (e: Exception) {
-                println("exception: $e")
+            StateTable.insertIgnore {
+                it[userId] = request.userId.toLong()
+                it[shoppingListId] = request.shoppingListId.asUUID()
+                it[lastMessageId] = request.messageId.toInt()
             }
             DbStateResponse(
                 request.userId,
@@ -518,5 +515,37 @@ class RepoShoppingListPSQL(
                         }.let { DbSharedStateResponse(it) }
                 }
             }
+        }
+
+    override suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse =
+        transaction(db) {
+            ShoppingListTable
+                .innerJoin(TgUsersTable, { userId }, { id })
+                .leftJoin(PurchaseTable, { ShoppingListTable.id }, { shoppingListId })
+                .select { ShoppingListTable.userId eq request.userId.toLong() }
+                .takeIf { !it.empty() }?.let { query ->
+                    query.map { resultRow ->
+                        resultRow[PurchaseTable.shoppingListId].takeIf { it != null }?.let {
+                            ShoppingListTable.from(resultRow).copy(
+                                user = TgUsersTable.from(resultRow),
+                                purchaseList = listOf(PurchaseTable.from(resultRow))
+                            )
+                        } ?: ShoppingListTable.from(resultRow).copy(
+                            user = TgUsersTable.from(resultRow),
+                        )
+                    }.groupBy({ it.copy(purchaseList = emptyList()) },
+                        {
+                            it.purchaseList.takeIf { purchases -> purchases.isNotEmpty() }?.first()
+                                ?: PurchaseModel.NONE
+                        }).map {
+                        it.key.copy(purchaseList = it.value.takeIf { purchaseList ->
+                            !purchaseList.contains(
+                                PurchaseModel.NONE
+                            )
+                        } ?: emptyList())
+                    }
+                }?.let {
+                    DbShoppingListsResponse(it)
+                } ?: DbShoppingListsResponse()
         }
 }

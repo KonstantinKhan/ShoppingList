@@ -17,6 +17,7 @@ data class BeContext(
     var messageId: MessageId = MessageId.NONE,
     var purchaseList: Collection<String> = emptyList(),
     var shoppingList: ShoppingListModel = ShoppingListModel(),
+    val shoppingLists: MutableList<ShoppingListModel> = mutableListOf(),
     var dependentShoppingLists: Collection<ShoppingListId> = emptyList(),
     var recipient: TgUser = TgUser.NONE,
     val shoppingListsOfRecipient: MutableList<ShoppingListId> = mutableListOf(),

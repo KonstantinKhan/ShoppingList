@@ -88,6 +88,10 @@ class RepoShoppingListInMemory(
         TODO("Not yet implemented")
     }
 
+    override suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse {
+        TODO("Not yet implemented")
+    }
+
     suspend fun updateMessageId(request: DBMessageIdRequest) {
         saveMessageId(request)
     }
@@ -105,7 +109,7 @@ class RepoShoppingListInMemory(
         save(request.shoppingList)
 
     override suspend fun readShoppingList(request: DbShoppingListIdRequest): DbShoppingListResponse = TODO()
-    override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsResponse {
+    override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsIdsResponse {
         TODO("Not yet implemented")
     }
 

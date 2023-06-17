@@ -5,4 +5,10 @@ data class PurchaseModel(
     val checked: Boolean = false
 ) {
     fun isNamesMatch(name: String) = this.name == name
+
+    companion object {
+        val NONE = PurchaseModel(
+            ""
+        )
+    }
 }

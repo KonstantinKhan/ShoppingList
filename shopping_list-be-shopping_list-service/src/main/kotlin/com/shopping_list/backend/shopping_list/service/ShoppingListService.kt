@@ -29,6 +29,11 @@ class ShoppingListService(
         processor.tidy(context)
     }
 
+    suspend fun show(context: BeContext, update: UpdateWithMessage) {
+        context.setQuery(update)
+        processor.show(context)
+    }
+
     suspend fun addPurchase(context: BeContext, update: UpdateWithMessage) {
         context.setQuery(update)
         processor.addPurchase(context)
