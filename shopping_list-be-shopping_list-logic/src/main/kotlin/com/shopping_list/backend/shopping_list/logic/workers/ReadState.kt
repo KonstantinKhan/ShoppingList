@@ -11,6 +11,7 @@ fun CorChainDsl<BeContext>.repoReadState(title: String) = worker {
         shoppingListRepo.readState(DbUserIdRequest(shoppingList.user.userId)).let {
             messageId = it.messageId
             shoppingList = shoppingList.copy(it.shoppingListId)
+            action = it.action
         }
     }
 }

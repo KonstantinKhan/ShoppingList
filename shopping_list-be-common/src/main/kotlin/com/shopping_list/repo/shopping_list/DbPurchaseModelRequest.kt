@@ -6,5 +6,5 @@ import com.shopping_list.repo.IDbRequest
 
 class DbPurchaseModelRequest(
     val shoppingListId: ShoppingListId,
-    val purchase: Collection<PurchaseModel>
+    val purchaseList: Collection<PurchaseModel>
 ) : IDbRequest

@@ -9,9 +9,9 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 import com.shopping_list.response.Response
+import ru.shopping_list.sender_service.jsonHelper
 
 suspend fun HttpClient.sendCurrentShoppingList(context: BeContext): Response {
     val response = this.post("sendMessage") {
@@ -36,10 +36,6 @@ suspend fun HttpClient.sendCurrentShoppingList(context: BeContext): Response {
             parseMode = "MarkdownV2"
         })
     }
-
-    val json = Json {
-        ignoreUnknownKeys = true
-    }
-    return json.decodeFromString(response.bodyAsText())
+    return jsonHelper().decodeFromString(response.bodyAsText())
 }
 

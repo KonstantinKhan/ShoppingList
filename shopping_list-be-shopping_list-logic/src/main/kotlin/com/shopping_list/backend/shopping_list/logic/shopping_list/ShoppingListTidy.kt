@@ -10,7 +10,7 @@ object ShoppingListTidy : ICorExecutor<BeContext> by chain({
     repoReadState("Read the context state")
     deleteChecked("Delete checked items")
     sendCurrentShoppingList("Send the current shopping list")
-    updateStateContext("Update the state of context")
+    updateState("Update the state of context")
 
 //    repoRead("Read from DB")
 //    prepareForTidy("Prepare the shopping list")

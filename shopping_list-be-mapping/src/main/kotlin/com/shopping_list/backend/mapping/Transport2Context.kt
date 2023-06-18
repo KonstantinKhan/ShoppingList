@@ -15,7 +15,7 @@ fun BeContext.setQuery(update: UpdateWithMessage) = apply {
 
 fun BeContext.setQuery(update: UpdateWithCallbackQuery) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
-    purchaseList = update.callbackQuery.data?.lines() ?: emptyList()
+    messageText = update.callbackQuery.data ?: ""
 }
 
 fun BeContext.setMessageId(id: MessageId) = apply {

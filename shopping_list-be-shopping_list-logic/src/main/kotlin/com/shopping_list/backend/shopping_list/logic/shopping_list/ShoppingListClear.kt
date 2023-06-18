@@ -10,5 +10,5 @@ object ShoppingListClear : ICorExecutor<BeContext> by chain({
     repoReadState("Read the context state")
     clearShoppingList("Clear the shopping list")
     sendCurrentShoppingList("Send the current shopping list")
-    updateStateContext("Update the state of context")
+    updateState("Update the state of context")
 }).build()

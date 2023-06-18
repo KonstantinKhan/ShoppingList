@@ -59,8 +59,11 @@ suspend inline fun routingUpdate(
                             }
                         } else
                             handleUpdate<UpdateWithMessage>(config, updateRequest) {
-                                shoppingListService.addPurchase(this, it)
+                                shoppingListService.handleMessage(this, it)
                             }
+//                            handleUpdate<UpdateWithMessage>(config, updateRequest) {
+//                                shoppingListService.addPurchase(this, it)
+//                            }
 //                        handleUpdate<UpdateWithMessage>(updateRequest) { update ->
 //                            shoppingListService.addPurchase(this, update)
 //                            if (messageId != MessageId.NONE) {

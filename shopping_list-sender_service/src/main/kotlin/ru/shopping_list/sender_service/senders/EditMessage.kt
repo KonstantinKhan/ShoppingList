@@ -12,6 +12,7 @@ import com.shopping_list.response.Response
 import ru.shopping_list.sender_service.jsonHelper
 
 suspend fun HttpClient.editMessage(context: BeContext): Response {
+    println("edit message: ${context.shoppingList.purchaseList}")
     val response = this.post("editMessageText") {
         contentType(ContentType.Application.Json)
         setBody(editMessageText {

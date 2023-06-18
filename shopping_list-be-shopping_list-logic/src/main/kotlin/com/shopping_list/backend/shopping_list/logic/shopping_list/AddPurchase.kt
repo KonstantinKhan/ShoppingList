@@ -18,7 +18,7 @@ object AddPurchase : ICorExecutor<BeContext> by chain<BeContext>({
         }
         checkPurchase("Check purchase")
         sendCurrentShoppingList("Send the current shopping list")
-        updateStateContext("Update the state of context")
+        updateState("Update the state of context")
     }
 
     chain {
@@ -32,7 +32,7 @@ object AddPurchase : ICorExecutor<BeContext> by chain<BeContext>({
             }
         }
         sendCurrentShoppingList("Send the current shopping list")
-        updateStateContext("Update the state of context")
+        updateState("Update the state of context")
     }
 
     chain {
@@ -42,7 +42,7 @@ object AddPurchase : ICorExecutor<BeContext> by chain<BeContext>({
         }
         addPurchase("Added a purchase to the shoppingList in context")
         sendCurrentShoppingList("Send the current shopping list")
-        updateStateContext("Update the state of context")
+        updateState("Update the state of context")
     }
 
 

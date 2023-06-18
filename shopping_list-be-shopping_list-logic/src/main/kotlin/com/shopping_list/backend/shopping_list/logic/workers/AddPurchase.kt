@@ -10,16 +10,14 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.addPurchase(title: String) = worker {
     this.title = title
     handle {
-
         shoppingListRepo.readSharedData(DbShoppingListIdRequest(shoppingList.id)).sharedShoppingLists.takeIf {
             it.isNotEmpty()
         }?.let { lists ->
-            println("lists: $lists")
             lists.forEach { list ->
                 shoppingListRepo.createPurchase(
                     DbPurchaseModelRequest(
                         list.id,
-                        purchase = purchaseList.map { PurchaseModel(it, false) }
+                        purchaseList = purchaseList.map { PurchaseModel(it, false) }
                     )
                 )
             }
@@ -28,10 +26,15 @@ fun CorChainDsl<BeContext>.addPurchase(title: String) = worker {
         shoppingListRepo.createPurchase(
             DbPurchaseModelRequest(
                 shoppingList.id,
-                purchase = purchaseList.map { PurchaseModel(it, false) }
+                purchaseList = messageText.lines().takeIf { it.isNotEmpty() }
+                    ?.let {
+                        it.map { purchase ->
+                            PurchaseModel(purchase, false)
+                        }
+                    } ?: emptyList()
             )
         ).result.let {
-            shoppingList = dbShoppingList.copy(purchaseList = it.purchaseList)
+            dbShoppingList = shoppingList.copy(purchaseList = it.purchaseList)
         }
     }
 }

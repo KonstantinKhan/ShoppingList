@@ -2,7 +2,6 @@ package com.shopping_list.backend.shopping_list.logic.workers
 
 import com.shopping_list.common.context.BeContext
 import com.shopping_list.common.models.MessageId
-import com.shopping_list.common.models.UserId
 import com.shopping_list.common.models.shopping_list.ShoppingListId
 import com.shopping_list.repo.shopping_list.DbStateRequest
 import com.shopping_list.repo.shopping_list.DbUserIdRequest
@@ -21,7 +20,7 @@ fun CorChainDsl<BeContext>.sendSharedShoppingList(title: String) = worker {
             if (it is Message) {
                 shoppingListRepo.readState(DbUserIdRequest(recipient.userId)).let { response ->
                     if (response.shoppingListId == ShoppingListId.NONE && response.messageId == MessageId.NONE) {
-                        shoppingListRepo.createStateContext(
+                        shoppingListRepo.createState(
                             DbStateRequest(
                                 userId = recipient.userId,
                                 shoppingListId = duplicateShoppingList.id,

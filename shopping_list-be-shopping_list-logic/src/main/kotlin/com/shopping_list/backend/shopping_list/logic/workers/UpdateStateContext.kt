@@ -5,7 +5,7 @@ import com.shopping_list.repo.shopping_list.DbStateRequest
 import ru.fit_changes.cor.CorChainDsl
 import ru.fit_changes.cor.worker
 
-fun CorChainDsl<BeContext>.updateStateContext(title: String) = worker {
+fun CorChainDsl<BeContext>.updateState(title: String) = worker {
     this.title = title
     handle {
         val result = shoppingListRepo.updateStateContext(

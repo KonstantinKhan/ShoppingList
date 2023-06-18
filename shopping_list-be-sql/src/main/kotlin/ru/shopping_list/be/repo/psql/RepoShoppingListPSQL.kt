@@ -11,7 +11,6 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.UUID
 import kotlin.collections.ArrayList
 
 class RepoShoppingListPSQL(
@@ -111,9 +110,7 @@ class RepoShoppingListPSQL(
     override suspend fun createShoppingList(request: DbShoppingListRequest): DbShoppingListResponse = save(request)
 
     override suspend fun readShoppingList(request: DbShoppingListIdRequest): DbShoppingListResponse {
-
         return transaction(db) {
-
             val purchaseList = PurchaseTable.select {
                 PurchaseTable.shoppingListId eq request.shoppingListId.asUUID()
             }.orderBy(PurchaseTable.checked to SortOrder.ASC, PurchaseTable.name to SortOrder.ASC)
@@ -123,7 +120,7 @@ class RepoShoppingListPSQL(
                         it[PurchaseTable.checked]
                     )
                 }
-
+            println("purchases: $purchaseList")
             val prototypeShoppingLists = SharedShoppingListTable.select {
                 SharedShoppingListTable.duplicateShoppingList eq request.shoppingListId.asUUID()
             }.takeIf { !it.empty() }?.let { query ->
@@ -174,7 +171,7 @@ class RepoShoppingListPSQL(
 
     override suspend fun createPurchase(request: DbPurchaseModelRequest): DbShoppingListResponse {
         return transaction(db) {
-            PurchaseTable.batchInsert(request.purchase) {
+            PurchaseTable.batchInsert(request.purchaseList) {
                 this[PurchaseTable.shoppingListId] = request.shoppingListId.asUUID()
                 this[PurchaseTable.name] = it.name
                 this[PurchaseTable.checked] = it.checked
@@ -302,9 +299,20 @@ class RepoShoppingListPSQL(
         }
     }
 
-    override suspend fun updateShoppingList(request: DbShoppingListRequest): DbShoppingListResponse {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateShoppingList(request: DbShoppingListRequest): DbShoppingListResponse =
+        transaction(db) {
+            PurchaseTable.select { PurchaseTable.shoppingListId eq request.shoppingList.id.asUUID() }
+                .takeIf { !it.empty() }
+                ?.forEach {
+                    request.changeShoppingList.forEach { purchase ->
+                        if (purchase.name == it[PurchaseTable.name])
+                            PurchaseTable.update({ PurchaseTable.name eq purchase.name }) {
+                                it[checked] = purchase.checked
+                            }
+                    }
+                }
+            DbShoppingListResponse()
+        }
 
     override suspend fun readMessageId(request: DBMessageIdRequest): DbMessageIdResponse {
         TODO("Not yet implemented")
@@ -314,12 +322,14 @@ class RepoShoppingListPSQL(
         TODO("Not yet implemented")
     }
 
-    override suspend fun createStateContext(request: DbStateRequest): DbStateResponse {
+    override suspend fun createState(request: DbStateRequest): DbStateResponse {
+        println("action: ${request.action}")
         return transaction(db) {
             StateTable.insertIgnore {
                 it[userId] = request.userId.toLong()
                 it[shoppingListId] = request.shoppingListId.asUUID()
                 it[lastMessageId] = request.messageId.toInt()
+                it[action] = request.action.name
             }
             DbStateResponse(
                 request.userId,
@@ -355,14 +365,16 @@ class RepoShoppingListPSQL(
                     StateContext(
                         request.userId,
                         ShoppingListId(row[StateTable.shoppingListId]),
-                        MessageId(row[StateTable.lastMessageId])
+                        MessageId(row[StateTable.lastMessageId]),
+                        Action.valueOf(row[StateTable.action])
                     )
                 }
             }) {
                 DbStateResponse(
                     userId = request.userId,
                     shoppingListId = this?.shoppingListId ?: ShoppingListId.NONE,
-                    messageId = this?.messageId ?: MessageId.NONE
+                    messageId = this?.messageId ?: MessageId.NONE,
+                    action = this?.action ?: Action.NONE
                 )
             }
         }
@@ -454,7 +466,6 @@ class RepoShoppingListPSQL(
                             )
                         }.let { DbSharedShoppingList(it) }
                 } else {
-                    println("else===")
                     ShoppingListTable
                         .join(
                             SharedShoppingListTable,

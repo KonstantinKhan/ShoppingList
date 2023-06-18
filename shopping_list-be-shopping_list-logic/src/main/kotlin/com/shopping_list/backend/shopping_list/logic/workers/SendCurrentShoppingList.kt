@@ -13,7 +13,6 @@ fun CorChainDsl<BeContext>.sendCurrentShoppingList(title: String) = worker {
     this.title = title
     on { errors.isEmpty() }
     handle {
-
         if (recipient == TgUser.NONE)
             shoppingListRepo.readSharedData(DbShoppingListIdRequest(shoppingList.id))
                 .sharedShoppingLists.takeIf { it.isNotEmpty() }?.let { lists ->
@@ -35,9 +34,11 @@ fun CorChainDsl<BeContext>.sendCurrentShoppingList(title: String) = worker {
                         }
                     }
                 }
-
         httpClient.sendCurrentShoppingList(this).result?.let {
             messageId = MessageId((it as Message).messageId)
         }
+    }
+    except {
+        println("error: $it")
     }
 }

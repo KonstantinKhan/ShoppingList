@@ -2,6 +2,7 @@ package com.shopping_list.common.context
 
 import com.shopping_list.IHttpClient
 import com.shopping_list.common.IError
+import com.shopping_list.common.models.Action
 import com.shopping_list.common.models.MessageId
 import com.shopping_list.common.models.shopping_list.ShoppingListId
 import com.shopping_list.common.models.shopping_list.ShoppingListModel
@@ -25,6 +26,7 @@ data class BeContext(
     val errors: MutableList<IError> = mutableListOf(),
     var bot: User = User.NONE,
     var duplicateShoppingList: ShoppingListModel = ShoppingListModel(),
-    var messageText: String = ""
+    var messageText: String = "",
+    var action: Action = Action.NONE
 )
 

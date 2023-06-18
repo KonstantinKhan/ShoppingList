@@ -60,7 +60,7 @@ class RepoShoppingListInMemory(
     override suspend fun createMessageId(request: DBMessageIdRequest): DbMessageIdResponse =
         saveMessageId(request)
 
-    override suspend fun createStateContext(request: DbStateRequest): DbStateResponse {
+    override suspend fun createState(request: DbStateRequest): DbStateResponse {
         TODO("Not yet implemented")
     }
 

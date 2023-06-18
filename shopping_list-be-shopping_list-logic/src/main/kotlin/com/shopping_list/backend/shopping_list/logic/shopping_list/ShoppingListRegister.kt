@@ -11,5 +11,5 @@ object ShoppingListRegister : ICorExecutor<BeContext> by chain({
     createShoppingList("Create shopping list")
     createStateContext("Create the context state")
     sendWelcomeMessage("Sending welcome message")
-    updateStateContext("Update context in DB")
+    updateState("Update context in DB")
 }).build()
