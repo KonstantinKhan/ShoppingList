@@ -11,7 +11,7 @@ object HandleMessage : ICorExecutor<BeContext> by chain<BeContext>({
     repoReadState("Read the state from the DB")
     repoReadShoppingList("Read the shopping list from DB")
     chain {
-        on { action == Action.ADD_PURCHASE }
+        on { action == Action.PURCHASE }
         chain {
             on { dbShoppingList.isContainsCheckedPurchase(messageText.lines()) }
             checkPurchase("Check purchase")
