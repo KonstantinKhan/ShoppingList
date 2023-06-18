@@ -22,8 +22,8 @@ class ShoppingListProcessor(private val config: ShoppingListContextConfig = Shop
         ShoppingListTidy.exec(context.initSettings())
     }
 
-    suspend fun show(context: BeContext) {
-        ShoppingListShow.exec(context.initSettings())
+    suspend fun choose(context: BeContext) {
+        ShoppingListChoose.exec(context.initSettings())
     }
 
     suspend fun create(context: BeContext) {

@@ -6,7 +6,7 @@ import com.shopping_list.common.context.BeContext
 import ru.fit_changes.cor.ICorExecutor
 import ru.fit_changes.cor.chain
 
-object ShoppingListShow : ICorExecutor<BeContext> by chain({
+object ShoppingListChoose : ICorExecutor<BeContext> by chain({
     chooseDb("Choose DB")
     searchLists("Search user lists")
 }).build()

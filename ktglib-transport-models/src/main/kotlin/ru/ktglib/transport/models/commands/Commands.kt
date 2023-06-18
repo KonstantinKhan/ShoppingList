@@ -6,5 +6,5 @@ enum class Commands(val value: String) {
     CLEAR("/clear"),
     TIDY("/tidy"),
     RELATED("/related"),
-    SHOW("/show")
+    CHOOSE("/choose")
 }
