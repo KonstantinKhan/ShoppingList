@@ -1,7 +1,10 @@
 package ru.shopping_list.sender_service.senders
 
 import com.shopping_list.common.context.BeContext
+import com.shopping_list.lib.telegram.api.dsl.button
+import com.shopping_list.lib.telegram.api.dsl.inlineKeyboardMarkup
 import com.shopping_list.lib.telegram.api.dsl.message
+import com.shopping_list.lib.telegram.api.dsl.row
 import com.shopping_list.response.Response
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -16,7 +19,18 @@ suspend fun HttpClient.showLists(context: BeContext): Response = jsonHelper().de
         setBody(
             message {
                 chatId = context.shoppingList.user.userId.toLong()
-                text = context.shoppingLists.joinToString("\n") { it.title.toString() }
+                text = "Текущий список \uD83D\uDC49 ${context.shoppingList.title} \n" +
+                        "Ваши списки \uD83D\uDC47"
+                replyMarkup = inlineKeyboardMarkup {
+                    context.shoppingLists.map {
+                        row {
+                            button {
+                                text = it.title.toString()
+                                callbackData = it.title.toString()
+                            }
+                        }
+                    }
+                }
             }
         )
     }.bodyAsText()
