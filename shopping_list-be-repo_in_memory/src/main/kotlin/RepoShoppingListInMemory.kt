@@ -120,9 +120,6 @@ class RepoShoppingListInMemory(
 //            ?: DbShoppingListResponse(
 //                result = null
 //            )
-    override suspend fun togglePurchase(request: DbPurchaseRequest): DbShoppingListResponse {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun deleteCheckedPurchases(request: DbStateRequest): DbShoppingListResponse {
         TODO("Not yet implemented")
