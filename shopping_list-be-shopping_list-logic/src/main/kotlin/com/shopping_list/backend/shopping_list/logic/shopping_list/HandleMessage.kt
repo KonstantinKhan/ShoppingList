@@ -5,7 +5,6 @@ import com.shopping_list.common.context.BeContext
 import com.shopping_list.common.models.Action
 import ru.fit_changes.cor.ICorExecutor
 import ru.fit_changes.cor.chain
-import ru.fit_changes.cor.worker
 
 object HandleMessage : ICorExecutor<BeContext> by chain<BeContext>({
     chooseDb("Choose DB")
