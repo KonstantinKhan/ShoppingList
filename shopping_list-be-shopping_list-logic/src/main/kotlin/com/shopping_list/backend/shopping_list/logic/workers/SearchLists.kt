@@ -7,10 +7,11 @@ import ru.fit_changes.cor.worker
 
 fun CorChainDsl<BeContext>.searchLists(title: String) = worker {
     handle {
-        shoppingListRepo.searchShoppingList(DbFilterShoppingListRequest(shoppingList.user.userId)).shoppingLists.let {
+        shoppingListRepo.searchShoppingList(
+            DbFilterShoppingListRequest(shoppingList.user.userId)
+        ).shoppingLists.let {
             shoppingLists.addAll(it)
         }
-        httpClient.showLists(this)
     }
     except {
         println("exception: ${it.message}")
