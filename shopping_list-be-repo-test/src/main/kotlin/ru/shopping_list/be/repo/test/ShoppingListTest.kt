@@ -114,24 +114,6 @@ abstract class ShoppingListTest : ShouldSpec() {
             println("shopping list: ${result.result}")
             result.result shouldBe expected
         }
-        should("successfully toggle the purchase") {
-            val result = runBlocking {
-                repo.togglePurchase(
-                    DbPurchaseRequest(
-                        listOf("milk"),
-                        randomShoppingListId,
-                        user.userId
-                    )
-                )
-            }
-            val expected = createShoppingList.copy(
-                randomShoppingListId,
-                purchaseList = (createShoppingList.purchaseList + PurchaseModel("milk", true))
-                    .sortedBy { it.name }
-            )
-            println("shopping list: ${result.result}")
-            result.result shouldBe expected
-        }
         should("successfully delete checked purchases") {
             val result = runBlocking {
                 repo.deleteCheckedPurchases(

@@ -189,44 +189,6 @@ class RepoShoppingListPSQL(
         }
     }
 
-    override suspend fun togglePurchase(request: DbPurchaseRequest): DbShoppingListResponse {
-        return transaction(db) {
-            val computedChecked =
-                PurchaseTable.select {
-                    Op.build {
-                        PurchaseTable.shoppingListId eq request.shoppingListId.asUUID() and
-                                (PurchaseTable.name inList request.purchase)
-                    }
-                }.associate { it[PurchaseTable.name] to it[PurchaseTable.checked] }
-
-            computedChecked.forEach { pair ->
-                PurchaseTable.update({
-                    Op.build {
-                        PurchaseTable.shoppingListId eq request.shoppingListId.asUUID() and
-                                (PurchaseTable.name eq pair.key)
-                    }
-                }) {
-                    it[checked] = !pair.value
-                }
-            }
-
-            val purchaseList = PurchaseTable.select {
-                PurchaseTable.shoppingListId eq request.shoppingListId.asUUID()
-            }.orderBy(PurchaseTable.checked to SortOrder.ASC, PurchaseTable.name to SortOrder.ASC).map {
-                PurchaseModel(
-                    it[PurchaseTable.name],
-                    it[PurchaseTable.checked]
-                )
-            }
-            DbShoppingListResponse(
-                result = ShoppingListModel(
-                    request.shoppingListId,
-                    purchaseList = purchaseList
-                )
-            )
-        }
-    }
-
     override suspend fun deleteCheckedPurchases(request: DbStateRequest): DbShoppingListResponse {
         return transaction(db) {
             PurchaseTable.deleteWhere {

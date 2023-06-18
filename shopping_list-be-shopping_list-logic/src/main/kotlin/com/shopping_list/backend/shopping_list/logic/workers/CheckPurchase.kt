@@ -11,26 +11,6 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.checkPurchase(title: String) = worker {
     this.title = title
     handle {
-
-        shoppingListRepo.readSharedData(DbShoppingListIdRequest(shoppingList.id)).sharedShoppingLists.takeIf {
-            it.isNotEmpty()
-        }?.let { lists ->
-            lists.forEach { list ->
-                shoppingListRepo.togglePurchase(
-                    DbPurchaseRequest(
-                        messageText.lines(),
-                        list.id,
-                        list.user.userId
-                    )
-                )
-            }
-        }
-
-        println("shopping list id: ${dbShoppingList.id}")
-        println("messageText: $messageText")
-        println("purchases: ${dbShoppingList.purchaseList}")
-        println("change list: ${dbShoppingList.purchaseList.filter { messageText.lines().contains(it.name) }}")
-
         shoppingListRepo.updateShoppingList(
             DbShoppingListRequest(
                 dbShoppingList,
