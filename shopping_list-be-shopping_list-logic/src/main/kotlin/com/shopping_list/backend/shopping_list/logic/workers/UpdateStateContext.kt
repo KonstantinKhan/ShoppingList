@@ -8,11 +8,12 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.updateState(title: String) = worker {
     this.title = title
     handle {
-        val result = shoppingListRepo.updateStateContext(
+        val result = shoppingListRepo.updateState(
             DbStateRequest(
                 userId = shoppingList.user.userId,
                 messageId = messageId,
-                shoppingListId = shoppingList.id
+                shoppingListId = shoppingList.id,
+                action = action
             )
         )
     }

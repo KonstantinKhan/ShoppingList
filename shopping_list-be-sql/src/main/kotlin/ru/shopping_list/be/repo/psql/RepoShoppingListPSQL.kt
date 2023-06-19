@@ -342,10 +342,11 @@ class RepoShoppingListPSQL(
         }
     }
 
-    override suspend fun updateStateContext(request: DbStateRequest): DbStateResponse {
+    override suspend fun updateState(request: DbStateRequest): DbStateResponse {
         return transaction(db) {
             StateTable.update({ StateTable.userId eq request.userId.toLong() }) {
                 it[lastMessageId] = request.messageId.toInt()
+                it[action] = request.action.name
             }
             DbStateResponse(request.userId, request.shoppingListId, request.messageId)
         }

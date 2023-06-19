@@ -68,7 +68,7 @@ class RepoShoppingListInMemory(
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateStateContext(request: DbStateRequest): DbStateResponse {
+    override suspend fun updateState(request: DbStateRequest): DbStateResponse {
         TODO("Not yet implemented")
     }
 

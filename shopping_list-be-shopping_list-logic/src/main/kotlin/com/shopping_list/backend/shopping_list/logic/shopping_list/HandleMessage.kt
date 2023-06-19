@@ -40,4 +40,6 @@ object HandleMessage : ICorExecutor<BeContext> by chain<BeContext>({
             updateState("Update the state of context")
         }
     }
+    searchLists("")
+    showLists()
 }).build()

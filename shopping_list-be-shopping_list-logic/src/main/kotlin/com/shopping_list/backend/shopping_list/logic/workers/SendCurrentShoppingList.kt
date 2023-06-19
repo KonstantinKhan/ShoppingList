@@ -24,7 +24,7 @@ fun CorChainDsl<BeContext>.sendCurrentShoppingList(title: String) = worker {
                                 )
                             )
                         ).result?.let {
-                            shoppingListRepo.updateStateContext(
+                            shoppingListRepo.updateState(
                                 DbStateRequest(
                                     userId = list.user.userId,
                                     shoppingListId = list.id,

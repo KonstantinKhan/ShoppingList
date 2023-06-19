@@ -28,7 +28,7 @@ fun CorChainDsl<BeContext>.sendSharedShoppingList(title: String) = worker {
                             )
                         )
                     } else {
-                        shoppingListRepo.updateStateContext(
+                        shoppingListRepo.updateState(
                             DbStateRequest(
                                 recipient.userId,
                                 shoppingListId = duplicateShoppingList.id,

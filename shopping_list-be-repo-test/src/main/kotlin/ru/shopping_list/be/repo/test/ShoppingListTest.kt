@@ -62,7 +62,7 @@ abstract class ShoppingListTest : ShouldSpec() {
         should("successfully update a state context with a new message") {
             println("6")
             val result = runBlocking {
-                repo.updateStateContext(
+                repo.updateState(
                     DbStateRequest(
                         userId = createShoppingList.user.userId,
                         shoppingListId = createShoppingList.id,
@@ -82,7 +82,7 @@ abstract class ShoppingListTest : ShouldSpec() {
             println("state before messageId: ${state.messageId}")
             val result = runBlocking {
                 repo.createShoppingList(DbShoppingListRequest(createShoppingList.copy(randomShoppingListId)))
-                repo.updateStateContext(
+                repo.updateState(
                     DbStateRequest(
                         userId = createShoppingList.user.userId,
                         shoppingListId = randomShoppingListId,
