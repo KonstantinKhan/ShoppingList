@@ -23,11 +23,6 @@ suspend fun HttpClient.showLists(context: BeContext): Response = jsonHelper().de
                         "Ваши списки \uD83D\uDC47"
                 replyMarkup = inlineKeyboardMarkup {
                     context.shoppingLists.map {
-                        println(
-                            """
-                                it: "${it.id.asUUID()}"
-                            """.trimIndent()
-                        )
                         row {
                             button {
                                 text = it.title.toString()

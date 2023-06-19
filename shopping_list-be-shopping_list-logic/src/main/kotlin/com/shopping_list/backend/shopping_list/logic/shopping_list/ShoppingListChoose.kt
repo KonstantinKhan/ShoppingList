@@ -10,12 +10,14 @@ import ru.fit_changes.cor.worker
 object ShoppingListChoose : ICorExecutor<BeContext> by chain<BeContext>({
     chooseDb("Choose DB")
     repoReadState("")
-    searchLists("Search user lists")
-    showLists()
+    repoReadShoppingList("")
+    prepareShoppingList()
     worker {
         handle {
             action = Action.CHOOSE_LIST
         }
     }
+    searchLists("Search user lists")
+    showLists()
     updateState("")
 }).build()

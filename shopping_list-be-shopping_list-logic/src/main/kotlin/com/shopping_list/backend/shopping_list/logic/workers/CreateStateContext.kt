@@ -18,7 +18,7 @@ fun CorChainDsl<BeContext>.createStateContext(title: String) = worker {
             DbStateRequest(
                 shoppingList.user.userId,
                 shoppingList.id,
-                action = Action.PURCHASE
+                action = Action.UPDATE_PURCHASE_LIST
             )
         )
         shoppingList = shoppingList.copy(result.shoppingListId)

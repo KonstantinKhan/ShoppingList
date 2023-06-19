@@ -84,7 +84,9 @@ suspend inline fun routingUpdate(
 //
             is UpdateWithCallbackQuery -> {
                 handleUpdate<UpdateWithCallbackQuery>(config, updateRequest) {
-                    shoppingListService.checkPurchase(this, it)
+                    shoppingListService.handleCallbackData(this, it)
+//                handleUpdate<UpdateWithCallbackQuery>(config, updateRequest) {
+//                    shoppingListService.checkPurchase(this, it)
                 }
 
 //                httpClient.answerCallbackQuery(

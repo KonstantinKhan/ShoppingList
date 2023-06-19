@@ -12,7 +12,6 @@ object AddPurchase : ICorExecutor<BeContext> by chain<BeContext>({
     repoReadShoppingList("Read from DB")
 
     chain {
-
         on {
             dbShoppingList.isContainsCheckedPurchase(purchaseList)
         }
@@ -22,7 +21,6 @@ object AddPurchase : ICorExecutor<BeContext> by chain<BeContext>({
     }
 
     chain {
-
         on {
             dbShoppingList.isContainsUncheckedPurchase(purchaseList)
         }
@@ -34,7 +32,6 @@ object AddPurchase : ICorExecutor<BeContext> by chain<BeContext>({
         sendCurrentShoppingList("Send the current shopping list")
         updateState("Update the state of context")
     }
-
     chain {
         on {
             !dbShoppingList.isContainsCheckedPurchase(purchaseList)
@@ -44,6 +41,4 @@ object AddPurchase : ICorExecutor<BeContext> by chain<BeContext>({
         sendCurrentShoppingList("Send the current shopping list")
         updateState("Update the state of context")
     }
-
-
 }).build()

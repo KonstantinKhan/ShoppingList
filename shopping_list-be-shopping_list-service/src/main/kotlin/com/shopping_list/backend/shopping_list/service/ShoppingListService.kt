@@ -59,4 +59,9 @@ class ShoppingListService(
         context.config(update)
         processor.handleMessage(context)
     }
+
+    suspend fun handleCallbackData(context: BeContext, update: UpdateWithCallbackQuery) {
+        context.config(update)
+        processor.handleCallbackData(context)
+    }
 }

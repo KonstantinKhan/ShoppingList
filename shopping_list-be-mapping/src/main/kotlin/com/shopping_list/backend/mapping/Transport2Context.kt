@@ -26,7 +26,11 @@ fun BeContext.config(update: UpdateWithMessage) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
     messageText = update.message.text ?: ""
     recipient = update.message.userShared?.let { TgUser(UserId(it.userId), "") } ?: TgUser.NONE
+}
 
+fun BeContext.config(update: UpdateWithCallbackQuery) = apply {
+    shoppingList = shoppingList.copy(user = update.toModelUser())
+    messageText = update.callbackQuery.data ?: ""
 }
 
 private fun UpdateWithMessage.toModelUser() = this.message.user?.let {
