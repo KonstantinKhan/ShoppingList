@@ -13,7 +13,6 @@ fun CorChainDsl<BeContext>.sendSharedShoppingList(title: String) = worker {
     this.title = title
     on { errors.isEmpty() }
     handle {
-        println("handle")
         httpClient.sendRecipientNotification(this)
 
         httpClient.sendCurrentShoppingList(this.copy(shoppingList = shoppingList.copy(user = recipient))).result?.let {

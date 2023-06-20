@@ -12,6 +12,5 @@ fun CorChainDsl<BeContext>.readShoppingListsOfRecipient(title: String) = worker 
         shoppingListRepo.readShoppingLists(DbUserIdRequest(recipient.userId)).shoppingLists.let {
             shoppingListsOfRecipient.addAll(it)
         }
-        println("lists: $shoppingListsOfRecipient")
     }
 }

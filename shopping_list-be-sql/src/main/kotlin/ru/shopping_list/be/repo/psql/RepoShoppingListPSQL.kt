@@ -366,42 +366,50 @@ class RepoShoppingListPSQL(
 
     override suspend fun shareShoppingList(request: DbSharedShoppingListRequest): DbShoppingListResponse {
         return transaction(db) {
-            SharedShoppingListTable.select {
-                Op.build {
-                    SharedShoppingListTable.sourceShoppingList eq request.sourceShoppingList.asUUID() and
-                            (SharedShoppingListTable.duplicateShoppingList
-                                    inList request.shoppingListsOfUserConsumer.map { it.asUUID() })
-                }
-            }.takeIf { it.empty() }?.let {
-                val computedShoppingList = ShoppingListTable.insert {
-                    it[title] = "Связанный список"
-                    it[userId] = request.userConsumer.userId.toLong()
-                } get ShoppingListTable.id
-
-                val duplicateId = SharedShoppingListTable.insert {
-                    it[sourceShoppingList] = request.sourceShoppingList.asUUID()
-                    it[duplicateShoppingList] = computedShoppingList
-                } get SharedShoppingListTable.duplicateShoppingList
-                val purchaseList =
-                    PurchaseTable.select { PurchaseTable.shoppingListId eq request.sourceShoppingList.asUUID() }
-                        .takeIf { !it.empty() }?.let { query ->
-                            query.map { row ->
-                                PurchaseTable.insert {
-                                    it[shoppingListId] = computedShoppingList
-                                    it[name] = row[name]
-                                    it[checked] = row[checked]
-                                }
-                                PurchaseModel(row[PurchaseTable.name], row[PurchaseTable.checked])
-                            }
-                        } ?: emptyList()
-                DbShoppingListResponse(
-                    ShoppingListModel(
-                        id = ShoppingListId(duplicateId),
-                        purchaseList = purchaseList
-                    )
+            SharedShoppingListTable
+                .innerJoin(
+                    ShoppingListTable,
+                    { sourceShoppingList },
+                    { id }
                 )
-            } ?: DbShoppingListResponse(
-                error = CommonErrorModel("Вы уже поделились списком с этим пользователем")
+                .select {
+                    Op.build {
+                        (SharedShoppingListTable.sourceShoppingList eq request.sourceShoppingList.asUUID() and
+                                (SharedShoppingListTable.duplicateShoppingList
+                                        inList request.shoppingListsOfUserConsumer.map { it.asUUID() }) or
+                                (SharedShoppingListTable.duplicateShoppingList eq request.sourceShoppingList.asUUID() and
+                                        (ShoppingListTable.userId eq request.userConsumer.userId.toLong())))
+                    }
+                }.takeIf { it.empty() }?.let {
+                    val computedShoppingList = ShoppingListTable.insert {
+                        it[title] = "Связанный список"
+                        it[userId] = request.userConsumer.userId.toLong()
+                    } get ShoppingListTable.id
+
+                    val duplicateId = SharedShoppingListTable.insert {
+                        it[sourceShoppingList] = request.sourceShoppingList.asUUID()
+                        it[duplicateShoppingList] = computedShoppingList
+                    } get SharedShoppingListTable.duplicateShoppingList
+                    val purchaseList =
+                        PurchaseTable.select { PurchaseTable.shoppingListId eq request.sourceShoppingList.asUUID() }
+                            .takeIf { !it.empty() }?.let { query ->
+                                query.map { row ->
+                                    PurchaseTable.insert {
+                                        it[shoppingListId] = computedShoppingList
+                                        it[name] = row[name]
+                                        it[checked] = row[checked]
+                                    }
+                                    PurchaseModel(row[PurchaseTable.name], row[PurchaseTable.checked])
+                                }
+                            } ?: emptyList()
+                    DbShoppingListResponse(
+                        ShoppingListModel(
+                            id = ShoppingListId(duplicateId),
+                            purchaseList = purchaseList
+                        )
+                    )
+                } ?: DbShoppingListResponse(
+                error = CommonErrorModel("Ваш список уже связан со списком пользователя")
             )
         }
     }
