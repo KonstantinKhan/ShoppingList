@@ -120,7 +120,6 @@ class RepoShoppingListPSQL(
                         it[PurchaseTable.checked]
                     )
                 }
-            println("purchases: $purchaseList")
             val prototypeShoppingLists = SharedShoppingListTable.select {
                 SharedShoppingListTable.duplicateShoppingList eq request.shoppingListId.asUUID()
             }.takeIf { !it.empty() }?.let { query ->
@@ -416,12 +415,10 @@ class RepoShoppingListPSQL(
 
     override suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList {
         return transaction(db) {
-
             SharedShoppingListTable.select {
                 SharedShoppingListTable.sourceShoppingList eq request.shoppingListId.asUUID()
             }.let { query ->
                 if (!query.empty()) {
-                    println("if===")
                     ShoppingListTable
                         .join(
                             SharedShoppingListTable,
@@ -452,7 +449,6 @@ class RepoShoppingListPSQL(
                             )
                         }.let { DbSharedShoppingList(it) }
                 }
-
             }
         }
     }

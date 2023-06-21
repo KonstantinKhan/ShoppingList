@@ -15,6 +15,6 @@ object ShareShoppingList : ICorExecutor<BeContext> by chain({
     readShoppingListsOfRecipient("Read shopping lists of the user consumer")
     shareShoppingList("Shared the shopping list")
     sendCurrentShoppingList("Send current shopping list")
-    sendSharedShoppingList("Send shared shopping list")
+//    sendSharedShoppingList("Send shared shopping list")
     sendError()
 }).build()

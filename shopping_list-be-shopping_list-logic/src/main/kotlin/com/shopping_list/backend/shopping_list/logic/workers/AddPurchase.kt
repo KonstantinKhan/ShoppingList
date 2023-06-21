@@ -17,7 +17,12 @@ fun CorChainDsl<BeContext>.addPurchase(title: String) = worker {
                 shoppingListRepo.createPurchase(
                     DbPurchaseModelRequest(
                         list.id,
-                        purchaseList = purchaseList.map { PurchaseModel(it, false) }
+                        purchaseList = messageText.lines().takeIf { it.isNotEmpty() }
+                            ?.let {
+                                it.map { purchase ->
+                                    PurchaseModel(purchase, false)
+                                }
+                            } ?: emptyList()
                     )
                 )
             }
