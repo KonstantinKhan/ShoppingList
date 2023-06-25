@@ -18,7 +18,7 @@ suspend fun HttpClient.sendCurrentShoppingList(context: BeContext): Response {
         contentType(ContentType.Application.Json)
         setBody(message {
             chatId = context.shoppingList.user.userId.toLong()
-            text = "Список покупок: \\\n" +
+            text = "${if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} Список покупок:\\\n" +
                     context.shoppingList.purchaseList.joinToString("\n") {
                         if (it.checked) "~${it.name}~"
                         else it.name
