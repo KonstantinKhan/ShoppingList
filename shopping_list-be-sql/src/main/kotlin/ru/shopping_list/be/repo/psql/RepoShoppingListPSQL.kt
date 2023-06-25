@@ -444,7 +444,8 @@ class RepoShoppingListPSQL(
                         .map { result ->
                             ShoppingListModel(
                                 id = ShoppingListId(result[ShoppingListTable.id]),
-                                user = TgUser(UserId(result[ShoppingListTable.userId]), "")
+                                user = TgUser(UserId(result[ShoppingListTable.userId]), ""),
+                                title = ShoppingListTitle(result[ShoppingListTable.title])
                             )
                         }.let { DbSharedShoppingList(it) }
                 } else {
@@ -459,6 +460,7 @@ class RepoShoppingListPSQL(
                             ShoppingListModel(
                                 id = ShoppingListId(result[ShoppingListTable.id]),
                                 user = TgUser(UserId(result[ShoppingListTable.userId]), ""),
+                                title = ShoppingListTitle(result[ShoppingListTable.title])
                             )
                         }.let { DbSharedShoppingList(it) }
                 }

@@ -59,11 +59,6 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
 
     chain {
         on { action == Action.DELETE_LIST }
-//        worker {
-//            handle {
-//                shoppingList = shoppingList.copy(id = ShoppingListId(messageText))
-//            }
-//        }
         deleteList()
         worker {
             handle {
