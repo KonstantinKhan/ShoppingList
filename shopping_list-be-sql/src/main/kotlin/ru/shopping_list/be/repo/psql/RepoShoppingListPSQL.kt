@@ -159,7 +159,9 @@ class RepoShoppingListPSQL(
                             )
                         )
                     }
-                } ?: DbShoppingListResponse()
+                } ?: DbShoppingListResponse(
+                    error = CommonErrorModel("ShoppingList is empty")
+                )
         }
     }
 
