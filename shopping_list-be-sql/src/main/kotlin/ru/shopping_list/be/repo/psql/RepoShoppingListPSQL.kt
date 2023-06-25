@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 import kotlin.collections.ArrayList
 
 class RepoShoppingListPSQL(
@@ -526,5 +527,34 @@ class RepoShoppingListPSQL(
                 }?.let {
                     DbShoppingListsResponse(it)
                 } ?: DbShoppingListsResponse()
+        }
+
+    private fun relatedLists(id: UUID): List<UUID> {
+        tailrec fun innerFun(list1: List<UUID>, list2: List<UUID>): List<UUID> =
+            if (list1.isEmpty())
+                list2
+            else {
+                val result = list1.map { searchRelatedLists(it) }.flatten().filter { it != id && !list2.contains(it) }
+                innerFun(result, list2 + result)
+            }
+
+        val result = searchRelatedLists(id)
+        return innerFun(result, result)
+    }
+
+    private fun searchRelatedLists(id: UUID): List<UUID> =
+        SharedShoppingListTable.select {
+            SharedShoppingListTable.sourceShoppingList eq id
+        }.let { query ->
+            if (!query.empty())
+                query.map { result -> result[SharedShoppingListTable.duplicateShoppingList] }
+            else
+                SharedShoppingListTable.select {
+                    SharedShoppingListTable.duplicateShoppingList eq id
+                }.let { secondQuery ->
+                    if (!secondQuery.empty())
+                        secondQuery.map { result -> result[SharedShoppingListTable.sourceShoppingList] }
+                    else emptyList()
+                }
         }
 }

@@ -18,22 +18,22 @@ fun CorChainDsl<BeContext>.sendCurrentShoppingList(title: String) = worker {
             shoppingListRepo.readSharedData(DbShoppingListIdRequest(shoppingList.id))
                 .sharedShoppingLists.takeIf { it.isNotEmpty() }?.let { lists ->
                     lists.forEach { list ->
-                        httpClient.sendCurrentShoppingList(
-                            this.copy(
-                                shoppingList = shoppingList.copy(
-                                    user = list.user
-                                )
-                            )
-                        ).result?.let {
-                            shoppingListRepo.updateState(
-                                DbStateRequest(
-                                    userId = list.user.userId,
-                                    shoppingListId = list.id,
-                                    messageId = MessageId((it as Message).messageId),
-                                    action = Action.UPDATE_PURCHASE_LIST
-                                )
-                            )
-                        }
+//                        httpClient.sendCurrentShoppingList(
+//                            this.copy(
+//                                shoppingList = shoppingList.copy(
+//                                    user = list.user
+//                                )
+//                            )
+//                        ).result?.let {
+//                            shoppingListRepo.updateState(
+//                                DbStateRequest(
+//                                    userId = list.user.userId,
+//                                    shoppingListId = list.id,
+//                                    messageId = MessageId((it as Message).messageId),
+//                                    action = Action.UPDATE_PURCHASE_LIST
+//                                )
+//                            )
+//                        }
                     }
                 }
         httpClient.sendCurrentShoppingList(this).result?.let {
