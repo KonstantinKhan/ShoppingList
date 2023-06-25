@@ -37,4 +37,21 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
         updateState("")
     }
 
+    chain {
+        on { action == Action.DETACH_LIST }
+        worker {
+            handle {
+                shoppingList = shoppingList.copy(id = ShoppingListId(messageText))
+            }
+        }
+        detachList()
+        worker {
+            handle {
+                action = Action.CHOOSE_LIST
+            }
+        }
+        searchLists("Search user lists")
+        showLists()
+        updateState("")
+    }
 }).build()

@@ -64,4 +64,9 @@ class ShoppingListService(
         context.config(update)
         processor.handleCallbackData(context)
     }
+
+    suspend fun detach(context: BeContext, update: UpdateWithMessage) {
+        context.setQuery(update)
+        processor.detach(context)
+    }
 }

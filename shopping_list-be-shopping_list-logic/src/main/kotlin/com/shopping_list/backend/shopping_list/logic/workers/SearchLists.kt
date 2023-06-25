@@ -7,7 +7,7 @@ import ru.fit_changes.cor.CorChainDsl
 import ru.fit_changes.cor.worker
 
 fun CorChainDsl<BeContext>.searchLists(title: String) = worker {
-    on { action == Action.CHOOSE_LIST }
+    on { action == Action.CHOOSE_LIST || action == Action.DETACH_LIST}
     handle {
         shoppingListRepo.searchShoppingList(
             DbFilterShoppingListRequest(shoppingList.user.userId)

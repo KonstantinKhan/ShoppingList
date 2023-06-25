@@ -17,6 +17,7 @@ interface IRepoShoppingList {
     suspend fun clearShoppingList(request: DbStateRequest): DbShoppingListResponse
     suspend fun shareShoppingList(request: DbSharedShoppingListRequest): DbShoppingListResponse
     suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList
+    suspend fun deleteShareData(request: DbShoppingListIdRequest): DbSharedShoppingList
     suspend fun readSharedState(request: DbShoppingListIdRequest): DbSharedStateResponse
     suspend fun searchShoppingList(request: DbFilterShoppingListRequest): DbShoppingListsResponse
 
@@ -83,6 +84,10 @@ interface IRepoShoppingList {
         }
 
         override suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun deleteShareData(request: DbShoppingListIdRequest): DbSharedShoppingList {
             TODO("Not yet implemented")
         }
 

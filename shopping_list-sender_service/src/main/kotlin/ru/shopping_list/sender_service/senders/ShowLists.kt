@@ -25,7 +25,8 @@ suspend fun HttpClient.showLists(context: BeContext): Response = jsonHelper().de
                     context.shoppingLists.map {
                         row {
                             button {
-                                text = it.title.toString()
+                                text =
+                                    "${if (it.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} ${it.title.toString()}"
                                 callbackData = "${it.id.asUUID()}"
                             }
                         }

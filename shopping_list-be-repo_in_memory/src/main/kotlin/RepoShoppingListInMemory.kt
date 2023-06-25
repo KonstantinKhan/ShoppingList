@@ -84,6 +84,10 @@ class RepoShoppingListInMemory(
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteShareData(request: DbShoppingListIdRequest): DbSharedShoppingList {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun readSharedState(request: DbShoppingListIdRequest): DbSharedStateResponse {
         TODO("Not yet implemented")
     }

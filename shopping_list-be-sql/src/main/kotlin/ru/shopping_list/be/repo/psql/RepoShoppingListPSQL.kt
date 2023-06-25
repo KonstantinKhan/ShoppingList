@@ -457,6 +457,17 @@ class RepoShoppingListPSQL(
         }
     }
 
+    override suspend fun deleteShareData(request: DbShoppingListIdRequest): DbSharedShoppingList =
+        transaction(db) {
+            SharedShoppingListTable.deleteWhere {
+                sourceShoppingList eq request.shoppingListId.asUUID() or
+                        (duplicateShoppingList eq request.shoppingListId.asUUID())
+            }
+            DbSharedShoppingList(
+                sharedShoppingLists = emptyList()
+            )
+        }
+
     override suspend fun readSharedState(request: DbShoppingListIdRequest): DbSharedStateResponse =
         transaction(db) {
             SharedShoppingListTable.select {
@@ -511,10 +522,12 @@ class RepoShoppingListPSQL(
                         resultRow[PurchaseTable.shoppingListId].takeIf { it != null }?.let {
                             ShoppingListTable.from(resultRow).copy(
                                 user = TgUsersTable.from(resultRow),
-                                purchaseList = listOf(PurchaseTable.from(resultRow))
+                                purchaseList = listOf(PurchaseTable.from(resultRow)),
+                                relatedLists = relatedLists(it).map { ShoppingListId(it) }
                             )
                         } ?: ShoppingListTable.from(resultRow).copy(
                             user = TgUsersTable.from(resultRow),
+                            relatedLists = relatedLists(resultRow[ShoppingListTable.id]).map { ShoppingListId(it) }
                         )
                     }.groupBy({ it.copy(purchaseList = emptyList()) },
                         {

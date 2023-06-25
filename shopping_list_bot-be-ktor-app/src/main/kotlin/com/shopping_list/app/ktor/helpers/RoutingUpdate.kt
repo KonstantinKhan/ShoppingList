@@ -40,6 +40,12 @@ suspend inline fun routingUpdate(
                             shoppingListService.choose(this, it)
                         }
                     }
+
+                    Commands.DETACH.value -> {
+                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
+                            shoppingListService.detach(this, it)
+                        }
+                    }
 //
 //                    Commands.HELP.value -> {
 //                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
