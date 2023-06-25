@@ -18,11 +18,12 @@ suspend fun HttpClient.editMessage(context: BeContext): Response {
         setBody(editMessageText {
             chatId = context.shoppingList.user.userId.toLong()
             messageId = context.messageId.toInt()
-            text = "Список покупок: \\\n" +
-                    context.shoppingList.purchaseList.joinToString("\n") {
-                        if (it.checked) "~${it.name}~"
-                        else it.name
-                    }
+            text =
+                "${if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} Список покупок: \\\n" +
+                        context.shoppingList.purchaseList.joinToString("\n") {
+                            if (it.checked) "~${it.name}~"
+                            else it.name
+                        }
             replyMarkup = inlineKeyboardMarkup {
                 context.shoppingList.purchaseList.filter { !it.checked }.map {
                     row {
