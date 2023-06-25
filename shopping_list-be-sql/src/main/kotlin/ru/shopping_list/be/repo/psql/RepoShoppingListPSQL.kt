@@ -160,8 +160,8 @@ class RepoShoppingListPSQL(
                         )
                     }
                 } ?: DbShoppingListResponse(
-                    error = CommonErrorModel("ShoppingList is empty")
-                )
+                error = CommonErrorModel("ShoppingList is empty")
+            )
         }
     }
 
@@ -430,43 +430,51 @@ class RepoShoppingListPSQL(
 
     override suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList {
         return transaction(db) {
-            SharedShoppingListTable.select {
-                SharedShoppingListTable.sourceShoppingList eq request.shoppingListId.asUUID()
-            }.let { query ->
-                if (!query.empty()) {
-                    ShoppingListTable
-                        .join(
-                            SharedShoppingListTable,
-                            JoinType.INNER,
-                            additionalConstraint = {
-                                SharedShoppingListTable.duplicateShoppingList eq ShoppingListTable.id
-                            }
-                        )
-                        .selectAll()
-                        .map { result ->
-                            ShoppingListModel(
-                                id = ShoppingListId(result[ShoppingListTable.id]),
-                                user = TgUser(UserId(result[ShoppingListTable.userId]), ""),
-                                title = ShoppingListTitle(result[ShoppingListTable.title])
-                            )
-                        }.let { DbSharedShoppingList(it) }
-                } else {
-                    ShoppingListTable
-                        .join(
-                            SharedShoppingListTable,
-                            JoinType.INNER,
-                            additionalConstraint = { SharedShoppingListTable.sourceShoppingList eq ShoppingListTable.id }
-                        )
-                        .selectAll()
-                        .map { result ->
-                            ShoppingListModel(
-                                id = ShoppingListId(result[ShoppingListTable.id]),
-                                user = TgUser(UserId(result[ShoppingListTable.userId]), ""),
-                                title = ShoppingListTitle(result[ShoppingListTable.title])
-                            )
-                        }.let { DbSharedShoppingList(it) }
-                }
+            val v = relatedLists(request.shoppingListId.asUUID())
+            println("ids: $v")
+            ShoppingListTable.select { ShoppingListTable.id inList v }.map {
+                ShoppingListTable.from(it)
+            }.let {
+                DbSharedShoppingList(it)
             }
+
+//            SharedShoppingListTable.select {
+//                SharedShoppingListTable.sourceShoppingList eq request.shoppingListId.asUUID()
+//            }.let { query ->
+//                if (!query.empty()) {
+//                    ShoppingListTable
+//                        .join(
+//                            SharedShoppingListTable,
+//                            JoinType.INNER,
+//                            additionalConstraint = {
+//                                SharedShoppingListTable.duplicateShoppingList eq ShoppingListTable.id
+//                            }
+//                        )
+//                        .selectAll()
+//                        .map { result ->
+//                            ShoppingListModel(
+//                                id = ShoppingListId(result[ShoppingListTable.id]),
+//                                user = TgUser(UserId(result[ShoppingListTable.userId]), ""),
+//                                title = ShoppingListTitle(result[ShoppingListTable.title])
+//                            )
+//                        }.let { DbSharedShoppingList(it) }
+//                } else {
+//                    ShoppingListTable
+//                        .join(
+//                            SharedShoppingListTable,
+//                            JoinType.INNER,
+//                            additionalConstraint = { SharedShoppingListTable.sourceShoppingList eq ShoppingListTable.id }
+//                        )
+//                        .selectAll()
+//                        .map { result ->
+//                            ShoppingListModel(
+//                                id = ShoppingListId(result[ShoppingListTable.id]),
+//                                user = TgUser(UserId(result[ShoppingListTable.userId]), ""),
+//                                title = ShoppingListTitle(result[ShoppingListTable.title])
+//                            )
+//                        }.let { DbSharedShoppingList(it) }
+//                }
+//            }
         }
     }
 

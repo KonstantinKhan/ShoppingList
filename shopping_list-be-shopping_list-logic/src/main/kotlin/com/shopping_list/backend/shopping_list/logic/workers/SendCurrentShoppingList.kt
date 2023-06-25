@@ -17,6 +17,7 @@ fun CorChainDsl<BeContext>.sendCurrentShoppingList(title: String) = worker {
         if (recipient == TgUser.NONE)
             shoppingListRepo.readSharedData(DbShoppingListIdRequest(shoppingList.id))
                 .sharedShoppingLists.takeIf { it.isNotEmpty() }?.let { lists ->
+                    println("lists: $lists")
                     lists.forEach { list ->
                         httpClient.sendCurrentShoppingList(
                             this.copy(

@@ -1,6 +1,7 @@
 package com.shopping_list.backend.shopping_list.logic.workers
 
 import com.shopping_list.common.context.BeContext
+import com.shopping_list.common.models.Action
 import com.shopping_list.common.models.MessageId
 import com.shopping_list.common.models.shopping_list.ShoppingListId
 import com.shopping_list.repo.shopping_list.DbStateRequest
@@ -23,7 +24,8 @@ fun CorChainDsl<BeContext>.sendSharedShoppingList(title: String) = worker {
                             DbStateRequest(
                                 userId = recipient.userId,
                                 shoppingListId = duplicateShoppingList.id,
-                                messageId = MessageId(id = it.messageId)
+                                messageId = MessageId(id = it.messageId),
+                                action = Action.UPDATE_PURCHASE_LIST
                             )
                         )
                     } else {
@@ -31,7 +33,8 @@ fun CorChainDsl<BeContext>.sendSharedShoppingList(title: String) = worker {
                             DbStateRequest(
                                 recipient.userId,
                                 shoppingListId = duplicateShoppingList.id,
-                                messageId = MessageId(it.messageId)
+                                messageId = MessageId(it.messageId),
+                                action = Action.UPDATE_PURCHASE_LIST
                             )
                         )
                     }
