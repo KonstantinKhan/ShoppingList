@@ -7,5 +7,6 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.prepareShoppingList() = worker {
     handle {
         shoppingList = dbShoppingList
+        println("shoppingList: $shoppingList")
     }
 }

@@ -29,6 +29,9 @@ class ShoppingListProcessor(private val config: ShoppingListContextConfig = Shop
     suspend fun detach(context: BeContext) {
         ShoppingListDetach.exec(context.initSettings())
     }
+    suspend fun delete(context: BeContext) {
+        ShoppingListDelete.exec(context.initSettings())
+    }
 
     suspend fun create(context: BeContext) {
         ShoppingListCreate.exec(context.initSettings())

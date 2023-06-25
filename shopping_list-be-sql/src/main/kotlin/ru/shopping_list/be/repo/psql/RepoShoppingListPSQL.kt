@@ -163,6 +163,12 @@ class RepoShoppingListPSQL(
         }
     }
 
+    override suspend fun deleteList(request: DbShoppingListIdRequest): DbShoppingListResponse =
+        transaction(db) {
+            ShoppingListTable.deleteWhere { id eq request.shoppingListId.asUUID() }
+            DbShoppingListResponse()
+        }
+
     override suspend fun readShoppingLists(request: DbUserIdRequest): DbShoppingListsIdsResponse {
         return transaction(db) {
             ShoppingListTable.select { ShoppingListTable.userId eq request.userId.toLong() }.takeIf { !it.empty() }

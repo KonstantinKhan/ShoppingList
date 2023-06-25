@@ -56,7 +56,7 @@ object PurchaseTable : Table("purchase") {
 
 object StateTable : Table("state") {
     val userId = reference("user_id", TgUsersTable.id, onDelete = ReferenceOption.CASCADE).uniqueIndex()
-    val shoppingListId = reference("shopping_list_id", ShoppingListTable.id, onDelete = ReferenceOption.CASCADE)
+    val shoppingListId = uuid("shopping_list_id")
     val lastMessageId = integer("message_id")
     val action = varchar("action", 128)
 }

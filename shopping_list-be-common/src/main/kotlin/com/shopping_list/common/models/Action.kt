@@ -4,5 +4,6 @@ enum class Action() {
     NONE,
     UPDATE_PURCHASE_LIST,
     CHOOSE_LIST,
-    DETACH_LIST
+    DETACH_LIST,
+    DELETE_LIST,
 }

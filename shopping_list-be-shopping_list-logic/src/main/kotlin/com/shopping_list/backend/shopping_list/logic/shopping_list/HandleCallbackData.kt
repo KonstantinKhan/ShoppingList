@@ -4,6 +4,8 @@ import com.shopping_list.backend.shopping_list.logic.workers.*
 import com.shopping_list.common.context.BeContext
 import com.shopping_list.common.models.Action
 import com.shopping_list.common.models.shopping_list.ShoppingListId
+import com.shopping_list.common.models.shopping_list.ShoppingListModel
+import com.shopping_list.repo.shopping_list.DbShoppingListRequest
 import ru.fit_changes.cor.ICorExecutor
 import ru.fit_changes.cor.chain
 import ru.fit_changes.cor.worker
@@ -51,6 +53,39 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
             }
         }
         searchLists("Search user lists")
+        showLists()
+        updateState("")
+    }
+
+    chain {
+        on { action == Action.DELETE_LIST }
+//        worker {
+//            handle {
+//                shoppingList = shoppingList.copy(id = ShoppingListId(messageText))
+//            }
+//        }
+        deleteList()
+        worker {
+            handle {
+                action = Action.CHOOSE_LIST
+            }
+        }
+        searchLists("Search user lists")
+        chain {
+            on { shoppingLists.isEmpty() }
+            worker {
+                handle {
+                    shoppingListRepo.createShoppingList(
+                        DbShoppingListRequest(
+                            shoppingList = ShoppingListModel(
+                                user = shoppingList.user,
+                            )
+                        )
+                    )
+                }
+            }
+            searchLists("Search user lists")
+        }
         showLists()
         updateState("")
     }

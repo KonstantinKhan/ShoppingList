@@ -7,7 +7,9 @@ import ru.fit_changes.cor.worker
 
 fun CorChainDsl<BeContext>.showLists() = worker {
     on {
-        action == Action.CHOOSE_LIST || action == Action.DETACH_LIST
+        action == Action.CHOOSE_LIST
+                || action == Action.DETACH_LIST
+                || action == Action.DELETE_LIST
     }
     handle {
         httpClient.showLists(this)
