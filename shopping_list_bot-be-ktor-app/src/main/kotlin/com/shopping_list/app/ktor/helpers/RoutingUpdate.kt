@@ -52,6 +52,12 @@ suspend inline fun routingUpdate(
                             shoppingListService.delete(this, it)
                         }
                     }
+
+                    Commands.CREATE.value -> {
+                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
+                            shoppingListService.create(this, it)
+                        }
+                    }
 //
 //                    Commands.HELP.value -> {
 //                        handleUpdate<UpdateWithMessage>(config, updateRequest) {

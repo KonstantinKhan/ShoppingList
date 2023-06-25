@@ -9,4 +9,5 @@ enum class Commands(val value: String) {
     CHOOSE("/choose"),
     DETACH("/detach"),
     DELETE("/delete"),
+    CREATE("/create"),
 }

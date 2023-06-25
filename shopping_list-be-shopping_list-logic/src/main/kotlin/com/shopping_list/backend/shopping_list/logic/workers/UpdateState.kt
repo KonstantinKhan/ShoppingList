@@ -8,10 +8,6 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.updateState(title: String) = worker {
     this.title = title
     handle {
-        println("action: $action")
-        println("userId: ${shoppingList.user.userId}")
-        println("messageId: $messageId")
-        println("shoppingListId: ${shoppingList.id}")
         val result = shoppingListRepo.updateState(
             DbStateRequest(
                 userId = shoppingList.user.userId,
@@ -20,7 +16,6 @@ fun CorChainDsl<BeContext>.updateState(title: String) = worker {
                 action = action
             )
         )
-        println("result: $result")
     }
     except { it ->
         println("error: $it")

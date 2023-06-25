@@ -69,6 +69,11 @@ class ShoppingListService(
         context.setQuery(update)
         processor.detach(context)
     }
+
+    suspend fun create(context: BeContext, update: UpdateWithMessage) {
+        context.config(update)
+        processor.create(context)
+    }
     suspend fun delete(context: BeContext, update: UpdateWithMessage) {
         context.config(update)
         processor.delete(context)
