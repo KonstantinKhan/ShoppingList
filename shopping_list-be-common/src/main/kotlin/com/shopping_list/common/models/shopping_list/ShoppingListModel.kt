@@ -8,7 +8,8 @@ data class ShoppingListModel(
     val user: TgUser = TgUser.NONE,
     val purchaseList: Collection<PurchaseModel> = emptyList(),
     val prototypeShoppingLists: Collection<ShoppingListId> = emptyList(),
-    val derivativeShoppingList: Collection<ShoppingListId> = emptyList()
+    val derivativeShoppingList: Collection<ShoppingListId> = emptyList(),
+    val relatedLists: Collection<ShoppingListId> = emptyList()
 ) {
     fun isContainsUncheckedPurchase(purchaseList: Collection<String>) =
         this.purchaseList.filter { !it.checked }.map { it.name }

@@ -10,6 +10,7 @@ fun CorChainDsl<BeContext>.repoReadShoppingList(title: String) = worker {
     handle {
         shoppingListRepo.readShoppingList(DbShoppingListIdRequest(shoppingList.id)).result.let {
             dbShoppingList = it
+            println("dbShoppingList: $dbShoppingList")
         }
     }
 }

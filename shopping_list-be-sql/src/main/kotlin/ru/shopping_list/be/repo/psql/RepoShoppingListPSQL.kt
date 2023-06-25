@@ -133,6 +133,8 @@ class RepoShoppingListPSQL(
                 query.map { ShoppingListId(it[SharedShoppingListTable.duplicateShoppingList]) }
             } ?: emptyList()
 
+            val relatedShoppingLists = relatedLists(request.shoppingListId.asUUID()).map { ShoppingListId(it) }
+
             ShoppingListTable
                 .join(
                     TgUsersTable,
@@ -152,7 +154,8 @@ class RepoShoppingListPSQL(
                                 ),
                                 purchaseList,
                                 prototypeShoppingLists,
-                                derivativeShoppingList
+                                derivativeShoppingList,
+                                relatedLists = relatedShoppingLists
                             )
                         )
                     }
