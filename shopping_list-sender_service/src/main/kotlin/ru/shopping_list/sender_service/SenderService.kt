@@ -39,6 +39,7 @@ class SenderService(
         client.sendRecipientNotification(context)
 
     override suspend fun showLists(context: BeContext): Response = client.showLists(context)
+    override suspend fun sendListTitle(context: BeContext): Response = client.sendListTitle(context)
 
     override suspend fun deleteMessage(context: BeContext) =
         client.deleteMessage(context.shoppingList.user.userId, context.messageId)

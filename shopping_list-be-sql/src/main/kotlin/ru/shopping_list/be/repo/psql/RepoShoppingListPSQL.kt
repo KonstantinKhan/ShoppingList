@@ -282,6 +282,9 @@ class RepoShoppingListPSQL(
                             }
                     }
                 }
+            ShoppingListTable.update({ ShoppingListTable.id eq request.shoppingList.id.asUUID() }) {
+                it[title] = request.shoppingList.title.toString()
+            }
             DbShoppingListResponse()
         }
 

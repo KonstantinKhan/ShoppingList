@@ -58,6 +58,12 @@ suspend inline fun routingUpdate(
                             shoppingListService.create(this, it)
                         }
                     }
+
+                    Commands.UPDATE.value -> {
+                        handleUpdate<UpdateWithMessage>(config, updateRequest) {
+                            shoppingListService.update(this, it)
+                        }
+                    }
 //
 //                    Commands.HELP.value -> {
 //                        handleUpdate<UpdateWithMessage>(config, updateRequest) {

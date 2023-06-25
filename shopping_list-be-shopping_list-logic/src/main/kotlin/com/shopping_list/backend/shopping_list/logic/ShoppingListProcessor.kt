@@ -37,6 +37,10 @@ class ShoppingListProcessor(private val config: ShoppingListContextConfig = Shop
         ShoppingListCreate.exec(context.initSettings())
     }
 
+    suspend fun update(context: BeContext) {
+        ShoppingListUpdate.exec(context.initSettings())
+    }
+
     suspend fun addPurchase(context: BeContext) {
         AddPurchase.exec(context.initSettings())
     }

@@ -10,4 +10,5 @@ enum class Commands(val value: String) {
     DETACH("/detach"),
     DELETE("/delete"),
     CREATE("/create"),
+    UPDATE("/update"),
 }

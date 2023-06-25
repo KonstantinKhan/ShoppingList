@@ -10,6 +10,7 @@ fun CorChainDsl<BeContext>.showLists() = worker {
         action == Action.CHOOSE_LIST
                 || action == Action.DETACH_LIST
                 || action == Action.DELETE_LIST
+                || action == Action.UPDATE_LIST
     }
     handle {
         httpClient.showLists(this)

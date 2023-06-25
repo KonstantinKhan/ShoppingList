@@ -6,4 +6,5 @@ enum class Action() {
     CHOOSE_LIST,
     DETACH_LIST,
     DELETE_LIST,
+    UPDATE_LIST
 }

@@ -78,4 +78,9 @@ class ShoppingListService(
         context.config(update)
         processor.delete(context)
     }
+
+    suspend fun update(context: BeContext, update: UpdateWithMessage) {
+        context.config(update)
+        processor.update(context)
+    }
 }

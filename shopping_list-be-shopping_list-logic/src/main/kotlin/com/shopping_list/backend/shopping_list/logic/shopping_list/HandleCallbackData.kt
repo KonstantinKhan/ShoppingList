@@ -89,4 +89,17 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
         showLists()
         updateState("")
     }
+
+    chain {
+        on { action == Action.UPDATE_LIST }
+        worker {
+            handle {
+                shoppingList = shoppingList.copy(id = ShoppingListId(messageText))
+            }
+        }
+        repoReadShoppingList("")
+        prepareShoppingList()
+        sendListTitle()
+        updateState("")
+    }
 }).build()
