@@ -26,8 +26,8 @@ class RepoShoppingListPSQL(
 
     init {
         runBlocking {
-            initObjects.forEach { shoppingList ->
-                transaction(db) {
+            transaction(db) {
+                initObjects.forEach { shoppingList ->
                     TgUsersTable.insert {
                         it[id] = shoppingList.user.userId.toLong()
                         it[firstName] = shoppingList.user.firstName
@@ -50,9 +50,7 @@ class RepoShoppingListPSQL(
                         it[userId] = shoppingList.user.userId.toLong()
                         it[shoppingListId] = shoppingList.id.asUUID()
                         it[lastMessageId] = -1
-                    }
-                    ShoppingListTable.selectAll().forEach {
-                        println("${it[ShoppingListTable.userId]} : ${it[ShoppingListTable.title]} : ${it[ShoppingListTable.id]}")
+                        it[action] = "UPDATE_PURCHASE_LIST"
                     }
                 }
             }

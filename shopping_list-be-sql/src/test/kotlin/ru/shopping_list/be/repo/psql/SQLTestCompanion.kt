@@ -23,7 +23,7 @@ object SQLTestCompanion {
     private val url: String by lazy { container.jdbcUrl }
 
     fun repoUnderTestContainer(
-        initObjects: Collection<ShoppingListModel> = emptyList(),
+        initObjects: Collection<ShoppingListModel>,
     ): RepoShoppingListPSQL {
         return RepoShoppingListPSQL(
             url,
