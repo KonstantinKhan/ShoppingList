@@ -19,15 +19,18 @@ class RepoShoppingListPSQL(
     driver: String = "org.postgresql.Driver",
     user: String = "postgres",
     password: String = "admin",
-    initObjects: Collection<ShoppingListModel> = emptyList(),
+    initShoppingLists: Collection<ShoppingListModel> = emptyList(),
+    initStates: Collection<State> = emptyList(),
+    initSharedData: Collection<Pair<ShoppingListId, ShoppingListId>> = emptyList()
+
 ) : IRepoShoppingList {
 
     private val db by lazy { SqlConnector(url, driver, user, password).connect() }
 
     init {
         runBlocking {
-            initObjects.forEach { shoppingList ->
-                transaction(db) {
+            transaction(db) {
+                initShoppingLists.forEach { shoppingList ->
                     TgUsersTable.insert {
                         it[id] = shoppingList.user.userId.toLong()
                         it[firstName] = shoppingList.user.firstName
@@ -46,13 +49,20 @@ class RepoShoppingListPSQL(
                             it[checked] = purchase.checked
                         }
                     }
-                    StateTable.insert {
-                        it[userId] = shoppingList.user.userId.toLong()
-                        it[shoppingListId] = shoppingList.id.asUUID()
-                        it[lastMessageId] = -1
+                }
+                initSharedData.forEach { pair ->
+                    SharedShoppingListTable.insert {
+                        it[sourceShoppingList] = pair.first.asUUID()
+                        it[duplicateShoppingList] = pair.second.asUUID()
                     }
-                    ShoppingListTable.selectAll().forEach {
-                        println("${it[ShoppingListTable.userId]} : ${it[ShoppingListTable.title]} : ${it[ShoppingListTable.id]}")
+                }
+
+                initStates.forEach { state ->
+                    StateTable.insert {
+                        it[userId] = state.userId.toLong()
+                        it[shoppingListId] = state.shoppingListId.asUUID()
+                        it[lastMessageId] = state.messageId.toInt()
+                        it[action] = state.action.name
                     }
                 }
             }
@@ -330,9 +340,6 @@ class RepoShoppingListPSQL(
                     additionalConstraint = { ShoppingListTable.userId eq TgUsersTable.id })
                 .slice(TgUsersTable.userName)
                 .select { StateTable.userId eq request.userId.toLong() }
-            result.forEach {
-                println("row result: ${it[TgUsersTable.userName]}")
-            }
 
             with(StateTable.select {
                 StateTable.userId eq request.userId.toLong()
@@ -431,7 +438,6 @@ class RepoShoppingListPSQL(
     override suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList {
         return transaction(db) {
             val v = relatedLists(request.shoppingListId.asUUID())
-            println("ids: $v")
             ShoppingListTable.select { ShoppingListTable.id inList v }.map {
                 ShoppingListTable.from(it)
             }.let {

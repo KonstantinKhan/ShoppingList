@@ -1,9 +1,10 @@
-package ru.shopping_list.be.repo.psql
+package ru.shopping_list.backend.shopping_list.logic
 
 import com.shopping_list.common.models.State
 import com.shopping_list.common.models.shopping_list.ShoppingListId
 import com.shopping_list.common.models.shopping_list.ShoppingListModel
 import org.testcontainers.containers.PostgreSQLContainer
+import ru.shopping_list.be.repo.psql.RepoShoppingListPSQL
 import java.time.Duration
 
 class PostgresContainer : PostgreSQLContainer<PostgresContainer>("postgres:15.2")
