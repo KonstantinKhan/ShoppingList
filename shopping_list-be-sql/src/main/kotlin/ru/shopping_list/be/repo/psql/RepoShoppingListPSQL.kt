@@ -340,9 +340,6 @@ class RepoShoppingListPSQL(
                     additionalConstraint = { ShoppingListTable.userId eq TgUsersTable.id })
                 .slice(TgUsersTable.userName)
                 .select { StateTable.userId eq request.userId.toLong() }
-            result.forEach {
-                println("row result: ${it[TgUsersTable.userName]}")
-            }
 
             with(StateTable.select {
                 StateTable.userId eq request.userId.toLong()
@@ -441,7 +438,6 @@ class RepoShoppingListPSQL(
     override suspend fun readSharedData(request: DbShoppingListIdRequest): DbSharedShoppingList {
         return transaction(db) {
             val v = relatedLists(request.shoppingListId.asUUID())
-            println("ids: $v")
             ShoppingListTable.select { ShoppingListTable.id inList v }.map {
                 ShoppingListTable.from(it)
             }.let {

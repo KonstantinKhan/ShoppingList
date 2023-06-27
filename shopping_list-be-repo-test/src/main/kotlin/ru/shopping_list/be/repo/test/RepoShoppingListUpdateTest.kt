@@ -7,6 +7,7 @@ import com.shopping_list.common.models.shopping_list.ShoppingListModel
 import com.shopping_list.common.models.shopping_list.ShoppingListTitle
 import com.shopping_list.repo.shopping_list.*
 import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import java.util.UUID
 
@@ -16,19 +17,15 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
     init {
         should("successfully tidy for two linked lists") {
             runBlocking {
-                repo.readShoppingList(DbShoppingListIdRequest(shoppingListFirst.id)).result.let {
-                    println("before first purchases: ${it.purchaseList}")
-                }
-                repo.readShoppingList(DbShoppingListIdRequest(shoppingListSecond.id)).result.let {
-                    println("before second purchases: ${it.purchaseList}")
-                }
                 repo.deleteCheckedPurchases(DbStateRequest(shoppingListId = shoppingListFirst.id))
-                repo.readShoppingList(DbShoppingListIdRequest(shoppingListFirst.id)).result.let {
-                    println("after first purchases: ${it.purchaseList}")
+                repo.readSharedData(DbShoppingListIdRequest(shoppingListFirst.id)).sharedShoppingLists.forEach {
+                    repo.deleteCheckedPurchases(DbStateRequest(shoppingListId = it.id))
                 }
-                repo.readShoppingList(DbShoppingListIdRequest(shoppingListSecond.id)).result.let {
-                    println("after second purchases: ${it.purchaseList}")
-                }
+                val firstList = repo.readShoppingList(DbShoppingListIdRequest(shoppingListFirst.id)).result
+                val secondList = repo.readShoppingList(DbShoppingListIdRequest(shoppingListSecond.id)).result
+                println(firstList.purchaseList)
+                println(secondList.purchaseList)
+                secondList.purchaseList shouldBe firstList.purchaseList
             }
         }
 
@@ -163,7 +160,7 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
     }
 
     companion object : BaseInit() {
-        private val shoppingListFirst = ShoppingListModel(
+        val shoppingListFirst = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000001"),
             title = ShoppingListTitle(title = "first"),
             user = TgUser(
@@ -172,7 +169,7 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
             ),
             purchaseList = listOf(PurchaseModel(name = "Purchase", checked = true))
         )
-        private val shoppingListSecond = ShoppingListModel(
+        val shoppingListSecond = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000002"),
             title = ShoppingListTitle(title = "second"),
             user = TgUser(

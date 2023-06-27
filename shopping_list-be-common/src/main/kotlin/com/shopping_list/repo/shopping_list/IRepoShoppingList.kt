@@ -45,7 +45,7 @@ interface IRepoShoppingList {
         }
 
         override suspend fun deleteCheckedPurchases(request: DbStateRequest): DbShoppingListResponse {
-            TODO("Not yet implemented")
+            TODO("Not yet implemented...")
         }
 
         override suspend fun delete(request: DbUserIdRequest): DbShoppingListResponse {

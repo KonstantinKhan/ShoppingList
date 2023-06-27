@@ -52,7 +52,7 @@ interface IHttpClient {
         }
 
         override suspend fun sendCurrentShoppingList(context: BeContext): Response {
-            TODO("Not yet implemented")
+            TODO("Not yet implemented...")
         }
 
         override suspend fun sendError(context: BeContext): Response {
