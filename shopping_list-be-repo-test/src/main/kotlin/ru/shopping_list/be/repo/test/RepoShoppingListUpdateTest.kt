@@ -15,10 +15,21 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
 
     init {
         should("successfully tidy for two linked lists") {
-            val result = runBlocking {
+            runBlocking {
+                repo.readShoppingList(DbShoppingListIdRequest(shoppingListFirst.id)).result.let {
+                    println("before first purchases: ${it.purchaseList}")
+                }
+                repo.readShoppingList(DbShoppingListIdRequest(shoppingListSecond.id)).result.let {
+                    println("before second purchases: ${it.purchaseList}")
+                }
                 repo.deleteCheckedPurchases(DbStateRequest(shoppingListId = shoppingListFirst.id))
+                repo.readShoppingList(DbShoppingListIdRequest(shoppingListFirst.id)).result.let {
+                    println("after first purchases: ${it.purchaseList}")
+                }
+                repo.readShoppingList(DbShoppingListIdRequest(shoppingListSecond.id)).result.let {
+                    println("after second purchases: ${it.purchaseList}")
+                }
             }
-            println("result: $result")
         }
 
 
@@ -159,7 +170,7 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
                 userId = UserId(id = 1L),
                 firstName = "first"
             ),
-            purchaseList = listOf(PurchaseModel(name = "Purchase 1", checked = true))
+            purchaseList = listOf(PurchaseModel(name = "Purchase", checked = true))
         )
         private val shoppingListSecond = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000002"),
@@ -168,7 +179,7 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
                 userId = UserId(id = 2L),
                 firstName = "second"
             ),
-            purchaseList = listOf(PurchaseModel(name = "Purchase 2", checked = false))
+            purchaseList = listOf(PurchaseModel(name = "Purchase", checked = true))
         )
         private val shoppingListThird = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000003"),
@@ -193,10 +204,33 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
                 )
             )
         )
-        override val initObjects: List<ShoppingListModel> = listOf(
+        override val initShoppingListModels: List<ShoppingListModel> = listOf(
             shoppingListFirst,
             shoppingListSecond,
             shoppingListThird,
+        )
+        override val initStates: Collection<State> = listOf(
+            State(
+                shoppingListFirst.user.userId,
+                MessageId(1),
+                shoppingListFirst.id,
+                Action.UPDATE_PURCHASE_LIST
+            ),
+            State(
+                shoppingListSecond.user.userId,
+                MessageId(2),
+                shoppingListSecond.id,
+                Action.UPDATE_PURCHASE_LIST
+            ),
+            State(
+                shoppingListThird.user.userId,
+                MessageId(3),
+                shoppingListThird.id,
+                Action.UPDATE_PURCHASE_LIST
+            )
+        )
+        override val initSharedData: Collection<Pair<ShoppingListId, ShoppingListId>> = listOf(
+            Pair(shoppingListFirst.id, shoppingListSecond.id)
         )
     }
 }

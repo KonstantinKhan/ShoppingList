@@ -1,5 +1,7 @@
 package ru.shopping_list.be.repo.psql
 
+import com.shopping_list.common.models.State
+import com.shopping_list.common.models.shopping_list.ShoppingListId
 import com.shopping_list.common.models.shopping_list.ShoppingListModel
 import org.testcontainers.containers.PostgreSQLContainer
 import java.time.Duration
@@ -23,13 +25,17 @@ object SQLTestCompanion {
     private val url: String by lazy { container.jdbcUrl }
 
     fun repoUnderTestContainer(
-        initObjects: Collection<ShoppingListModel>,
+        initShoppingLists: Collection<ShoppingListModel>,
+        initStates: Collection<State>,
+        initSharedData: Collection<Pair<ShoppingListId, ShoppingListId>>
     ): RepoShoppingListPSQL {
         return RepoShoppingListPSQL(
             url,
             user = USER,
             password = PASSWORD,
-            initObjects = initObjects,
+            initShoppingLists = initShoppingLists,
+            initStates = initStates,
+            initSharedData = initSharedData,
         )
     }
 }

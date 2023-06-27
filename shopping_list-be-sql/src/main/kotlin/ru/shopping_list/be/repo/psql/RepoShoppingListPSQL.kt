@@ -19,7 +19,10 @@ class RepoShoppingListPSQL(
     driver: String = "org.postgresql.Driver",
     user: String = "postgres",
     password: String = "admin",
-    initObjects: Collection<ShoppingListModel> = emptyList(),
+    initShoppingLists: Collection<ShoppingListModel> = emptyList(),
+    initStates: Collection<State> = emptyList(),
+    initSharedData: Collection<Pair<ShoppingListId, ShoppingListId>> = emptyList()
+
 ) : IRepoShoppingList {
 
     private val db by lazy { SqlConnector(url, driver, user, password).connect() }
@@ -27,7 +30,7 @@ class RepoShoppingListPSQL(
     init {
         runBlocking {
             transaction(db) {
-                initObjects.forEach { shoppingList ->
+                initShoppingLists.forEach { shoppingList ->
                     TgUsersTable.insert {
                         it[id] = shoppingList.user.userId.toLong()
                         it[firstName] = shoppingList.user.firstName
@@ -46,11 +49,20 @@ class RepoShoppingListPSQL(
                             it[checked] = purchase.checked
                         }
                     }
+                }
+                initSharedData.forEach { pair ->
+                    SharedShoppingListTable.insert {
+                        it[sourceShoppingList] = pair.first.asUUID()
+                        it[duplicateShoppingList] = pair.second.asUUID()
+                    }
+                }
+
+                initStates.forEach { state ->
                     StateTable.insert {
-                        it[userId] = shoppingList.user.userId.toLong()
-                        it[shoppingListId] = shoppingList.id.asUUID()
-                        it[lastMessageId] = -1
-                        it[action] = "UPDATE_PURCHASE_LIST"
+                        it[userId] = state.userId.toLong()
+                        it[shoppingListId] = state.shoppingListId.asUUID()
+                        it[lastMessageId] = state.messageId.toInt()
+                        it[action] = state.action.name
                     }
                 }
             }
