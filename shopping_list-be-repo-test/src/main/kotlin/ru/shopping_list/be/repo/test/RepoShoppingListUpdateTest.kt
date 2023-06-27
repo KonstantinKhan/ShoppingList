@@ -7,14 +7,10 @@ import com.shopping_list.common.models.shopping_list.ShoppingListModel
 import com.shopping_list.common.models.shopping_list.ShoppingListTitle
 import com.shopping_list.repo.shopping_list.*
 import io.kotest.core.spec.style.ShouldSpec
-import io.kotest.matchers.should
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.runBlocking
-import ru.ktglib.types.User
 import java.util.UUID
 
-abstract class ShoppingListTest : ShouldSpec() {
+abstract class RepoShoppingListUpdateTest : ShouldSpec() {
     abstract val repo: IRepoShoppingList
 
     init {
