@@ -33,8 +33,6 @@ class ShoppingListTidyTest : ShouldSpec() {
                 val secondList =
                     repo.readShoppingList(DbShoppingListIdRequest(RepoShoppingListUpdateTest.shoppingListSecond.id)).result
                 secondList.purchaseList shouldBe firstList.purchaseList
-                println(firstList.purchaseList)
-                println(secondList.purchaseList)
             }
         }
     }
