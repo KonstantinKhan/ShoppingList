@@ -26,14 +26,12 @@ class ShoppingListTidyTest : ShouldSpec() {
 
     init {
         should("successfully tidy for two linked lists") {
-            runBlocking {
-                processor.tidy(context)
-                val firstList =
-                    repo.readShoppingList(DbShoppingListIdRequest(RepoShoppingListUpdateTest.shoppingListFirst.id)).result
-                val secondList =
-                    repo.readShoppingList(DbShoppingListIdRequest(RepoShoppingListUpdateTest.shoppingListSecond.id)).result
-                secondList.purchaseList shouldBe firstList.purchaseList
-            }
+            processor.tidy(context)
+            val firstList =
+                repo.readShoppingList(DbShoppingListIdRequest(RepoShoppingListUpdateTest.shoppingListFirst.id)).result
+            val secondList =
+                repo.readShoppingList(DbShoppingListIdRequest(RepoShoppingListUpdateTest.shoppingListSecond.id)).result
+            secondList.purchaseList shouldBe firstList.purchaseList
         }
     }
 }
