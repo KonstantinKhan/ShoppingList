@@ -178,14 +178,14 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
             ),
             purchaseList = listOf(PurchaseModel(name = "Purchase", checked = true))
         )
-        private val shoppingListThird = ShoppingListModel(
+        val shoppingListThird = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000003"),
             title = ShoppingListTitle(title = "third"),
             user = TgUser(
                 userId = UserId(id = 3L),
                 firstName = "third"
             ),
-            purchaseList = listOf(PurchaseModel(name = "Purchase 3", checked = false))
+            purchaseList = listOf(PurchaseModel(name = "Purchase", checked = true))
         )
 
         private val user = TgUser(UserId(123456), "first", "last", "user")

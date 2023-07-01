@@ -284,16 +284,25 @@ class RepoShoppingListPSQL(
 
     override suspend fun updateShoppingList(request: DbShoppingListRequest): DbShoppingListResponse =
         transaction(db) {
-            PurchaseTable.select { PurchaseTable.shoppingListId eq request.shoppingList.id.asUUID() }
-                .takeIf { !it.empty() }
-                ?.forEach {
-                    request.changeShoppingList.forEach { purchase ->
-                        if (purchase.name == it[PurchaseTable.name])
-                            PurchaseTable.update({ PurchaseTable.name eq purchase.name }) {
-                                it[checked] = purchase.checked
-                            }
-                    }
+            request.changeShoppingList.forEach { purchaseModel ->
+                PurchaseTable.update({
+                    PurchaseTable.shoppingListId eq request.shoppingList.id.asUUID() and
+                            (PurchaseTable.name eq purchaseModel.name)
+                }) {
+                    it[checked] = purchaseModel.checked
                 }
+            }
+
+//            PurchaseTable.select { PurchaseTable.shoppingListId eq request.shoppingList.id.asUUID() }
+//                .takeIf { !it.empty() }
+//                ?.forEach {
+//                    request.changeShoppingList.forEach { purchase ->
+//                        if (purchase.name == it[PurchaseTable.name])
+//                            PurchaseTable.update({ PurchaseTable.name eq purchase.name }) {
+//                                it[checked] = purchase.checked
+//                            }
+//                    }
+//                }
             ShoppingListTable.update({ ShoppingListTable.id eq request.shoppingList.id.asUUID() }) {
                 it[title] = request.shoppingList.title.toString()
             }
@@ -585,19 +594,20 @@ class RepoShoppingListPSQL(
         return innerFun(result, result)
     }
 
-    private fun searchRelatedLists(id: UUID): List<UUID> =
+    private fun searchRelatedLists(id: UUID): List<UUID> {
+        val result = mutableListOf<UUID>()
         SharedShoppingListTable.select {
             SharedShoppingListTable.sourceShoppingList eq id
         }.let { query ->
             if (!query.empty())
-                query.map { result -> result[SharedShoppingListTable.duplicateShoppingList] }
-            else
-                SharedShoppingListTable.select {
-                    SharedShoppingListTable.duplicateShoppingList eq id
-                }.let { secondQuery ->
-                    if (!secondQuery.empty())
-                        secondQuery.map { result -> result[SharedShoppingListTable.sourceShoppingList] }
-                    else emptyList()
-                }
+                query.map { resultRow -> result.add(resultRow[SharedShoppingListTable.duplicateShoppingList]) }
         }
+        SharedShoppingListTable.select {
+            SharedShoppingListTable.duplicateShoppingList eq id
+        }.let { secondQuery ->
+            if (!secondQuery.empty())
+                secondQuery.map { resultRow -> result.add(resultRow[SharedShoppingListTable.sourceShoppingList]) }
+        }
+        return result
+    }
 }
