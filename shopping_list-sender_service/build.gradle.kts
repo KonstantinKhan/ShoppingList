@@ -4,6 +4,7 @@ plugins {
 }
 
 val ktorVersion: String by project
+val kotestVersion: String by project
 
 dependencies {
     implementation("io.ktor:ktor-client-core:$ktorVersion")
@@ -17,4 +18,6 @@ dependencies {
     implementation(project(":ktglib-transport-models"))
     implementation(project(":ktglib-types"))
     implementation(project(":shopping_list-be-mapping"))
+
+    testImplementation ("io.kotest:kotest-runner-junit5:$kotestVersion")
 }
