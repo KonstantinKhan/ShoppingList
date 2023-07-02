@@ -9,6 +9,7 @@ import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import com.shopping_list.response.Response
+import ru.shopping_list.sender_service.helpers.replaceExt
 import ru.shopping_list.sender_service.jsonHelper
 
 suspend fun HttpClient.editMessage(context: BeContext): Response {
@@ -21,8 +22,8 @@ suspend fun HttpClient.editMessage(context: BeContext): Response {
             text =
                 "${if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} Список покупок: \\\n" +
                         context.shoppingList.purchaseList.joinToString("\n") {
-                            if (it.checked) "~${it.name}~"
-                            else it.name
+                            if (it.checked) "~${it.name.replaceExt()}~"
+                            else it.name.replaceExt()
                         }
             replyMarkup = inlineKeyboardMarkup {
                 context.shoppingList.purchaseList.filter { !it.checked }.map {
