@@ -31,6 +31,7 @@ fun BeContext.config(update: UpdateWithMessage) = apply {
 fun BeContext.config(update: UpdateWithCallbackQuery) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
     messageText = update.callbackQuery.data ?: ""
+    queryId = update.callbackQuery.queryId
 }
 
 private fun UpdateWithMessage.toModelUser() = this.message.user?.let {

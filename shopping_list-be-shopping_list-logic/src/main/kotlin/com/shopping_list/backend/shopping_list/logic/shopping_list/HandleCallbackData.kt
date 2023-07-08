@@ -99,4 +99,12 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
         sendListTitle()
         updateState("")
     }
+    worker {
+        handle {
+            httpClient.answerCallbackQuery(this)
+        }
+        except {
+            println("error: $it")
+        }
+    }
 }).build()

@@ -40,6 +40,7 @@ class SenderService(
 
     override suspend fun showLists(context: BeContext): Response = client.showLists(context)
     override suspend fun sendListTitle(context: BeContext): Response = client.sendListTitle(context)
+    override suspend fun answerCallbackQuery(context: BeContext) = client.answerCallbackQuery(context)
 
     override suspend fun deleteMessage(context: BeContext) =
         client.deleteMessage(context.shoppingList.user.userId, context.messageId)

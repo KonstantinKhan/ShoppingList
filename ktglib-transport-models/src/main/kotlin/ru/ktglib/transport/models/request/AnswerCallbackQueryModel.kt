@@ -1,4 +1,4 @@
-package com.shopping_list.be.lib.telegram.core.models
+package ru.ktglib.transport.models.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -17,6 +17,7 @@ interface IHttpClient {
     suspend fun sendRecipientNotification(context: BeContext): Response
     suspend fun showLists(context: BeContext): Response
     suspend fun sendListTitle(context: BeContext): Response
+    suspend fun answerCallbackQuery(context: BeContext)
 
     companion object NONE : IHttpClient {
         override suspend fun sendWelcomeMessage(context: BeContext): Response {
@@ -68,6 +69,10 @@ interface IHttpClient {
         }
 
         override suspend fun sendListTitle(context: BeContext): Response {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun answerCallbackQuery(context: BeContext) {
             TODO("Not yet implemented")
         }
     }
