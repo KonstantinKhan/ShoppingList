@@ -2,6 +2,7 @@ package ru.shopping_list.sender_service
 
 import com.shopping_list.ISender
 import com.shopping_list.common.context.BeContext
+import com.shopping_list.common.models.Action
 import com.shopping_list.common.models.MessageId
 import com.shopping_list.lib.telegram.api.dsl.*
 import com.shopping_list.response.Result
@@ -35,7 +36,7 @@ class SenderService(baseUrl: String) : ISender {
         bot.sendMessage(message {
             chatId = context.shoppingList.user.userId.toLong()
             text =
-                if (context.shoppingList.purchaseList.isEmpty()) "Создан \uD83D\uDCDD _${context.shoppingList.title}_" +
+                if (context.action == Action.NONE) "Создан \uD83D\uDCDD _${context.shoppingList.title}_" +
                         ". \nОн пока пустой. Отправь сообщение, чтобы добавить запись.".replaceExt()
                 else if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17 " else "" +
                         "\uD83D\uDCDD _${context.shoppingList.title.toString().replaceExt()}_: \n" +

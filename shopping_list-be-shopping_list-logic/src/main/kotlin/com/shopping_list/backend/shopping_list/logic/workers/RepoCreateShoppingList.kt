@@ -6,16 +6,17 @@ import com.shopping_list.repo.shopping_list.DbShoppingListRequest
 import ru.fit_changes.cor.CorChainDsl
 import ru.fit_changes.cor.worker
 
-fun CorChainDsl<BeContext>.createShoppingList(title: String) = worker {
+fun CorChainDsl<BeContext>.repoCreateShoppingList(title: String) = worker {
     this.title = title
-    on {
-        shoppingList.id == ShoppingListId.NONE
-    }
+    on { shoppingList.id == ShoppingListId.NONE }
     handle {
         shoppingListRepo.createShoppingList(
             DbShoppingListRequest(shoppingList)
-        ).result?.let {
-            shoppingList = it
+        ).result.let {
+            dbShoppingList = it
         }
+    }
+    except {
+        println("error in repoCreateShoppingList: ${it.message}")
     }
 }
