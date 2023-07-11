@@ -8,6 +8,6 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.sendError() = worker {
     on { errors.contains(CommonErrorModel("Ваш список уже связан со списком пользователя"))}
     handle {
-        httpClient.sendError(this)
+//        httpClient.sendError(this)
     }
 }

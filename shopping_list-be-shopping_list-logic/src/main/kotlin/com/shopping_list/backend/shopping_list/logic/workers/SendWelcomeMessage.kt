@@ -7,7 +7,9 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.sendWelcomeMessage(title: String) = worker {
     this.title = title
     handle {
-        val result = httpClient.sendWelcomeMessage(this)
-        println("result: $result")
+        sender.sendWelcomeMessage(this)
+    }
+    except {
+        println("error: ${it.message}")
     }
 }

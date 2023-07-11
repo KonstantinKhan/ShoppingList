@@ -15,16 +15,16 @@ fun CorChainDsl<BeContext>.editMessage(title: String) = worker {
         }?.let { lists ->
             lists.forEach { list ->
                 shoppingListRepo.readState(DbUserIdRequest(list.user.userId)).let {
-                    httpClient.editMessage(
-                        this.copy(
-                            shoppingList = shoppingList.copy(user = shoppingList.user.copy(it.userId)),
-                            messageId = it.messageId
-                        )
-                    )
+//                    httpClient.editMessage(
+//                        this.copy(
+//                            shoppingList = shoppingList.copy(user = shoppingList.user.copy(it.userId)),
+//                            messageId = it.messageId
+//                        )
+//                    )
                 }
             }
         }
 
-        httpClient.editMessage(this)
+//        httpClient.editMessage(this)
     }
 }

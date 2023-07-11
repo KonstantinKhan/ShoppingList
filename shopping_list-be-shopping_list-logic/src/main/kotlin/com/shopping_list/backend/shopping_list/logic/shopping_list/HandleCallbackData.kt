@@ -101,7 +101,6 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
     }
     worker {
         handle {
-            httpClient.answerCallbackQuery(this)
         }
         except {
             println("error: $it")

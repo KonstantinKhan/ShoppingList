@@ -1,11 +1,11 @@
 package com.shopping_list.common.models.shopping_list
 
-import com.shopping_list.common.models.TgUser
+import com.shopping_list.common.models.User
 
 data class ShoppingListModel(
     val id: ShoppingListId = ShoppingListId.NONE,
     val title: ShoppingListTitle = ShoppingListTitle.NONE,
-    val user: TgUser = TgUser.NONE,
+    val user: User = User.NONE,
     val purchaseList: Collection<PurchaseModel> = emptyList(),
     val prototypeShoppingLists: Collection<ShoppingListId> = emptyList(),
     val derivativeShoppingList: Collection<ShoppingListId> = emptyList(),

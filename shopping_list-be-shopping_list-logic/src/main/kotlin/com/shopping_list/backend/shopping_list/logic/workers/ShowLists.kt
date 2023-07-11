@@ -13,6 +13,6 @@ fun CorChainDsl<BeContext>.showLists() = worker {
                 || action == Action.UPDATE_LIST
     }
     handle {
-        httpClient.showLists(this)
+//        httpClient.showLists(this)
     }
 }

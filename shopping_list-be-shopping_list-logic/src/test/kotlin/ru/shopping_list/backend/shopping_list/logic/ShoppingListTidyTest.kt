@@ -3,13 +3,10 @@ package ru.shopping_list.backend.shopping_list.logic
 import com.shopping_list.backend.shopping_list.logic.ShoppingListProcessor
 import com.shopping_list.common.context.BeContext
 import com.shopping_list.common.context.ShoppingListContextConfig
-import com.shopping_list.common.models.TgUser
 import com.shopping_list.common.models.shopping_list.ShoppingListModel
 import com.shopping_list.repo.shopping_list.DbShoppingListIdRequest
 import com.shopping_list.repo.shopping_list.IRepoShoppingList
-import io.kotest.common.runBlocking
 import io.kotest.core.spec.style.ShouldSpec
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import ru.shopping_list.be.repo.test.RepoShoppingListUpdateTest
 import ru.shopping_list.be.repo.test.RepoShoppingListUpdateTest.Companion.initSharedData

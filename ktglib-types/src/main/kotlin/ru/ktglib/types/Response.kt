@@ -1,7 +1,6 @@
-package com.shopping_list.response
+package ru.ktglib.types
 
 import kotlinx.serialization.Serializable
-import ru.ktglib.types.Result
 
 @Serializable(ResponseSerializer::class)
 interface Response {

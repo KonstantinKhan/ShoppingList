@@ -1,4 +1,4 @@
-package com.shopping_list.response
+package ru.ktglib.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

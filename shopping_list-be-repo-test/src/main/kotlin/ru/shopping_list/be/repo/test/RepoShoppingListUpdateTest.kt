@@ -163,7 +163,7 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
         val shoppingListFirst = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000001"),
             title = ShoppingListTitle(title = "first"),
-            user = TgUser(
+            user = User(
                 userId = UserId(id = 1L),
                 firstName = "first"
             ),
@@ -172,7 +172,7 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
         val shoppingListSecond = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000002"),
             title = ShoppingListTitle(title = "second"),
-            user = TgUser(
+            user = User(
                 userId = UserId(id = 2L),
                 firstName = "second"
             ),
@@ -181,14 +181,14 @@ abstract class RepoShoppingListUpdateTest : ShouldSpec() {
         val shoppingListThird = ShoppingListModel(
             id = ShoppingListId(id = "00000000-0000-0000-0000-000000000003"),
             title = ShoppingListTitle(title = "third"),
-            user = TgUser(
+            user = User(
                 userId = UserId(id = 3L),
                 firstName = "third"
             ),
             purchaseList = listOf(PurchaseModel(name = "Purchase", checked = true))
         )
 
-        private val user = TgUser(UserId(123456), "first", "last", "user")
+        private val user = User(UserId(123456), "first", "last", "user")
         private val shoppingListId = ShoppingListId("72086f29-7915-49db-819f-53507bbc0f8b")
         private val randomShoppingListId = ShoppingListId(UUID.randomUUID())
         private val createShoppingList = ShoppingListModel(

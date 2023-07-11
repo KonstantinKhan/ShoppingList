@@ -9,6 +9,6 @@ fun CorChainDsl<BeContext>.sendPreInviteMessage(title: String) = worker {
     this.title = title
     on { errors.isNotEmpty() && !errors.contains(CommonErrorModel("ShoppingList is empty")) }
     handle {
-        httpClient.sendPreInviteMessage(this)
+//        httpClient.sendPreInviteMessage(this)
     }
 }

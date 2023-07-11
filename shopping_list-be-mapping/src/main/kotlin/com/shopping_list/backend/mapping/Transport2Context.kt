@@ -2,7 +2,7 @@ package com.shopping_list.backend.mapping
 
 import com.shopping_list.common.context.BeContext
 import com.shopping_list.common.models.MessageId
-import com.shopping_list.common.models.TgUser
+import com.shopping_list.common.models.User
 import com.shopping_list.common.models.UserId
 import ru.ktglib.transport.models.update.UpdateWithCallbackQuery
 import ru.ktglib.transport.models.update.UpdateWithMessage
@@ -10,7 +10,7 @@ import ru.ktglib.transport.models.update.UpdateWithMessage
 fun BeContext.setQuery(update: UpdateWithMessage) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
     purchaseList = update.message.text?.lines() ?: emptyList()
-    recipient = update.message.userShared?.let { TgUser(UserId(it.userId), "") } ?: TgUser.NONE
+    recipient = update.message.userShared?.let { User(UserId(it.userId), "") } ?: User.NONE
 }
 
 fun BeContext.setQuery(update: UpdateWithCallbackQuery) = apply {
@@ -25,7 +25,7 @@ fun BeContext.setMessageId(id: MessageId) = apply {
 fun BeContext.config(update: UpdateWithMessage) = apply {
     shoppingList = shoppingList.copy(user = update.toModelUser())
     messageText = update.message.text ?: ""
-    recipient = update.message.userShared?.let { TgUser(UserId(it.userId), "") } ?: TgUser.NONE
+    recipient = update.message.userShared?.let { User(UserId(it.userId), "") } ?: User.NONE
 }
 
 fun BeContext.config(update: UpdateWithCallbackQuery) = apply {
@@ -35,16 +35,16 @@ fun BeContext.config(update: UpdateWithCallbackQuery) = apply {
 }
 
 private fun UpdateWithMessage.toModelUser() = this.message.user?.let {
-    TgUser(
+    User(
         userId = UserId(it.userId),
         firstName = it.firstName,
         lastName = it.lastName ?: "",
         userName = it.userName ?: ""
     )
-} ?: TgUser.NONE
+} ?: User.NONE
 
 private fun UpdateWithCallbackQuery.toModelUser() = this.callbackQuery.user.let {
-    TgUser(
+    User(
         userId = UserId(it.userId),
         firstName = it.firstName,
         lastName = it.lastName ?: "",

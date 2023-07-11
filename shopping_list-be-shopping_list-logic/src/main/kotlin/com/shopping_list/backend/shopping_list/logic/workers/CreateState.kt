@@ -8,7 +8,7 @@ import com.shopping_list.repo.shopping_list.DbStateRequest
 import ru.fit_changes.cor.CorChainDsl
 import ru.fit_changes.cor.worker
 
-fun CorChainDsl<BeContext>.createStateContext(title: String) = worker {
+fun CorChainDsl<BeContext>.createState(title: String) = worker {
     this.title = title
     on {
         shoppingList.id != ShoppingListId.NONE && shoppingList.user.userId != UserId.NONE

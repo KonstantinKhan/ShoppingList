@@ -10,7 +10,7 @@ inline fun <reified T : Update> handleUpdate(
     block: BeContext.(T) -> Unit
 ) {
     val context = BeContext(
-        httpClient = config.httpClient
+        sender = config.sender,
     )
     context.block(update as T)
 }
