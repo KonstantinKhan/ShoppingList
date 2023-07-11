@@ -39,12 +39,17 @@ class SenderService(baseUrl: String) : ISender {
                 if (context.action == Action.NONE) "Создан \uD83D\uDCDD _${context.shoppingList.title}_" +
                         ". \nОн пока пустой. Отправь сообщение, чтобы добавить запись.".replaceExt()
                 else if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17 " else "" +
-                        "\uD83D\uDCDD _${context.shoppingList.title.toString().replaceExt()}_: \n" +
-                        "-".repeat(context.shoppingList.title.toString().length * 3).replaceExt() + "\n" +
-                        context.shoppingList.purchaseList.joinToString("\n") {
-                            if (it.checked) "✅ ~${it.name.replaceExt()}~"
-                            else "\uD83D\uDD32 ${it.name}".replaceExt()
-                        }
+                        if (context.shoppingList.purchaseList.isEmpty()) "\uD83D\uDCDD _${
+                            context.shoppingList.title.toString().replaceExt()
+                        }_" + (" пока пустой.\n" +
+                                "Отправь сообщение, чтобы добавить запись.").replaceExt()
+                        else
+                            "\uD83D\uDCDD _${context.shoppingList.title.toString().replaceExt()}_: \n" +
+                                    "-".repeat(context.shoppingList.title.toString().length * 3).replaceExt() + "\n" +
+                                    context.shoppingList.purchaseList.joinToString("\n") {
+                                        if (it.checked) "✅ ~${it.name.replaceExt()}~"
+                                        else "\uD83D\uDD32 ${it.name}".replaceExt()
+                                    }
             replyMarkup = inlineKeyboardMarkup {
                 context.shoppingList.purchaseList.filter { !it.checked }.map {
                     row {
