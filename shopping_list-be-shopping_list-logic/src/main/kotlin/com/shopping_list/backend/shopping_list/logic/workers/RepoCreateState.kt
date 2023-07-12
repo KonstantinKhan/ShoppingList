@@ -14,7 +14,8 @@ fun CorChainDsl<BeContext>.repoCreateState(title: String) = worker {
             DbStateRequest(
                 shoppingList.user.userId,
                 shoppingList.id,
-                action = Action.UPDATE_PURCHASE_LIST
+                messageId,
+                Action.UPDATE_PURCHASE_LIST
             )
         )
     }
