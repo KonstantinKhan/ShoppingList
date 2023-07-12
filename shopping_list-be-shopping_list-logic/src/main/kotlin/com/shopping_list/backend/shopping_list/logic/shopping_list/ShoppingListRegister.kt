@@ -13,5 +13,6 @@ object ShoppingListRegister : ICorExecutor<BeContext> by chain({
     prepareShoppingList()
     sendWelcomeMessage("Sending welcome message")
     sendCurrentShoppingList("")
+    updateState("Update the state of context")
     repoCreateState("Create the context state")
 }).build()
