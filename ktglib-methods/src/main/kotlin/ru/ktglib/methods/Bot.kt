@@ -14,6 +14,7 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.plus
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
+import ru.ktglib.transport.models.request.EditMessageTextModel
 import ru.ktglib.transport.models.request.SendMessageModel
 import ru.ktglib.types.*
 
@@ -52,6 +53,11 @@ class Bot(private val baseUrl: String) : IBot {
 
     override suspend fun sendMessage(message: SendMessageModel): Response =
         json.decodeFromString(client.post("sendMessage") {
+            setBody(message)
+        }.bodyAsText())
+
+    override suspend fun editMessageText(message: EditMessageTextModel): Response =
+        json.decodeFromString(client.post("editMessageText") {
             setBody(message)
         }.bodyAsText())
 }

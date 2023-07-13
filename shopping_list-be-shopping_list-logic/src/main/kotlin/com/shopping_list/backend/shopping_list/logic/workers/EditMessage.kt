@@ -25,6 +25,6 @@ fun CorChainDsl<BeContext>.editMessage(title: String) = worker {
             }
         }
 
-//        httpClient.editMessage(this)
+        sender.editCurrentShoppingList(this)
     }
 }

@@ -63,12 +63,41 @@ class SenderService(baseUrl: String) : ISender {
             parseMode = "MarkdownV2"
         }).result?.let {
             when (it) {
-                is Message -> {
-                    TgResponse(
-                        result = Result(messageId = MessageId(it.messageId))
-                    )
-                }
+                is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
+                else -> throw Error("Smart cast error")
+            }
+        } ?: TgResponse()
 
+    override suspend fun editCurrentShoppingList(context: BeContext): TgResponse =
+        bot.editMessageText(editMessageText {
+            chatId = context.shoppingList.user.userId.toLong()
+            messageId = context.messageId.toInt()
+            text = if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17 " else "" +
+                    if (context.shoppingList.purchaseList.isEmpty()) "\uD83D\uDCDD _${
+                        context.shoppingList.title.toString().replaceExt()
+                    }_" + (" пока пустой.\n" +
+                            "Отправь сообщение, чтобы добавить запись.").replaceExt()
+                    else
+                        "\uD83D\uDCDD _${context.shoppingList.title.toString().replaceExt()}_: \n" +
+                                "-".repeat(context.shoppingList.title.toString().length * 3).replaceExt() + "\n" +
+                                context.shoppingList.purchaseList.joinToString("\n") {
+                                    if (it.checked) "✅ ~${it.name.replaceExt()}~"
+                                    else "\uD83D\uDD32 ${it.name}".replaceExt()
+                                }
+            replyMarkup = inlineKeyboardMarkup {
+                context.shoppingList.purchaseList.filter { !it.checked }.map {
+                    row {
+                        button {
+                            text = it.name
+                            callbackData = it.name
+                        }
+                    }
+                }
+            }
+            parseMode = "MarkdownV2"
+        }).result?.let {
+            when (it) {
+                is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
                 else -> throw Error("Smart cast error")
             }
         } ?: TgResponse()
