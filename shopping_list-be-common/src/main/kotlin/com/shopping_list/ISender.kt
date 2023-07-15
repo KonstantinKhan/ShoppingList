@@ -16,7 +16,7 @@ interface ISender {
     suspend fun showListsForUpdate(context: BeContext): TgResponse
     suspend fun showListsForDelete(context: BeContext): TgResponse
     suspend fun getChat(context: BeContext): TgResponse
-    suspend fun getMe(): TgResponse
+    suspend fun getMe(context: BeContext): TgResponse
 
     companion object NONE : ISender {
         override suspend fun sendWelcomeMessage(context: BeContext): TgResponse {
@@ -63,7 +63,7 @@ interface ISender {
             TODO("Not yet implemented")
         }
 
-        override suspend fun getMe(): TgResponse {
+        override suspend fun getMe(context: BeContext): TgResponse {
             TODO("Not yet implemented")
         }
     }

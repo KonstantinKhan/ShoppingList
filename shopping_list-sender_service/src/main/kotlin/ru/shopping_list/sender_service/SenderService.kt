@@ -11,6 +11,7 @@ import com.shopping_list.response.Result
 import com.shopping_list.response.TgResponse
 import ru.ktglib.methods.Bot
 import ru.ktglib.transport.models.KeyboardButtonRequestUser
+import ru.ktglib.transport.models.request.GetChatRequestModel
 import ru.ktglib.types.Message
 import ru.ktglib.types.User
 import ru.shopping_list.sender_service.helpers.replaceExt
@@ -237,7 +238,7 @@ class SenderService(baseUrl: String) : ISender {
         } ?: TgResponse()
 
     override suspend fun getChat(context: BeContext): TgResponse =
-        bot.getChat().let { response ->
+        bot.getChat(GetChatRequestModel(context.recipient.userId.toLong())).let { response ->
             when (response.result) {
                 is Message -> TgResponse(result = Result(messageId = MessageId((response.result as Message).messageId)))
                 is User -> TgResponse()
@@ -245,7 +246,7 @@ class SenderService(baseUrl: String) : ISender {
             }
         }
 
-    override suspend fun getMe(): TgResponse =
+    override suspend fun getMe(context: BeContext): TgResponse =
         bot.getMe().let { response ->
             when (response.result) {
                 is User -> TgResponse(user = (response.result as User).let {

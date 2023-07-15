@@ -7,7 +7,7 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.getBotInfo(title: String) = worker {
     on { errors.isNotEmpty() }
     handle {
-        sender.getMe().user.let {
+        sender.getMe(this).user.let {
             bot = it
         }
     }

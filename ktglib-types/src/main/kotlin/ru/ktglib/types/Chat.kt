@@ -9,8 +9,6 @@ import ru.ktglib.types.Json.json
 data class Chat(
     @SerialName("id")
     val chatId: Int,
-//    @SerialName("is_bot")
-//    val isBot: Boolean,
     @SerialName("first_name")
     val firstName: String,
     @SerialName("last_name")
