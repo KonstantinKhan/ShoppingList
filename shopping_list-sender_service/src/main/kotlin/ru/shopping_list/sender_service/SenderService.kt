@@ -102,36 +102,32 @@ class SenderService(baseUrl: String) : ISender {
             }
         } ?: TgResponse()
 
+    override suspend fun showLists(context: BeContext): TgResponse =
+        bot.sendMessage(message {
+            chatId = context.shoppingList.user.userId.toLong()
+            text =
+//                (if (context.shoppingLists.first().id != context.shoppingList.id) "_${" ".repeat(6)} ${context.shoppingLists.first().title}" else "").toString()
 
-//    override suspend fun sendWelcomeMessage(context: BeContext): Response =
-//        client.sendWelcomeMessage(context.shoppingList.user.userId)
-//
-//    override suspend fun sendCurrentShoppingList(context: BeContext): Response =
-//        client.sendCurrentShoppingList(context)
-//
-//    override suspend fun sendError(context: BeContext): Response = client.sendError(context)
-//
-//    override suspend fun sendRecipientNotification(context: BeContext): Response =
-//        client.sendRecipientNotification(context)
-//
-//    override suspend fun showLists(context: BeContext): Response = client.showLists(context)
-//    override suspend fun sendListTitle(context: BeContext): Response = client.sendListTitle(context)
-//    override suspend fun answerCallbackQuery(context: BeContext) = client.answerCallbackQuery(context)
-//
-//    override suspend fun deleteMessage(context: BeContext) =
-//        client.deleteMessage(context.shoppingList.user.userId, context.messageId)
-//
-//    override suspend fun editMessage(context: BeContext): Response =
-//        client.editMessage(context)
-//
-//    override suspend fun sendPreInviteMessage(context: BeContext): Response =
-//        client.sendPreInviteMessage(context.shoppingList.user.userId)
-//
-//    override suspend fun sendInviteMessage(context: BeContext): Response =
-//        client.sendInviteMessage(context.shoppingList.user.userId, context.bot.userName ?: "")
-//
-//    override suspend fun forwardMessage(context: BeContext): Response = client.forwardMessage(context)
-//    override suspend fun getMe(): Response = client.getMe()
-//
-//    override suspend fun getChat(context: BeContext): Response = client.getChat(context)
+                context.shoppingLists
+                    .joinToString("\n", "") {
+                        if (it.id == context.shoppingList.id) "\uD83D\uDC49 ${it.title}"
+                        else "➖ ${it.title}"
+                    }
+            replyMarkup = inlineKeyboardMarkup {
+                context.shoppingLists.map {
+                    row {
+                        button {
+                            text =
+                                "${if (it.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} ${it.title}"
+                            callbackData = "${it.id.asUUID()}"
+                        }
+                    }
+                }
+            }
+        }).result?.let {
+            when (it) {
+                is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
+                else -> throw Error("Smart cast error")
+            }
+        } ?: TgResponse()
 }
