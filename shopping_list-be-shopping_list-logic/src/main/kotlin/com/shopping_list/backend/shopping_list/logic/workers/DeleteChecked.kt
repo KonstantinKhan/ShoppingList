@@ -19,5 +19,6 @@ fun CorChainDsl<BeContext>.deleteChecked(title: String) = worker {
         shoppingListRepo.readSharedData(DbShoppingListIdRequest(shoppingList.id)).sharedShoppingLists.forEach {
             shoppingListRepo.deleteCheckedPurchases(DbStateRequest(shoppingListId = it.id))
         }
+        println("is: ${shoppingList.relatedLists}")
     }
 }

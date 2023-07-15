@@ -23,13 +23,11 @@ fun CorChainDsl<BeContext>.checkPurchase(title: String) = worker {
             }
         }
 
-        val temp = messageText.lines()
+        messageText.lines()
             .filter { str ->
                 dbShoppingList.purchaseList.filter { purchase -> purchase.checked }.map { model -> model.name }
                     .contains(str)
             }
-
-        println("temp: $temp")
 
         shoppingListRepo.updateShoppingList(
             DbShoppingListRequest(
