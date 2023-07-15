@@ -68,6 +68,20 @@ class SenderService(baseUrl: String) : ISender {
             }
         } ?: TgResponse()
 
+    override suspend fun sendListTitle(context: BeContext): TgResponse =
+        bot.sendMessage(message {
+            chatId = context.shoppingList.user.userId.toLong()
+            text = "Текущее название списка: _${context.shoppingList.title.toString().replaceExt()}_\n" +
+                    "Укажи новое название, чтобы его заменить \uD83D\uDD04"
+            parseMode = "MarkdownV2"
+
+        }).result?.let {
+            when (it) {
+                is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
+                else -> throw Error("Smart cast error")
+            }
+        } ?: TgResponse()
+
     override suspend fun editCurrentShoppingList(context: BeContext): TgResponse =
         bot.editMessageText(editMessageText {
             chatId = context.shoppingList.user.userId.toLong()
@@ -105,14 +119,13 @@ class SenderService(baseUrl: String) : ISender {
     override suspend fun showLists(context: BeContext): TgResponse =
         bot.sendMessage(message {
             chatId = context.shoppingList.user.userId.toLong()
-            text =
-//                (if (context.shoppingLists.first().id != context.shoppingList.id) "_${" ".repeat(6)} ${context.shoppingLists.first().title}" else "").toString()
-
-                context.shoppingLists
-                    .joinToString("\n", "") {
-                        if (it.id == context.shoppingList.id) "\uD83D\uDC49 ${it.title}"
-                        else "➖ ${it.title}"
-                    }
+            text = "Доступные списки \uD83D\uDCDD\n" +
+                    "-".repeat(32).replaceExt() + "\n" +
+                    context.shoppingLists
+                        .joinToString("\n", "") {
+                            if (it.id == context.shoppingList.id) "\uD83D\uDC49 ${it.title}"
+                            else "➖ ${it.title}"
+                        }
             replyMarkup = inlineKeyboardMarkup {
                 context.shoppingLists.map {
                     row {
@@ -124,6 +137,7 @@ class SenderService(baseUrl: String) : ISender {
                     }
                 }
             }
+            parseMode = "MarkdownV2"
         }).result?.let {
             when (it) {
                 is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))

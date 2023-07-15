@@ -6,6 +6,6 @@ import ru.fit_changes.cor.worker
 
 fun CorChainDsl<BeContext>.sendListTitle() = worker {
     handle {
-//        httpClient.sendListTitle(this)
+        sender.sendListTitle(this)
     }
 }

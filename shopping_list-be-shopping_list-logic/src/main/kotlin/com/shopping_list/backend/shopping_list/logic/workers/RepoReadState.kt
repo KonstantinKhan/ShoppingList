@@ -13,6 +13,5 @@ fun CorChainDsl<BeContext>.repoReadState(title: String) = worker {
             shoppingList = shoppingList.copy(it.shoppingListId)
             action = it.action
         }
-        println("action__: $action")
     }
 }
