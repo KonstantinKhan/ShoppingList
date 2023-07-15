@@ -16,6 +16,6 @@ object ShoppingListUpdate : ICorExecutor<BeContext> by chain<BeContext>({
         }
     }
     searchLists("Search user lists")
-    showLists()
+    showListsForUpdate()
     updateState("")
 }).build()

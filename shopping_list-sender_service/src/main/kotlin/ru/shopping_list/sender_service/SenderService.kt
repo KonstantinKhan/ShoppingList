@@ -119,8 +119,8 @@ class SenderService(baseUrl: String) : ISender {
     override suspend fun showLists(context: BeContext): TgResponse =
         bot.sendMessage(message {
             chatId = context.shoppingList.user.userId.toLong()
-            text = "Доступные списки \uD83D\uDCDD\n" +
-                    "-".repeat(32).replaceExt() + "\n" +
+            text = "Выбери список \uD83D\uDCDD\n" +
+                    "-".repeat(29).replaceExt() + "\n" +
                     context.shoppingLists
                         .joinToString("\n", "") {
                             if (it.id == context.shoppingList.id) "\uD83D\uDC49 ${it.title}"
@@ -128,6 +128,65 @@ class SenderService(baseUrl: String) : ISender {
                         }
             replyMarkup = inlineKeyboardMarkup {
                 context.shoppingLists.map {
+                    row {
+                        button {
+                            text =
+                                "${if (it.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} ${it.title}"
+                            callbackData = "${it.id.asUUID()}"
+                        }
+                    }
+                }
+            }
+            parseMode = "MarkdownV2"
+        }).result?.let {
+            when (it) {
+                is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
+                else -> throw Error("Smart cast error")
+            }
+        } ?: TgResponse()
+
+    override suspend fun showListsForUpdate(context: BeContext): TgResponse =
+        bot.sendMessage(message {
+            chatId = context.shoppingList.user.userId.toLong()
+            text = "Выбери список для смены названия \uD83D\uDD04\n" +
+                    "-".repeat(60).replaceExt() + "\n" +
+                    context.shoppingLists
+                        .joinToString("\n", "") {
+                            if (it.id == context.shoppingList.id) "\uD83D\uDC49 ${it.title}"
+                            else "➖ ${it.title}"
+                        }
+            replyMarkup = inlineKeyboardMarkup {
+                context.shoppingLists.map {
+                    row {
+                        button {
+                            text =
+                                "${if (it.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} ${it.title}"
+                            callbackData = "${it.id.asUUID()}"
+                        }
+                    }
+                }
+            }
+            parseMode = "MarkdownV2"
+        }).result?.let {
+            when (it) {
+                is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
+                else -> throw Error("Smart cast error")
+            }
+        } ?: TgResponse()
+
+    override suspend fun showListsForDelete(context: BeContext): TgResponse =
+        bot.sendMessage(message {
+            chatId = context.shoppingList.user.userId.toLong()
+            text = "Выбери список для удаления ❌\n" +
+                    "-".repeat(50).replaceExt() + "\n" +
+                    context.shoppingLists
+                        .joinToString("\n", "") {
+                            if (it.id == context.shoppingList.id) "\uD83D\uDC49 ${it.title}"
+                            else "➖ ${it.title}"
+                        }
+            replyMarkup = inlineKeyboardMarkup {
+                context.shoppingLists.filter { it.id != context.shoppingList.id }
+                    .map {
                     row {
                         button {
                             text =

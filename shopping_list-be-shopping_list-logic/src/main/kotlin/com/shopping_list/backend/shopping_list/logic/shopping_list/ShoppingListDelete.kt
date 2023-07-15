@@ -18,6 +18,6 @@ object ShoppingListDelete : ICorExecutor<BeContext> by chain<BeContext>({
         }
     }
     searchLists("Search user lists")
-    showLists()
+    showListsForDelete()
     updateState("")
 }).build()
