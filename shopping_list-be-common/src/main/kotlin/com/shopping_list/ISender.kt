@@ -9,10 +9,14 @@ interface ISender {
     suspend fun sendCurrentShoppingList(context: BeContext): TgResponse
     suspend fun sendListTitle(context: BeContext): TgResponse
     suspend fun sendRecipientNotification(context: BeContext): TgResponse
+    suspend fun sendPreInviteMessage(context: BeContext): TgResponse
+    suspend fun sendInviteMessage(context: BeContext): TgResponse
     suspend fun editCurrentShoppingList(context: BeContext): TgResponse
     suspend fun showLists(context: BeContext): TgResponse
     suspend fun showListsForUpdate(context: BeContext): TgResponse
     suspend fun showListsForDelete(context: BeContext): TgResponse
+    suspend fun getChat(context: BeContext): TgResponse
+    suspend fun getMe(): TgResponse
 
     companion object NONE : ISender {
         override suspend fun sendWelcomeMessage(context: BeContext): TgResponse {
@@ -31,6 +35,14 @@ interface ISender {
             TODO("Not yet implemented")
         }
 
+        override suspend fun sendPreInviteMessage(context: BeContext): TgResponse {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun sendInviteMessage(context: BeContext): TgResponse {
+            TODO("Not yet implemented")
+        }
+
         override suspend fun editCurrentShoppingList(context: BeContext): TgResponse {
             TODO("Not yet implemented")
         }
@@ -44,6 +56,14 @@ interface ISender {
         }
 
         override suspend fun showListsForDelete(context: BeContext): TgResponse {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getChat(context: BeContext): TgResponse {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getMe(): TgResponse {
             TODO("Not yet implemented")
         }
     }

@@ -3,13 +3,16 @@ package ru.shopping_list.sender_service
 import com.shopping_list.ISender
 import com.shopping_list.common.context.BeContext
 import com.shopping_list.common.models.Action
+import com.shopping_list.common.models.CommonErrorModel
 import com.shopping_list.common.models.MessageId
+import com.shopping_list.common.models.UserId
 import com.shopping_list.lib.telegram.api.dsl.*
 import com.shopping_list.response.Result
 import com.shopping_list.response.TgResponse
 import ru.ktglib.methods.Bot
 import ru.ktglib.transport.models.KeyboardButtonRequestUser
 import ru.ktglib.types.Message
+import ru.ktglib.types.User
 import ru.shopping_list.sender_service.helpers.replaceExt
 
 class SenderService(baseUrl: String) : ISender {
@@ -91,6 +94,24 @@ class SenderService(baseUrl: String) : ISender {
                 is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
                 else -> throw Error("Smart cast error")
             }
+        } ?: TgResponse()
+
+    override suspend fun sendPreInviteMessage(context: BeContext): TgResponse =
+        bot.sendMessage(message {
+            chatId = context.shoppingList.user.userId.toLong()
+            text = "Выбранный пользователь ещё не пользуется ботом. \n" +
+                    "Перешлите ему пригласительное сообщение"
+        }).result?.let {
+            TgResponse()
+        } ?: TgResponse()
+
+    override suspend fun sendInviteMessage(context: BeContext): TgResponse =
+        bot.sendMessage(message {
+            chatId = context.shoppingList.user.userId.toLong()
+            text = "Пригласительное сообщение. \n" +
+                    "Подключай бота @${context.bot.firstName} для управления списком покупок!"
+        }).result?.let {
+            TgResponse()
         } ?: TgResponse()
 
     override suspend fun editCurrentShoppingList(context: BeContext): TgResponse =
@@ -214,4 +235,27 @@ class SenderService(baseUrl: String) : ISender {
                 else -> throw Error("Smart cast error")
             }
         } ?: TgResponse()
+
+    override suspend fun getChat(context: BeContext): TgResponse =
+        bot.getChat().let { response ->
+            when (response.result) {
+                is Message -> TgResponse(result = Result(messageId = MessageId((response.result as Message).messageId)))
+                is User -> TgResponse()
+                else -> TgResponse(error = CommonErrorModel(response.description ?: "Empty"))
+            }
+        }
+
+    override suspend fun getMe(): TgResponse =
+        bot.getMe().let { response ->
+            when (response.result) {
+                is User -> TgResponse(user = (response.result as User).let {
+                    com.shopping_list.common.models.User(
+                        userId = UserId(id = it.userId),
+                        firstName = it.firstName,
+                    )
+                })
+
+                else -> throw Error("new Error")
+            }
+        }
 }

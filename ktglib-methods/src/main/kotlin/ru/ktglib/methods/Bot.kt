@@ -60,4 +60,11 @@ class Bot(private val baseUrl: String) : IBot {
         json.decodeFromString(client.post("editMessageText") {
             setBody(message)
         }.bodyAsText())
+
+    override suspend fun getChat(): Response =
+        json.decodeFromString(client.get("getChat").bodyAsText())
+
+
+    override suspend fun getMe(): Response =
+        json.decodeFromString(client.get("getMe").bodyAsText())
 }

@@ -9,6 +9,7 @@ object ShareShoppingList : ICorExecutor<BeContext> by chain({
     chooseDb("Choose DB")
     repoReadState("Read the context from the DB")
     repoReadShoppingList("")
+    prepareShoppingList()
     checkChat("Check if it is possible to send a message to the user")
     getBotInfo("Get bot info")
     sendPreInviteMessage("Send the pre invite message")

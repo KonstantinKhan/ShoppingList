@@ -7,4 +7,6 @@ import ru.ktglib.types.Response
 interface IBot {
     suspend fun sendMessage(message: SendMessageModel): Response
     suspend fun editMessageText(message: EditMessageTextModel): Response
+    suspend fun getChat(): Response
+    suspend fun getMe(): Response
 }
