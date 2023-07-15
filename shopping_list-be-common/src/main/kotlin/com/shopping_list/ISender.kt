@@ -8,6 +8,7 @@ interface ISender {
     suspend fun sendWelcomeMessage(context: BeContext): TgResponse
     suspend fun sendCurrentShoppingList(context: BeContext): TgResponse
     suspend fun sendListTitle(context: BeContext): TgResponse
+    suspend fun sendRecipientNotification(context: BeContext): TgResponse
     suspend fun editCurrentShoppingList(context: BeContext): TgResponse
     suspend fun showLists(context: BeContext): TgResponse
     suspend fun showListsForUpdate(context: BeContext): TgResponse
@@ -23,6 +24,10 @@ interface ISender {
         }
 
         override suspend fun sendListTitle(context: BeContext): TgResponse {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun sendRecipientNotification(context: BeContext): TgResponse {
             TODO("Not yet implemented")
         }
 

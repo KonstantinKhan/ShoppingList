@@ -38,7 +38,7 @@ class SenderService(baseUrl: String) : ISender {
             text =
                 if (context.action == Action.NONE) "Создан \uD83D\uDCDD _${context.shoppingList.title}_" +
                         ". \nОн пока пустой. Отправь сообщение, чтобы добавить запись.".replaceExt()
-                else if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17 " else "" +
+                else (if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17 " else "") +
                         if (context.shoppingList.purchaseList.isEmpty()) "\uD83D\uDCDD _${
                             context.shoppingList.title.toString().replaceExt()
                         }_" + (" пока пустой.\n" +
@@ -82,11 +82,22 @@ class SenderService(baseUrl: String) : ISender {
             }
         } ?: TgResponse()
 
+    override suspend fun sendRecipientNotification(context: BeContext): TgResponse =
+        bot.sendMessage(message {
+            chatId = context.recipient.userId.toLong()
+            text = "@${context.shoppingList.user.userName} поделился с вами списком покупок"
+        }).result?.let {
+            when (it) {
+                is Message -> TgResponse(result = Result(messageId = MessageId(it.messageId)))
+                else -> throw Error("Smart cast error")
+            }
+        } ?: TgResponse()
+
     override suspend fun editCurrentShoppingList(context: BeContext): TgResponse =
         bot.editMessageText(editMessageText {
             chatId = context.shoppingList.user.userId.toLong()
             messageId = context.messageId.toInt()
-            text = if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17 " else "" +
+            text = (if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17".replaceExt() else "") +
                     if (context.shoppingList.purchaseList.isEmpty()) "\uD83D\uDCDD _${
                         context.shoppingList.title.toString().replaceExt()
                     }_" + (" пока пустой.\n" +
@@ -187,14 +198,14 @@ class SenderService(baseUrl: String) : ISender {
             replyMarkup = inlineKeyboardMarkup {
                 context.shoppingLists.filter { it.id != context.shoppingList.id }
                     .map {
-                    row {
-                        button {
-                            text =
-                                "${if (it.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} ${it.title}"
-                            callbackData = "${it.id.asUUID()}"
+                        row {
+                            button {
+                                text =
+                                    "${if (it.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} ${it.title}"
+                                callbackData = "${it.id.asUUID()}"
+                            }
                         }
                     }
-                }
             }
             parseMode = "MarkdownV2"
         }).result?.let {

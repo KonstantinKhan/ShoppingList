@@ -17,7 +17,7 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
     prepareShoppingList()
     chain {
         on { action == Action.UPDATE_PURCHASE_LIST }
-        repoReadShoppingList("Read from db")
+//        repoReadShoppingList("Read from db")
         checkPurchase("Check purchase")
         repoReadShoppingList("")
         prepareShoppingList()
