@@ -9,8 +9,10 @@ import ru.fit_changes.cor.worker
 fun CorChainDsl<BeContext>.repoCreate(title: String) = worker {
     this.title = title
     handle {
-        shoppingListRepo.createShoppingList(DbShoppingListRequest(ShoppingListModel(user = shoppingList.user))).result.let {
-            shoppingList = it
-        }
+        shoppingListRepo
+            .createShoppingList(DbShoppingListRequest(ShoppingListModel(user = shoppingList.user)))
+            .result.let {
+                dbShoppingList = it
+            }
     }
 }

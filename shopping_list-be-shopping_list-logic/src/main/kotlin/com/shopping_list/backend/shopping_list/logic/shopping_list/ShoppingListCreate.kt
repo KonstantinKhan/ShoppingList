@@ -11,6 +11,7 @@ object ShoppingListCreate : ICorExecutor<BeContext> by chain<BeContext>({
     chooseDb("Choose DB")
     repoReadState("")
     repoCreate("Creating repo")
+    prepareShoppingList()
     worker {
         handle {
             action = Action.UPDATE_PURCHASE_LIST
