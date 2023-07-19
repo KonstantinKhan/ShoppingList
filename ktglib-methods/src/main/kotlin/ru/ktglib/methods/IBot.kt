@@ -10,4 +10,5 @@ interface IBot {
     suspend fun editMessageText(message: EditMessageTextModel): Response
     suspend fun getChat(message: GetChatRequestModel): Response
     suspend fun getMe(): Response
+    suspend fun answerCallbackQuery(queryId: String): Response
 }

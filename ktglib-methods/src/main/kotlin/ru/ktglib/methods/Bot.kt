@@ -14,6 +14,7 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.plus
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
+import ru.ktglib.transport.models.request.AnswerCallbackQueryRequest
 import ru.ktglib.transport.models.request.EditMessageTextModel
 import ru.ktglib.transport.models.request.GetChatRequestModel
 import ru.ktglib.transport.models.request.SendMessageModel
@@ -68,4 +69,9 @@ class Bot(private val baseUrl: String) : IBot {
 
     override suspend fun getMe(): Response =
         json.decodeFromString(client.get("getMe").bodyAsText())
+
+    override suspend fun answerCallbackQuery(queryId: String): Response =
+        json.decodeFromString(client.post("answerCallbackQuery") {
+            setBody(AnswerCallbackQueryRequest(queryId))
+        }.bodyAsText())
 }

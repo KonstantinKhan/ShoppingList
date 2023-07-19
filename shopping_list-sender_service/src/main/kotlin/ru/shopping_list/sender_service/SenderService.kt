@@ -259,4 +259,9 @@ class SenderService(baseUrl: String) : ISender {
                 else -> throw Error("new Error")
             }
         }
+
+    override suspend fun answerCallbackQuery(context: BeContext): TgResponse =
+        bot.answerCallbackQuery(context.queryId).let {
+            TgResponse()
+        }
 }
