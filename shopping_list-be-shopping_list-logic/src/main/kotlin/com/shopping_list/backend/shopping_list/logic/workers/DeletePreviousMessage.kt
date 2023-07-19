@@ -11,6 +11,6 @@ fun CorChainDsl<BeContext>.deletePreviousMessage(title: String) = worker {
         messageId != MessageId.NONE
     }
     handle {
-        httpClient.deleteMessage(this)
+//        httpClient.deleteMessage(this)
     }
 }

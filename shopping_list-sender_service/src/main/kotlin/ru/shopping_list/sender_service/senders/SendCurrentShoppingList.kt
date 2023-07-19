@@ -10,33 +10,31 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
-import com.shopping_list.response.Response
 import ru.shopping_list.sender_service.helpers.replaceExt
-import ru.shopping_list.sender_service.jsonHelper
 
-suspend fun HttpClient.sendCurrentShoppingList(context: BeContext): Response {
-    val response = this.post("sendMessage") {
-        contentType(ContentType.Application.Json)
-        setBody(message {
-            chatId = context.shoppingList.user.userId.toLong()
-            text = "${if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} Список покупок:\\\n" +
-                    context.shoppingList.purchaseList.joinToString("\n") {
-                        if (it.checked) "~${it.name.replaceExt()}~"
-                        else it.name.replaceExt()
-                    }
-            replyMarkup = inlineKeyboardMarkup {
-                context.shoppingList.purchaseList.filter { !it.checked }.map {
-                    row {
-                        button {
-                            text = it.name
-                            callbackData = it.name
-                        }
-                    }
-                }
-            }
-            parseMode = "MarkdownV2"
-        })
-    }
-    return jsonHelper().decodeFromString(response.bodyAsText())
-}
+//suspend fun HttpClient.sendCurrentShoppingList(context: BeContext): Response {
+//    val response = this.post("sendMessage") {
+//        contentType(ContentType.Application.Json)
+//        setBody(message {
+//            chatId = context.shoppingList.user.userId.toLong()
+//            text = "${if (context.shoppingList.relatedLists.isNotEmpty()) "\uD83D\uDD17" else ""} Список покупок:\\\n" +
+//                    context.shoppingList.purchaseList.joinToString("\n") {
+//                        if (it.checked) "~${it.name.replaceExt()}~"
+//                        else it.name.replaceExt()
+//                    }
+//            replyMarkup = inlineKeyboardMarkup {
+//                context.shoppingList.purchaseList.filter { !it.checked }.map {
+//                    row {
+//                        button {
+//                            text = it.name
+//                            callbackData = it.name
+//                        }
+//                    }
+//                }
+//            }
+//            parseMode = "MarkdownV2"
+//        })
+//    }
+//    return jsonHelper().decodeFromString(response.bodyAsText())
+//}
 

@@ -1,6 +1,6 @@
 package ru.shopping_list.be.repo.psql
 
-import com.shopping_list.common.models.TgUser
+import com.shopping_list.common.models.User
 import com.shopping_list.common.models.UserId
 import com.shopping_list.common.models.shopping_list.PurchaseModel
 import com.shopping_list.common.models.shopping_list.ShoppingListId
@@ -20,7 +20,7 @@ object ShoppingListTable : Table("shopping_list") {
     fun from(res: ResultRow) = ShoppingListModel(
         id = ShoppingListId(res[id]),
         title = ShoppingListTitle(res[title]),
-        user = TgUser(
+        user = User(
             userId = UserId(res[userId]),
             firstName = ""
         )
@@ -35,7 +35,7 @@ object TgUsersTable : Table("tg_users") {
 
     override val primaryKey = PrimaryKey(id)
 
-    fun from(res: ResultRow) = TgUser(
+    fun from(res: ResultRow) = User(
         userId = UserId(res[id]),
         firstName = res[firstName],
         lastName = res[lastName],

@@ -9,6 +9,8 @@ object ShoppingListClear : ICorExecutor<BeContext> by chain({
     chooseDb("Choose DB")
     repoReadState("Read the context state")
     clearShoppingList("Clear the shopping list")
+    repoReadShoppingList("Read the shopping list from DB")
+    prepareShoppingList()
     sendCurrentShoppingList("Send the current shopping list")
     updateState("Update the state of context")
 }).build()

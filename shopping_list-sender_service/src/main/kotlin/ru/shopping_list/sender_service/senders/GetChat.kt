@@ -7,17 +7,15 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
-import com.shopping_list.response.Response
-import ru.shopping_list.sender_service.jsonHelper
 
-suspend fun HttpClient.getChat(context: BeContext): Response {
-    val response = this.post("getChat") {
-        contentType(ContentType.Application.Json)
-        setBody(
-            context.toChatId()
-        )
-    }
-    println("response in getChat: ${response.bodyAsText()}")
-
-    return jsonHelper().decodeFromString(response.bodyAsText())
-}
+//suspend fun HttpClient.getChat(context: BeContext): Response {
+//    val response = this.post("getChat") {
+//        contentType(ContentType.Application.Json)
+//        setBody(
+//            context.toChatId()
+//        )
+//    }
+//    println("response in getChat: ${response.bodyAsText()}")
+//
+//    return jsonHelper().decodeFromString(response.bodyAsText())
+//}

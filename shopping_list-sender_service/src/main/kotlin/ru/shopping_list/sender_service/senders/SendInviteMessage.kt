@@ -7,17 +7,15 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
-import com.shopping_list.response.Response
-import ru.shopping_list.sender_service.jsonHelper
 
-suspend fun HttpClient.sendInviteMessage(userId: UserId, botName: String): Response {
-    val response = this.post("sendMessage") {
-        contentType(ContentType.Application.Json)
-        setBody(message {
-            chatId = userId.toLong()
-            text = "Пригласительное сообщение. \n" +
-                    "Подключай бота @$botName для управления списком покупок!"
-        })
-    }
-    return jsonHelper().decodeFromString(response.bodyAsText())
-}
+//suspend fun HttpClient.sendInviteMessage(userId: UserId, botName: String): Response {
+//    val response = this.post("sendMessage") {
+//        contentType(ContentType.Application.Json)
+//        setBody(message {
+//            chatId = userId.toLong()
+//            text = "Пригласительное сообщение. \n" +
+//                    "Подключай бота @$botName для управления списком покупок!"
+//        })
+//    }
+//    return jsonHelper().decodeFromString(response.bodyAsText())
+//}

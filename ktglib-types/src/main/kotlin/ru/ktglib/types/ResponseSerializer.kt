@@ -1,4 +1,4 @@
-package com.shopping_list.response
+package ru.ktglib.types
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer

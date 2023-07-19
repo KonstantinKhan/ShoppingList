@@ -15,34 +15,72 @@ object HandleMessage : ICorExecutor<BeContext> by chain<BeContext>({
     chain {
         on { action == Action.UPDATE_PURCHASE_LIST }
         chain {
-            on { dbShoppingList.isContainsCheckedPurchase(messageText.lines()) }
+            on {
+                println(
+                    "first: ${
+                        dbShoppingList.isContainsCheckedPurchase(messageText.lines()) &&
+                                !dbShoppingList.isContainsUncheckedPurchase(messageText.lines())
+                    }"
+                )
+                dbShoppingList.isContainsCheckedPurchase(messageText.lines()) &&
+                        !dbShoppingList.isContainsUncheckedPurchase(messageText.lines())
+            }
+
             checkPurchase("Check purchase")
             repoReadShoppingList("")
-            prepareShoppingList()
-            sendCurrentShoppingList("Send the current shopping list")
-            updateState("Update the state of context")
         }
 
         chain {
-
             on {
-                dbShoppingList.isContainsUncheckedPurchase(messageText.lines())
+                println(
+                    "second: ${
+                        dbShoppingList.isContainsUncheckedPurchase(messageText.lines()) &&
+                                !dbShoppingList.isContainsCheckedPurchase(messageText.lines())
+                    }"
+                )
+                dbShoppingList.isContainsUncheckedPurchase(messageText.lines()) &&
+                        !dbShoppingList.isContainsCheckedPurchase(messageText.lines())
             }
-            prepareShoppingList()
+
+            addPurchase("")
+            repoReadShoppingList("")
         }
 
         chain {
             on {
+                println(
+                    "third: ${
+                        dbShoppingList.isContainsUncheckedPurchase(messageText.lines()) &&
+                                dbShoppingList.isContainsCheckedPurchase(messageText.lines())
+                    }"
+                )
+                dbShoppingList.isContainsUncheckedPurchase(messageText.lines()) &&
+                        dbShoppingList.isContainsCheckedPurchase(messageText.lines())
+            }
+
+            addPurchase("")
+            checkPurchase("Check purchase")
+            repoReadShoppingList("")
+        }
+
+        chain {
+            on {
+                println(
+                    "fourth: ${
+                        !dbShoppingList.isContainsCheckedPurchase(messageText.lines())
+                                && !dbShoppingList.isContainsUncheckedPurchase(messageText.lines())
+                    }"
+                )
                 !dbShoppingList.isContainsCheckedPurchase(messageText.lines())
                         && !dbShoppingList.isContainsUncheckedPurchase(messageText.lines())
             }
+
             addPurchase("Added a purchase to the shoppingList in context")
-            prepareShoppingList()
-            sendCurrentShoppingList("Send the current shopping list")
-            updateState("Update the state of context")
+            repoReadShoppingList("")
         }
-        searchLists("")
-        showLists()
+        prepareShoppingList()
+        sendCurrentShoppingList("Send the current shopping list")
+        updateState("Update the state of context")
     }
     chain {
         on { action == Action.UPDATE_LIST }

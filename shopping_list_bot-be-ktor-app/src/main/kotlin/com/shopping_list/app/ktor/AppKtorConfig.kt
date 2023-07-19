@@ -1,6 +1,6 @@
 package com.shopping_list.app.ktor
 
-import com.shopping_list.IHttpClient
+import com.shopping_list.ISender
 import com.shopping_list.backend.shopping_list.logic.ShoppingListProcessor
 import com.shopping_list.backend.shopping_list.service.ShoppingListService
 import com.shopping_list.common.context.ShoppingListContextConfig
@@ -13,11 +13,11 @@ data class AppKtorConfig(
         ShoppingListContextConfig(
             repoShoppingListInMemory = RepoShoppingListPSQL()
         ),
-    val httpClient: IHttpClient = IHttpClient.NONE,
+    val sender: ISender = ISender.NONE,
     val shoppingListCrud: ShoppingListProcessor = ShoppingListProcessor(contextConfig),
     val shoppingListService: ShoppingListService = ShoppingListService(shoppingListCrud),
 ) {
     internal constructor(environment: ApplicationEnvironment) : this(
-        httpClient = SenderService(environment.config.property("ktor.deployment.url").getString())
+        sender = SenderService(environment.config.property("ktor.deployment.url").getString())
     )
 }

@@ -156,7 +156,7 @@ class RepoShoppingListPSQL(
                             ShoppingListModel(
                                 id = ShoppingListId(this[ShoppingListTable.id]),
                                 title = ShoppingListTitle(this[ShoppingListTable.title]),
-                                user = TgUser(
+                                user = User(
                                     UserId(this[TgUsersTable.id]),
                                     this[TgUsersTable.firstName],
                                     this[TgUsersTable.lastName],
@@ -250,7 +250,7 @@ class RepoShoppingListPSQL(
             val user = TgUsersTable.select {
                 TgUsersTable.id eq request.userId.toLong()
             }.first().let {
-                TgUser(
+                User(
                     UserId(it[TgUsersTable.id]),
                     it[TgUsersTable.firstName],
                     it[TgUsersTable.lastName],

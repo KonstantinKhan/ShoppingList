@@ -23,10 +23,30 @@ fun CorChainDsl<BeContext>.checkPurchase(title: String) = worker {
             }
         }
 
+        messageText.lines()
+            .filter { str ->
+                dbShoppingList.purchaseList.filter { purchase -> purchase.checked }.map { model -> model.name }
+                    .contains(str)
+            }
+
         shoppingListRepo.updateShoppingList(
             DbShoppingListRequest(
                 dbShoppingList,
-                dbShoppingList.purchaseList.filter { messageText.lines().contains(it.name) }
+                if (messageText.lines().size > 1) dbShoppingList.purchaseList
+                    .filter {
+                        messageText.lines()
+                            .filter { str ->
+                                dbShoppingList.purchaseList
+                                    .filter { purchase -> purchase.checked }
+                                    .map { model -> model.name }
+                                    .contains(str)
+                            }.contains(it.name)
+                    }.map { it.copy(checked = !it.checked) }
+                else dbShoppingList.purchaseList
+                    .filter {
+                        messageText.lines()
+                            .contains(it.name)
+                    }
                     .map { it.copy(checked = !it.checked) }
             )).result.let {
             dbShoppingList = it

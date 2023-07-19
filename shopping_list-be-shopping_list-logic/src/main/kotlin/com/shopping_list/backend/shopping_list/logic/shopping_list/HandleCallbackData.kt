@@ -17,7 +17,6 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
     prepareShoppingList()
     chain {
         on { action == Action.UPDATE_PURCHASE_LIST }
-        repoReadShoppingList("Read from db")
         checkPurchase("Check purchase")
         repoReadShoppingList("")
         prepareShoppingList()
@@ -98,5 +97,12 @@ object HandleCallbackData : ICorExecutor<BeContext> by chain<BeContext>({
         prepareShoppingList()
         sendListTitle()
         updateState("")
+    }
+    worker {
+        handle {
+        }
+        except {
+            println("error: $it")
+        }
     }
 }).build()

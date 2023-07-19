@@ -1,15 +1,15 @@
-package com.shopping_list.response
+package ru.ktglib.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ru.ktglib.types.Result
 
 @Serializable
-data class ResponseWithMessage(
+data class ResponseWithError(
     @SerialName("ok")
     override val status: Boolean,
-    override val result: Result,
+    override val result: Result? = null,
     @SerialName("error_code")
-    override val errorCode: Int? = null,
-    override val description: String? = null,
+    override val errorCode: Int,
+    override val description: String
 ) : Response
